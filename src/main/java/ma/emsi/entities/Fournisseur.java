@@ -1,11 +1,18 @@
 package ma.emsi.entities;
 
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.List;
 
+@NamedQueries(
+        @NamedQuery(
+                name = "Fournisseur.findAll", query = "SELECT f FROM Fournisseur f"
+        )
+)
+@Entity
 public class Fournisseur {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String numFournisseur;
     private String nom;
     private String adresse;
@@ -16,7 +23,7 @@ public class Fournisseur {
 
     @OneToMany
     @JoinColumn(name = "id_fournisseur")
-    private List<Fournisseur> fournisseurs;
+    private List<SocieteDistribution> societeDistributions;
 
     public Fournisseur() {
     }
@@ -61,12 +68,12 @@ public class Fournisseur {
         this.livraisons = livraisons;
     }
 
-    public List<Fournisseur> getFournisseurs() {
-        return fournisseurs;
+    public List<SocieteDistribution> getSocieteDistributions() {
+        return societeDistributions;
     }
 
-    public void setFournisseurs(List<Fournisseur> fournisseurs) {
-        this.fournisseurs = fournisseurs;
+    public void setSocieteDistributions(List<SocieteDistribution> societeDistributions) {
+        this.societeDistributions = societeDistributions;
     }
 
     @Override
@@ -77,7 +84,7 @@ public class Fournisseur {
                 ", adresse='" + adresse + '\'' +
                 ", ville='" + ville + '\'' +
                 ", livraisons=" + livraisons +
-                ", fournisseurs=" + fournisseurs +
+                ", societeDistributions=" + societeDistributions +
                 '}';
     }
 }

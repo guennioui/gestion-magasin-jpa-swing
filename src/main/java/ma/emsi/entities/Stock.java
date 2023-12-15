@@ -2,13 +2,14 @@ package ma.emsi.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import ma.emsi.primaryKeys.PkOfStock;
 
 import java.time.LocalDateTime;
 
 @Entity
 public class Stock {
     @Id
-    private String stockId;
+    private PkOfStock stockId;
     private LocalDateTime dateDepot;
 
     private int quantite;
@@ -16,11 +17,11 @@ public class Stock {
     public Stock() {
     }
 
-    public String getStockId() {
+    public PkOfStock getStockId() {
         return stockId;
     }
 
-    public void setStockId(String stockId) {
+    public void setStockId(PkOfStock stockId) {
         this.stockId = stockId;
     }
 

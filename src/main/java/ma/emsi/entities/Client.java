@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "Client.findAll", query = "SELECT c FROM Client c")
+})
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

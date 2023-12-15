@@ -1,25 +1,27 @@
 package ma.emsi.entities;
 
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import ma.emsi.primaryKeys.PkOfLigneLivraison;
 
 import java.time.LocalDateTime;
 
 @Entity
 public class LigneLivraison {
-    @Id
-    private String numeroLigneLivraison;
+    @EmbeddedId
+    private PkOfLigneLivraison numeroLigneLivraison;
     private LocalDateTime dateLivraison;
     private int quantiteLivrer;
 
     public LigneLivraison() {
     }
 
-    public String getNumeroLigneLivraison() {
+    public PkOfLigneLivraison getNumeroLigneLivraison() {
         return numeroLigneLivraison;
     }
 
-    public void setNumeroLigneLivraison(String numeroLigneLivraison) {
+    public void setNumeroLigneLivraison(PkOfLigneLivraison numeroLigneLivraison) {
         this.numeroLigneLivraison = numeroLigneLivraison;
     }
 

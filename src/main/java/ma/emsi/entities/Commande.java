@@ -7,6 +7,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@NamedQueries(
+        @NamedQuery(name = "Commande.findAll", query = "SELECT c FROM Commande c")
+)
 public class Commande {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -22,7 +25,7 @@ public class Commande {
     }
 
     public String getNumero() {
-        return numero;
+        return this.numero;
     }
 
     public void setNumero(String numero) {

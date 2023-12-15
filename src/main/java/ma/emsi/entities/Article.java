@@ -5,6 +5,11 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+@NamedQueries(
+        @NamedQuery(
+                name = "Artcile.findAll", query = "SELECT a from Article a"
+        )
+)
 @Entity
 public class Article {
     @Id
@@ -80,7 +85,6 @@ public class Article {
                 ", nom='" + nom + '\'' +
                 ", prixUnitaire=" + prixUnitaire +
                 ", ligneCommandes=" + ligneCommandes +
-                ", stocks=" + stocks +
                 '}';
     }
 }
