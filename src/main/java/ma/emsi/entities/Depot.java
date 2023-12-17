@@ -4,6 +4,11 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "Depot.findAll", query = "SELECT d FROM Depot d"
+        )
+})
 @Entity
 public class Depot {
     @Id

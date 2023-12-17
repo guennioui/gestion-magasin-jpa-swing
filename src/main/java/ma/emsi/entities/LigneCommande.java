@@ -11,10 +11,6 @@ public class LigneCommande implements Serializable{
     private PkOfLigneCommande numero;
     private int quantite;
 
-    @OneToOne(mappedBy = "ligneCommande")
-    private Facture facture;
-
-
     public LigneCommande() {
     }
 
@@ -39,20 +35,11 @@ public class LigneCommande implements Serializable{
         this.quantite = quantite;
     }
 
-    public Facture getFacture() {
-        return facture;
-    }
-
-    public void setFacture(Facture facture) {
-        this.facture = facture;
-    }
-
     @Override
     public String toString() {
         return "LigneCommande{" +
                 "numero=" + numero +
                 ", quantite=" + quantite +
-                ", facture=" + facture +
                 '}';
     }
 }

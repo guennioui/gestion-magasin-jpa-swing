@@ -4,7 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e4e56750-9a56-4f74-8796-4af7cefdb149" name="Changes" comment="implementing dao" />
+    <list default="true" id="e4e56750-9a56-4f74-8796-4af7cefdb149" name="Changes" comment="implementing dao">
+      <change afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoDepotImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoSocieteDistributionImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/IDao/IDaoCategorie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDao/IDaoCategorie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/IDao/IDaoClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDao/IDaoClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/IDao/IDaoCommande.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDao/IDaoCommande.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoCategorieImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoCategorieImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoClientImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoClientImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoCommandeImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoCommandeImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Commande.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Commande.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Depot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Depot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Facture.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Facture.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/LigneCommande.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/LigneCommande.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/SocieteDistribution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/SocieteDistribution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/primaryKeys/PkOfLigneCommande.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/primaryKeys/PkOfLigneCommande.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,23 +57,23 @@
     <option name="showLibraryContents" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/abdoe/Desktop/Home/javaOOP/untitled",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "onboarding.tips.debug.path": "C:/Users/abdoe/Desktop/gestion-magasin/src/main/java/ma/emsi/Main.java",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/abdoe/Desktop/Home/javaOOP/untitled&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/abdoe/Desktop/gestion-magasin/src/main/java/ma/emsi/Main.java&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="ma.emsi.IDaoImpl" />
@@ -68,6 +86,32 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="ma.emsi.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ma.emsi.Main" />
+      <module name="gestion-magasin" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ma.emsi.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ma.emsi.entities.Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ma.emsi.entities.Main" />
+      <module name="gestion-magasin" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ma.emsi.entities.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -111,7 +155,8 @@
       <workItem from="1702386983515" duration="7188000" />
       <workItem from="1702456015868" duration="13216000" />
       <workItem from="1702663538428" duration="1233000" />
-      <workItem from="1702667900057" duration="7876000" />
+      <workItem from="1702667900057" duration="8081000" />
+      <workItem from="1702718370985" duration="20785000" />
     </task>
     <task id="LOCAL-00001" summary="implementing dao">
       <option name="closed" value="true" />

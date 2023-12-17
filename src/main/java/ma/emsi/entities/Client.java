@@ -25,17 +25,6 @@ public class Client {
     public Client() {
     }
 
-    public Client(String id, String nom, String prenom, String adresse, String ville, String pays, String telephone, List<Commande> commandes) {
-        this.id = id;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.adresse = adresse;
-        this.ville = ville;
-        this.pays = pays;
-        this.telephone = telephone;
-        this.commandes = commandes;
-    }
-
     public String getId() {
         return id;
     }

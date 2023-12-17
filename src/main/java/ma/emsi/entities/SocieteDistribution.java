@@ -1,10 +1,8 @@
 package ma.emsi.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+@NamedQuery(name = "SocieteDistribution.findAll", query = "SELECT S FROM SocieteDistribution S")
 @Entity
 public class SocieteDistribution {
     @Id

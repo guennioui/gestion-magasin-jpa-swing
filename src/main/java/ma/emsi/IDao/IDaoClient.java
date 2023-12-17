@@ -14,8 +14,6 @@ public interface IDaoClient {
     void modifyClient(Client client, Client newClient, EntityManager entityManager);
     void removeClient(Client client, EntityManager entityManager) throws ClientNotExistException;
     List<Client> findAllClients(EntityManager entityManager);
-    void addCommandeToClient(Client client, Commande commande, EntityManager entityManager) throws ClientNotExistException;
-    void addCommandesToClient(Client client, List<Commande> commandes, EntityManager entityManager) throws ClientNotExistException;
 
 
 }

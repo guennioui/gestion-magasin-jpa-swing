@@ -8,7 +8,7 @@ public class Facture {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String numFacture;
     @OneToOne
-    private LigneCommande ligneCommande;
+    private Commande commande;
 
     public Facture() {
     }
@@ -21,19 +21,19 @@ public class Facture {
         this.numFacture = numFacture;
     }
 
-    public LigneCommande getLigneCommande() {
-        return ligneCommande;
+    public Commande getCommande() {
+        return commande;
     }
 
-    public void setLigneCommande(LigneCommande ligneCommande) {
-        this.ligneCommande = ligneCommande;
+    public void setCommande(Commande commande) {
+        this.commande = commande;
     }
 
     @Override
     public String toString() {
         return "Facture{" +
                 "numFacture='" + numFacture + '\'' +
-                ", ligneCommande=" + ligneCommande +
+                ", commande=" + commande +
                 '}';
     }
 }

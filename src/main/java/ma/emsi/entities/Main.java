@@ -9,6 +9,7 @@ import org.hibernate.jpa.HibernatePersistenceProvider;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Main {
@@ -18,6 +19,8 @@ public class Main {
         IDaoFournisseur iDaoFournisseur = new IDaoFournisseurImpl();
         IDaoCategorie iDaoCategorie = new IDaoCategorieImpl();
         IDaoArticle iDaoArticle = new IDaoArticleImpl();
+        IDaoSocieteDistribution iDaoSocieteDistribution = new IDaoSocieteDistributionImpl();
+        IDaoDepot iDaoDepot = new IDaoDepotImpl();
 
         String puName = "myPersistenceUnit";
         Map<String, String> props = new HashMap<>();
@@ -26,7 +29,10 @@ public class Main {
 
         EntityManagerFactory entityManagerFactory = new HibernatePersistenceProvider()
                 .createContainerEntityManagerFactory(new OurCustomPersistenceUnit(puName), props);
+
+
         EntityManager entityManager = entityManagerFactory.createEntityManager();
+
         try{
 
             /* Test crud Client => valide */
@@ -62,7 +68,7 @@ public class Main {
             System.out.println(iDaoClient.findClientById(client, entityManager).toString());
             System.out.println("\nliste des clients:\n");
             iDaoClient.findAllClients(entityManager).forEach(System.out::println);
-            iDaoClient.removeClient(client1, entityManager);
+            //iDaoClient.removeClient(client1, entityManager);
             System.out.println("\nliste des clients:\n");
             iDaoClient.findAllClients(entityManager).forEach(System.out::println);
 
@@ -87,7 +93,7 @@ public class Main {
             System.out.println(iDaoCommande.findCommandeById(entityManager, commande.getNumero().toString()));
             System.out.println("\nlist of all commandes: \n");
             iDaoCommande.listAllCommande(entityManager).forEach(System.out::println);
-            iDaoCommande.deleteCommande(entityManager, commande);
+            //iDaoCommande.deleteCommande(entityManager, commande);
             System.out.println("\nlist of all commandes: \n");
             iDaoCommande.listAllCommande(entityManager).forEach(System.out::println);
 
@@ -115,7 +121,7 @@ public class Main {
             System.out.println(iDaoFournisseur.findFournisseurById(fournisseur, entityManager));
             System.out.println("\nlist of all fournisseurs: \n");
             iDaoFournisseur.findAllFournisseurs(entityManager).forEach(System.out::println);
-            iDaoFournisseur.removeFournisseur(fournisseur, entityManager);
+            //iDaoFournisseur.removeFournisseur(fournisseur, entityManager);
             System.out.println("\nlist of all fournisseurs: \n");
             iDaoFournisseur.findAllFournisseurs(entityManager).forEach(System.out::println);
 
@@ -137,7 +143,7 @@ public class Main {
             System.out.println(iDaoCategorie.findCategorieById(entityManager, categorie1.getNumCategorie()));
             System.out.println("\nlist of all categories: \n");
             iDaoCategorie.listAllCategories(entityManager).forEach(System.out::println);
-            iDaoCategorie.deleteCategorie(entityManager, categorie);
+            //iDaoCategorie.deleteCategorie(entityManager, categorie);
             System.out.println("\nlist of all categories: \n");
             iDaoCategorie.listAllCategories(entityManager).forEach(System.out::println);
 
@@ -162,11 +168,82 @@ public class Main {
             System.out.println(iDaoArticle.findArticleById(entityManager, article1.getCode()));
             System.out.println("\nlist of all articles: \n");
             iDaoArticle.findAllArticles(entityManager).forEach(System.out::println);
-            iDaoArticle.removeArticle(entityManager, article1);
+            //iDaoArticle.removeArticle(entityManager, article1);
             System.out.println("\nlist of all articles: \n");
             iDaoArticle.findAllArticles(entityManager).forEach(System.out::println);
 
+            /* Test crud societeDistribution =>  valide*/
+            SocieteDistribution societeDistribution = new SocieteDistribution();
+            societeDistribution.setNom("Glovo");
+            societeDistribution.setAdresse("Mdina 9dima");
+            societeDistribution.setVille("Sale");
+            societeDistribution.setTelephone("0617281929");
+
+            SocieteDistribution societeDistribution1 = new SocieteDistribution();
+            societeDistribution1.setNom("Glovo");
+            societeDistribution1.setAdresse("Mdina 9dima");
+            societeDistribution1.setVille("Sale");
+            societeDistribution1.setTelephone("0617281929");
+
+            SocieteDistribution societeDistribution2 = new SocieteDistribution();
+            societeDistribution2.setNom("Glovo");
+            societeDistribution2.setAdresse("Mdina 9dima");
+            societeDistribution2.setVille("Sale");
+            societeDistribution2.setTelephone("0617281929");
+
+            iDaoSocieteDistribution.addNewSocieteDistribution(societeDistribution, entityManager);
+            iDaoSocieteDistribution.addNewSocieteDistribution(societeDistribution1, entityManager);
+            iDaoSocieteDistribution.addNewSocieteDistribution(societeDistribution2, entityManager);
+
+            System.out.println("\nfind SocieteDistribution by id: \n");
+            System.out.println(iDaoSocieteDistribution.findSocieteById(societeDistribution.getId(), entityManager));
+            System.out.println("\nlist of all SocieteDistribution: \n");
+            iDaoSocieteDistribution.FindAllSocieteDistribution(entityManager).forEach(System.out::println);
+            //iDaoSocieteDistribution.removeSocieteDistribution(societeDistribution, entityManager);
+            System.out.println("\nlist of all SocieteDistribution: \n");
+            iDaoSocieteDistribution.FindAllSocieteDistribution(entityManager).forEach(System.out::println);
+
+            /* Test crud Depot => valide */
+            Depot depot = new Depot();
+            depot.setVille("SALE");
+            depot.setTelephone("0762729034");
+
+            Depot depot1 = new Depot();
+            depot1.setVille("SALE");
+            depot1.setTelephone("0762729034");
+
+            Depot depot2 = new Depot();
+            depot2.setVille("SALE");
+            depot2.setTelephone("0762729034");
+
+            iDaoDepot.addNewDepot(depot, entityManager);
+            iDaoDepot.addNewDepot(depot1, entityManager);
+            iDaoDepot.addNewDepot(depot2, entityManager);
+
+            System.out.println("\nfind Depot by id: \n");
+            System.out.println(iDaoDepot.findDepotById(depot.getNumeroDepot(), entityManager));
+            System.out.println("\nfind All depots: \n");
+            iDaoDepot.findAllDepot(entityManager).forEach(System.out::println);
+            //iDaoDepot.removeDepot(depot, entityManager);
+            System.out.println("\nfind All depots: \n");
+            iDaoDepot.findAllDepot(entityManager).forEach(System.out::println);
+
+            /* Test ajouter une ou plusieurs commandes a un client => valide*/
+            iDaoCommande.addCommandesToClient(client, List.of(commande1, commande2), entityManager);
+            iDaoCommande.addCommandeToClient(client2, commande, entityManager);
+
+            /* Test ajouter une ou plusieurs articles a une categorie => valide*/
+            iDaoCategorie.addArticleToCategorie(categorie, article1, entityManager);
+            iDaoCategorie.addArticlesToCategorie(categorie1, List.of(article2, article3), entityManager);
+
+            /* Test ajouter une ligne commande a une commande => valide*/
+            iDaoCommande.addArticleToCommande(commande1, article1, 3, entityManager);
+            iDaoCommande.addArticleToCommande(commande1, article2, 5, entityManager);
+            iDaoCommande.addArticleToCommande(commande2, article3, 6, entityManager);
+            iDaoCommande.addArticleToCommande(commande, article3, 1, entityManager);
+
         }catch(Exception exception){
+            exception.printStackTrace();
             entityManager.close();
         }
     }

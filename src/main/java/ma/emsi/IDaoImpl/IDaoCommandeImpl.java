@@ -3,8 +3,14 @@ package ma.emsi.IDaoImpl;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import ma.emsi.IDao.IDaoCommande;
+import ma.emsi.entities.Article;
+import ma.emsi.entities.Client;
 import ma.emsi.entities.Commande;
+import ma.emsi.entities.LigneCommande;
+import ma.emsi.exceptions.ArticleNotExistException;
+import ma.emsi.exceptions.ClientNotExistException;
 import ma.emsi.exceptions.CommandeNotExistException;
+import ma.emsi.primaryKeys.PkOfLigneCommande;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,5 +57,70 @@ public class IDaoCommandeImpl implements IDaoCommande {
     public List<Commande> listAllCommande(EntityManager entityManager) {
         TypedQuery<Commande> query = entityManager.createNamedQuery("Commande.findAll", Commande.class);
         return new ArrayList<Commande>(query.getResultList());
+    }
+
+    @Override
+    public void addCommandeToClient(Client client, Commande commande, EntityManager entityManager) throws ClientNotExistException {
+        Optional<Client> optionalClient = Optional.ofNullable(entityManager.find(Client.class, client.getId()));
+        if (optionalClient.isEmpty()) {
+            throw new ClientNotExistException("le client que vous rechercher "+client.getId()+" n'existe pas");
+        }if(client.getCommandes() == null){
+            entityManager.getTransaction().begin();
+            client.setCommandes(List.of(commande));
+            entityManager.getTransaction().commit();
+        }else{
+            entityManager.getTransaction().begin();
+            client.getCommandes().add(commande);
+            entityManager.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public void addCommandesToClient(Client client, List<Commande> commandes, EntityManager entityManager) throws ClientNotExistException {
+        Optional<Client> optionalClient = Optional.ofNullable(entityManager.find(Client.class, client.getId()));
+        if (optionalClient.isEmpty()) {
+            throw new ClientNotExistException("le client que vous rechercher " + client.getId() + " n'existe pas");
+        }
+        if(client.getCommandes() == null){
+            entityManager.getTransaction().begin();
+            client.setCommandes(commandes);
+            entityManager.getTransaction().commit();
+        }else{
+            entityManager.getTransaction().begin();
+            client.getCommandes().addAll(commandes);
+            entityManager.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public void addArticleToCommande(Commande commande, Article article, int quantity,EntityManager entityManager) throws CommandeNotExistException, ArticleNotExistException {
+        Optional<Commande> optionalCommande = Optional.ofNullable(entityManager.find(Commande.class, commande.getNumero()));
+        Optional<Article> optionalArticle = Optional.ofNullable(entityManager.find(Article.class, article.getCode()));
+        if (optionalCommande.isEmpty()) {
+            throw new CommandeNotExistException("la commande que vous rechercher"+commande.getNumero()+"n'existe pas");
+        }else if(optionalArticle.isEmpty()){
+            throw new ArticleNotExistException("L'article que demande "+article.getCode()+" est introuvable");
+        }
+        LigneCommande ligneCommande = new LigneCommande(
+                new PkOfLigneCommande(commande.getNumero(), article.getCode()), quantity);
+        entityManager.getTransaction().begin();
+        entityManager.persist(ligneCommande);
+        entityManager.getTransaction().commit();
+        System.out.println("Ligne Commande: ## "+ligneCommande);
+
+//        if(commande.getLigneCommandes() == null){
+//            entityManager.getTransaction().begin();
+//            commande.setLigneCommandes(List.of(ligneCommande));
+//            entityManager.getTransaction().commit();
+//        }else{
+//            entityManager.getTransaction().begin();
+//            commande.getLigneCommandes().add(ligneCommande);
+//            entityManager.getTransaction().commit();
+//        }
+    }
+
+    @Override
+    public void addArticlesToCommande(Commande commande, Article article, EntityManager entityManager) throws CommandeNotExistException, ArticleNotExistException {
+
     }
 }

@@ -48,4 +48,12 @@ public class PkOfLigneCommande implements Serializable{
     public int hashCode() {
         return Objects.hash(id_commande, id_article);
     }
+
+    @Override
+    public String toString() {
+        return "PkOfLigneCommande{" +
+                "id_commande='" + id_commande + '\'' +
+                ", id_article='" + id_article + '\'' +
+                '}';
+    }
 }

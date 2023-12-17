@@ -14,8 +14,10 @@ public class Commande {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String numero;
-    private LocalDateTime dateCommende;
+    private LocalDateTime dateCommande;
     private BigDecimal montant;
+    @OneToOne(mappedBy = "commande")
+    private Facture facture;
 
     @OneToMany
     @JoinColumn(name = "id_Commande")
@@ -33,11 +35,11 @@ public class Commande {
     }
 
     public LocalDateTime getDateCommende() {
-        return dateCommende;
+        return dateCommande;
     }
 
-    public void setDateCommende(LocalDateTime dateCommende) {
-        this.dateCommende = dateCommende;
+    public void setDateCommende(LocalDateTime dateCommande) {
+        this.dateCommande = dateCommande;
     }
 
     public BigDecimal getMontant() {
@@ -60,7 +62,7 @@ public class Commande {
     public String toString() {
         return "Commande{" +
                 "numero='" + numero + '\'' +
-                ", dateCommende=" + dateCommende +
+                ", dateCommende=" + dateCommande +
                 ", montant=" + montant +
                 '}';
     }
