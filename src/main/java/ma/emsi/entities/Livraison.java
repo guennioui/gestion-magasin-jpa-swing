@@ -1,16 +1,21 @@
 package ma.emsi.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "Livraison.findAll", query = "SELECT l FROM Livraison l"
+        )
+})
 @Entity
 public class Livraison {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String numeroLivraison;
+    private LocalDateTime dateLivraison;
     @OneToMany
     @JoinColumn(name = "id_livraison")
     private List<LigneLivraison> ligneLivraisons;
@@ -34,10 +39,19 @@ public class Livraison {
         this.ligneLivraisons = ligneLivraisons;
     }
 
+    public LocalDateTime getDateLivraison() {
+        return dateLivraison;
+    }
+
+    public void setDateLivraison(LocalDateTime dateLivraison) {
+        this.dateLivraison = dateLivraison;
+    }
+
     @Override
     public String toString() {
         return "Livraison{" +
                 "numeroLivraison='" + numeroLivraison + '\'' +
+                ", dateLivraison=" + dateLivraison +
                 ", ligneLivraisons=" + ligneLivraisons +
                 '}';
     }

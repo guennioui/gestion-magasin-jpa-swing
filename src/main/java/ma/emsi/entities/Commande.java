@@ -19,7 +19,7 @@ public class Commande {
     @OneToOne(mappedBy = "commande")
     private Facture facture;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "id_Commande")
     private List<LigneCommande> ligneCommandes;
 

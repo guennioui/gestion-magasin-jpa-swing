@@ -103,24 +103,46 @@ public class IDaoCommandeImpl implements IDaoCommande {
         }
         LigneCommande ligneCommande = new LigneCommande(
                 new PkOfLigneCommande(commande.getNumero(), article.getCode()), quantity);
-        entityManager.getTransaction().begin();
         entityManager.persist(ligneCommande);
-        entityManager.getTransaction().commit();
-        System.out.println("Ligne Commande: ## "+ligneCommande);
-
-//        if(commande.getLigneCommandes() == null){
-//            entityManager.getTransaction().begin();
-//            commande.setLigneCommandes(List.of(ligneCommande));
-//            entityManager.getTransaction().commit();
-//        }else{
-//            entityManager.getTransaction().begin();
-//            commande.getLigneCommandes().add(ligneCommande);
-//            entityManager.getTransaction().commit();
-//        }
+        if(commande.getLigneCommandes() == null){
+            entityManager.getTransaction().begin();
+            commande.setLigneCommandes(new ArrayList<>(List.of(ligneCommande)));
+            entityManager.getTransaction().commit();
+        }else if(article.getLigneCommandes() == null) {
+            entityManager.getTransaction().begin();
+            article.setLigneCommandes(new ArrayList<>(List.of(ligneCommande)));
+            entityManager.getTransaction().commit();
+        }else{
+            entityManager.getTransaction().begin();
+            commande.getLigneCommandes().add(ligneCommande);
+            article.getLigneCommandes().add(ligneCommande);
+            entityManager.getTransaction().commit();
+        }
     }
 
     @Override
-    public void addArticlesToCommande(Commande commande, Article article, EntityManager entityManager) throws CommandeNotExistException, ArticleNotExistException {
+    public void addArticlesToCommande(Commande commande, List<Article> articles, int[] quantity, EntityManager entityManager) {
+        List<LigneCommande> ligneCommandes = new ArrayList<>();
+        for(int i = 0; i < articles.size(); i++){
+                LigneCommande ligneCommande = new LigneCommande( new PkOfLigneCommande(commande.getNumero(), articles.get(i).getCode()),quantity[i]);
+                ligneCommandes.add(ligneCommande);
+                entityManager.persist(ligneCommande);
+                if(articles.get(i).getLigneCommandes() == null){
 
+                }else{
+                    entityManager.getTransaction().commit();
+                    articles.get(i).getLigneCommandes().add(ligneCommande);
+                    entityManager.getTransaction().commit();
+                }
+        }
+        if(commande.getLigneCommandes() == null){
+            entityManager.getTransaction().begin();
+            commande.setLigneCommandes(ligneCommandes);
+            entityManager.getTransaction().commit();
+        }else{
+            entityManager.getTransaction().begin();
+            commande.getLigneCommandes().addAll(ligneCommandes);
+            entityManager.getTransaction().commit();
+        }
     }
 }

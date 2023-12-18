@@ -20,7 +20,6 @@ public class Fournisseur {
     @OneToMany
     @JoinColumn(name = "id_fournisseur")
     private List<Livraison> livraisons;
-
     @OneToMany
     @JoinColumn(name = "id_fournisseur")
     private List<SocieteDistribution> societeDistributions;

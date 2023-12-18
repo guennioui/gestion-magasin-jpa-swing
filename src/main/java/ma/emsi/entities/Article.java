@@ -17,7 +17,7 @@ public class Article {
     private String code;
     private String nom;
     private BigDecimal prixUnitaire;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "id_article")
     private List<LigneCommande> ligneCommandes;
     @OneToMany

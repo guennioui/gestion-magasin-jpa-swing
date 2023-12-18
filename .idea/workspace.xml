@@ -4,24 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e4e56750-9a56-4f74-8796-4af7cefdb149" name="Changes" comment="implementing dao">
-      <change afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoDepotImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoSocieteDistributionImpl.java" afterDir="false" />
+    <list default="true" id="e4e56750-9a56-4f74-8796-4af7cefdb149" name="Changes" comment="fixing bug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/IDao/IDaoCategorie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDao/IDaoCategorie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/IDao/IDaoClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDao/IDaoClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/IDao/IDaoCommande.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDao/IDaoCommande.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoCategorieImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoCategorieImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoClientImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoClientImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/IDao/IDaoFournisseur.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDao/IDaoFournisseur.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/IDao/IDaoSocieteDistribution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDao/IDaoSocieteDistribution.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoCommandeImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoCommandeImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoFournisseurImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoFournisseurImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoSocieteDistributionImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoSocieteDistributionImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Article.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Article.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Commande.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Commande.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Depot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Depot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Facture.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Facture.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/LigneCommande.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/LigneCommande.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Fournisseur.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Fournisseur.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/LigneLivraison.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/LigneLivraison.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Livraison.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Livraison.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/SocieteDistribution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/SocieteDistribution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/primaryKeys/PkOfLigneCommande.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/primaryKeys/PkOfLigneCommande.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/primaryKeys/PkOfLigneLivraison.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/primaryKeys/PkOfLigneLivraison.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +77,7 @@
       <recent name="ma.emsi.IDaoImpl" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.ma.emsi.entities.Main">
+  <component name="RunManager" selected="Application.ma.emsi.dataExport.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ma.emsi.Main" />
       <module name="gestion-magasin" />
@@ -99,6 +97,19 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="ma.emsi.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ma.emsi.dataExport.Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ma.emsi.dataExport.Main" />
+      <module name="gestion-magasin" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ma.emsi.dataExport.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -134,6 +145,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.ma.emsi.dataExport.Main" />
         <item itemvalue="Application.ma.emsi.entities.Main" />
         <item itemvalue="Application.Main" />
       </list>
@@ -156,7 +168,8 @@
       <workItem from="1702456015868" duration="13216000" />
       <workItem from="1702663538428" duration="1233000" />
       <workItem from="1702667900057" duration="8081000" />
-      <workItem from="1702718370985" duration="20785000" />
+      <workItem from="1702718370985" duration="40779000" />
+      <workItem from="1702925096752" duration="6217000" />
     </task>
     <task id="LOCAL-00001" summary="implementing dao">
       <option name="closed" value="true" />
@@ -166,7 +179,15 @@
       <option name="project" value="LOCAL" />
       <updated>1702676137235</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="fixing bug">
+      <option name="closed" value="true" />
+      <created>1702815507500</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1702815507500</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -185,7 +206,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="implementing dao" />
-    <option name="LAST_COMMIT_MESSAGE" value="implementing dao" />
+    <MESSAGE value="fixing bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixing bug" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -8,6 +8,7 @@ import ma.emsi.persistence.OurCustomPersistenceUnit;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ public class Main {
         IDaoArticle iDaoArticle = new IDaoArticleImpl();
         IDaoSocieteDistribution iDaoSocieteDistribution = new IDaoSocieteDistributionImpl();
         IDaoDepot iDaoDepot = new IDaoDepotImpl();
+        IDaoLivraison iDaoLivraison = new IDaoLivraisonImpl();
 
         String puName = "myPersistenceUnit";
         Map<String, String> props = new HashMap<>();
@@ -224,9 +226,26 @@ public class Main {
             System.out.println(iDaoDepot.findDepotById(depot.getNumeroDepot(), entityManager));
             System.out.println("\nfind All depots: \n");
             iDaoDepot.findAllDepot(entityManager).forEach(System.out::println);
-            //iDaoDepot.removeDepot(depot, entityManager);
+            iDaoDepot.removeDepot(depot, entityManager);
             System.out.println("\nfind All depots: \n");
             iDaoDepot.findAllDepot(entityManager).forEach(System.out::println);
+
+            /*Test crud Livraison => valide*/
+            Livraison livraison1 = new Livraison();
+            livraison1.setDateLivraison(LocalDateTime.now());
+
+            Livraison livraison2 = new Livraison();
+            livraison2.setDateLivraison(LocalDateTime.now().plusHours(1));
+
+            Livraison livraison3 = new Livraison();
+            livraison3.setDateLivraison(LocalDateTime.now().plusHours(2));
+
+            iDaoLivraison.addNewLivraison(livraison1, entityManager);
+            iDaoLivraison.addNewLivraison(livraison2, entityManager);
+            iDaoLivraison.addNewLivraison(livraison3, entityManager);
+            System.out.println(iDaoLivraison.findLivraisonById(livraison1.getNumeroLivraison(), entityManager));
+            //iDaoLivraison.removeLivraison(livraison1, entityManager);
+            System.out.println(iDaoLivraison.listAllLivraison(entityManager));
 
             /* Test ajouter une ou plusieurs commandes a un client => valide*/
             iDaoCommande.addCommandesToClient(client, List.of(commande1, commande2), entityManager);
@@ -236,12 +255,29 @@ public class Main {
             iDaoCategorie.addArticleToCategorie(categorie, article1, entityManager);
             iDaoCategorie.addArticlesToCategorie(categorie1, List.of(article2, article3), entityManager);
 
-            /* Test ajouter une ligne commande a une commande => valide*/
+            /*Test ajouter une ligne commande a une commande => valide*/
+            int[] quantity = {3, 5, 6};
             iDaoCommande.addArticleToCommande(commande1, article1, 3, entityManager);
             iDaoCommande.addArticleToCommande(commande1, article2, 5, entityManager);
             iDaoCommande.addArticleToCommande(commande2, article3, 6, entityManager);
-            iDaoCommande.addArticleToCommande(commande, article3, 1, entityManager);
+            //iDaoCommande.addArticlesToCommande(commande, List.of(article1, article2, article3), quantity, entityManager);
+            System.out.println(commande1.getLigneCommandes());
+            System.out.println(article1.getLigneCommandes());
+            /*Test ajouter un fournisseur a une societe de distribution => valide*/
+            iDaoSocieteDistribution.addFournisseurToSocieteDistribution(societeDistribution, fournisseur, entityManager);
+            iDaoSocieteDistribution.addFournisseurToSocieteDistribution(societeDistribution1, fournisseur, entityManager);
+            iDaoSocieteDistribution.addFournisseurToSocieteDistribution(societeDistribution2, fournisseur2, entityManager);
+            //iDaoSocieteDistribution.addFournisseurToSocieteDistributions(List.of(societeDistribution, societeDistribution1, societeDistribution2), fournisseur, entityManager);
 
+            /*Test ajouter une Livraison a un fournisseur => valide*/
+            iDaoFournisseur.addLivraisonToFournisseur(livraison1,fournisseur, entityManager);
+            iDaoFournisseur.addLivraisonToFournisseur(livraison2,fournisseur, entityManager);
+            iDaoFournisseur.addLivraisonToFournisseur(livraison3,fournisseur, entityManager);
+
+            /*Test ajouter un article a une Livraison => valide*/
+            iDaoLivraison.addArticleToLivraison(article1, livraison1, 12, entityManager);
+            //iDaoLivraison.addArticleToLivraison(article2, livraison1, 1, entityManager);
+            //iDaoLivraison.addArticleToLivraison(article3, livraison1, 2, entityManager);
         }catch(Exception exception){
             exception.printStackTrace();
             entityManager.close();

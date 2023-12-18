@@ -20,6 +20,6 @@ public interface IDaoCommande {
     void addCommandeToClient(Client client, Commande commande, EntityManager entityManager) throws ClientNotExistException;
     void addCommandesToClient(Client client, List<Commande> commandes, EntityManager entityManager) throws ClientNotExistException;
     void addArticleToCommande(Commande commande, Article article, int quantity,EntityManager entityManager) throws CommandeNotExistException, ArticleNotExistException;
-    void addArticlesToCommande(Commande commande, Article article, EntityManager entityManager)throws CommandeNotExistException, ArticleNotExistException;;
+    void addArticlesToCommande(Commande commande, List<Article> articles, int[] quantity, EntityManager entityManager);
 
 }
