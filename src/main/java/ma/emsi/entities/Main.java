@@ -261,8 +261,11 @@ public class Main {
             iDaoCommande.addArticleToCommande(commande1, article2, 5, entityManager);
             iDaoCommande.addArticleToCommande(commande2, article3, 6, entityManager);
             //iDaoCommande.addArticlesToCommande(commande, List.of(article1, article2, article3), quantity, entityManager);
-            System.out.println(commande1.getLigneCommandes());
-            System.out.println(article1.getLigneCommandes());
+            //System.out.println(commande.getLigneCommandes());
+            //System.out.println(article1.getLigneCommandes());
+            //System.out.println(article2.getLigneCommandes());
+            //System.out.println(article3.getLigneCommandes());
+
             /*Test ajouter un fournisseur a une societe de distribution => valide*/
             iDaoSocieteDistribution.addFournisseurToSocieteDistribution(societeDistribution, fournisseur, entityManager);
             iDaoSocieteDistribution.addFournisseurToSocieteDistribution(societeDistribution1, fournisseur, entityManager);
@@ -275,9 +278,20 @@ public class Main {
             iDaoFournisseur.addLivraisonToFournisseur(livraison3,fournisseur, entityManager);
 
             /*Test ajouter un article a une Livraison => valide*/
-            iDaoLivraison.addArticleToLivraison(article1, livraison1, 12, entityManager);
             //iDaoLivraison.addArticleToLivraison(article2, livraison1, 1, entityManager);
             //iDaoLivraison.addArticleToLivraison(article3, livraison1, 2, entityManager);
+            iDaoLivraison.addArticleToLivraison(article1, livraison1, 12, entityManager);
+
+            /* Test ajouter a un article a un depot => valide*/
+            iDaoArticle.addArticleToDepot(article1, depot1, 60, LocalDateTime.now(), entityManager);
+
+            System.out.println("\n\n nullable Test ");
+            System.out.println(article1.getLigneCommandes());
+            System.out.println(article1.getLigneLivraisons());
+            System.out.println(article1.getStocks());
+            System.out.println(depot1.getStocks());
+            System.out.println(commande1.getLigneCommandes());
+
         }catch(Exception exception){
             exception.printStackTrace();
             entityManager.close();

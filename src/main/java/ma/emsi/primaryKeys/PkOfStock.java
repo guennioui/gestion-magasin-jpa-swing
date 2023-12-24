@@ -46,4 +46,12 @@ public class PkOfStock implements Serializable {
     public int hashCode() {
         return Objects.hash(id_article, id_Depot);
     }
+
+    @Override
+    public String toString() {
+        return "PkOfStock{" +
+                "id_article='" + id_article + '\'' +
+                ", id_Depot='" + id_Depot + '\'' +
+                '}';
+    }
 }

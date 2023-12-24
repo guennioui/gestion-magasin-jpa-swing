@@ -93,30 +93,44 @@ public class IDaoCommandeImpl implements IDaoCommande {
     }
 
     @Override
-    public void addArticleToCommande(Commande commande, Article article, int quantity,EntityManager entityManager) throws CommandeNotExistException, ArticleNotExistException {
+    public void addArticleToCommande(Commande commande, Article article, int quantity,EntityManager entityManager) throws
+            CommandeNotExistException,
+            ArticleNotExistException
+    {
+        boolean articleLigneCommande = false;
+        boolean commandeLigneCommande = false;
         Optional<Commande> optionalCommande = Optional.ofNullable(entityManager.find(Commande.class, commande.getNumero()));
         Optional<Article> optionalArticle = Optional.ofNullable(entityManager.find(Article.class, article.getCode()));
         if (optionalCommande.isEmpty()) {
             throw new CommandeNotExistException("la commande que vous rechercher"+commande.getNumero()+"n'existe pas");
         }else if(optionalArticle.isEmpty()){
             throw new ArticleNotExistException("L'article que demande "+article.getCode()+" est introuvable");
-        }
-        LigneCommande ligneCommande = new LigneCommande(
-                new PkOfLigneCommande(commande.getNumero(), article.getCode()), quantity);
-        entityManager.persist(ligneCommande);
-        if(commande.getLigneCommandes() == null){
-            entityManager.getTransaction().begin();
-            commande.setLigneCommandes(new ArrayList<>(List.of(ligneCommande)));
-            entityManager.getTransaction().commit();
-        }else if(article.getLigneCommandes() == null) {
-            entityManager.getTransaction().begin();
-            article.setLigneCommandes(new ArrayList<>(List.of(ligneCommande)));
-            entityManager.getTransaction().commit();
         }else{
-            entityManager.getTransaction().begin();
-            commande.getLigneCommandes().add(ligneCommande);
-            article.getLigneCommandes().add(ligneCommande);
-            entityManager.getTransaction().commit();
+            PkOfLigneCommande pkOfLigneCommande = new PkOfLigneCommande(commande.getNumero(), article.getCode());
+            LigneCommande ligneCommande = new LigneCommande(pkOfLigneCommande, quantity);
+            entityManager.persist(ligneCommande);
+            if(commande.getLigneCommandes() == null){
+                commandeLigneCommande = true;
+                entityManager.getTransaction().begin();
+                commande.setLigneCommandes(new ArrayList<>(List.of(ligneCommande)));
+                entityManager.getTransaction().commit();
+            }
+            if(article.getLigneCommandes() == null) {
+                articleLigneCommande = true;
+                entityManager.getTransaction().begin();
+                article.setLigneCommandes(new ArrayList<>(List.of(ligneCommande)));
+                entityManager.getTransaction().commit();
+            }
+            if(articleLigneCommande = false){
+                entityManager.getTransaction().begin();
+                article.getLigneCommandes().add(ligneCommande);
+                entityManager.getTransaction().commit();
+            }
+            if(commandeLigneCommande = false){
+                entityManager.getTransaction().begin();
+                commande.getLigneCommandes().add(ligneCommande);
+                entityManager.getTransaction().commit();
+            }
         }
     }
 
@@ -124,11 +138,13 @@ public class IDaoCommandeImpl implements IDaoCommande {
     public void addArticlesToCommande(Commande commande, List<Article> articles, int[] quantity, EntityManager entityManager) {
         List<LigneCommande> ligneCommandes = new ArrayList<>();
         for(int i = 0; i < articles.size(); i++){
-                LigneCommande ligneCommande = new LigneCommande( new PkOfLigneCommande(commande.getNumero(), articles.get(i).getCode()),quantity[i]);
+                LigneCommande ligneCommande = new LigneCommande(
+                        new PkOfLigneCommande(commande.getNumero(), articles.get(i).getCode()),quantity[i]
+                );
                 ligneCommandes.add(ligneCommande);
                 entityManager.persist(ligneCommande);
-                if(articles.get(i).getLigneCommandes() == null){
-
+                if(articles.get(i).getLigneCommandes() == null ){
+                    articles.get(i).setLigneCommandes(new ArrayList<>(List.of(ligneCommande)));
                 }else{
                     entityManager.getTransaction().commit();
                     articles.get(i).getLigneCommandes().add(ligneCommande);

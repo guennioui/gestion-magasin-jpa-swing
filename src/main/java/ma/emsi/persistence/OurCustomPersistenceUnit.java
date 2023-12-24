@@ -77,7 +77,8 @@ public class OurCustomPersistenceUnit implements PersistenceUnitInfo {
                 "ma.emsi.entities.LigneLivraison",
                 "ma.emsi.entities.Livraison",
                 "ma.emsi.entities.SocieteDistribution",
-                "ma.emsi.entities.Stock"
+                "ma.emsi.entities.Stock",
+                "ma.emsi.authentication.Admin"
         );
     }
 
