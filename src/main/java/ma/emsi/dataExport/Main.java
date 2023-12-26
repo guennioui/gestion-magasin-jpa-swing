@@ -24,8 +24,6 @@ public class Main {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try{
             List<Client> query =  iDaoClient.findAllClients(entityManager);
-            query.forEach(System.out::println);
-            System.out.println(query.size());
 
             String filePath = "C:\\Users\\abdoe\\Desktop\\java\\gestion-magasin\\src\\main\\java\\ma\\emsi\\exportedData\\dataV2.xlsx";
             ExcelFile.exportClients(query, filePath);

@@ -67,7 +67,7 @@ public class Main {
             iDaoClient.addNewClient(client2, entityManager);
 
             System.out.println("\nfind client by id:\n");
-            System.out.println(iDaoClient.findClientById(client, entityManager).toString());
+            System.out.println(iDaoClient.findClientById(client.getId(), entityManager).toString());
             System.out.println("\nliste des clients:\n");
             iDaoClient.findAllClients(entityManager).forEach(System.out::println);
             //iDaoClient.removeClient(client1, entityManager);

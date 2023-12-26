@@ -6,7 +6,8 @@ import java.util.List;
 
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "Client.findAll", query = "SELECT c FROM Client c")
+    @NamedQuery(name = "Client.findAll", query = "SELECT c FROM Client c"),
+    @NamedQuery(name = "Client.findClientLike", query = "SELECT c FROM Client c WHERE c.id LIKE :id OR c.nom LIKE :nom OR c.prenom LIKE :prenom OR c.adresse LIKE :adresse OR c.ville LIKE :ville OR c.pays LIKE :pays OR c.telephone LIKE :telephone")
 })
 public class Client {
     @Id

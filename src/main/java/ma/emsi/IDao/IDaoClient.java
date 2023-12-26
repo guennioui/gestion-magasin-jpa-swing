@@ -9,7 +9,7 @@ import ma.emsi.exceptions.ClientNotExistException;
 import java.util.List;
 
 public interface IDaoClient {
-    Client findClientById(Client client, EntityManager entityManager)throws ClientNotExistException;
+    Client findClientById(String id, EntityManager entityManager)throws ClientNotExistException;
     void addNewClient(Client client, EntityManager entityManager);
     void modifyClient(Client client, Client newClient, EntityManager entityManager);
     void removeClient(Client client, EntityManager entityManager) throws ClientNotExistException;
