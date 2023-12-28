@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e4e56750-9a56-4f74-8796-4af7cefdb149" name="Changes" comment="fixing bug">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/IDao/IDaoClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDao/IDaoClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoClientImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoClientImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/dataExport/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/dataExport/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Main.java" afterDir="false" />
-    </list>
+    <list default="true" id="e4e56750-9a56-4f74-8796-4af7cefdb149" name="Changes" comment="fixing bug" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -190,7 +183,7 @@
       <workItem from="1703329170020" duration="5126000" />
       <workItem from="1703447246060" duration="2311000" />
       <workItem from="1703535088034" duration="293000" />
-      <workItem from="1703634053978" duration="131000" />
+      <workItem from="1703634053978" duration="208000" />
     </task>
     <task id="LOCAL-00001" summary="implementing dao">
       <option name="closed" value="true" />

@@ -4,19 +4,24 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
-@NamedQueries(
+@NamedQueries({
         @NamedQuery(
                 name = "Fournisseur.findAll", query = "SELECT f FROM Fournisseur f"
-        )
-)
+        ),
+        @NamedQuery(
+                name = "Fournisseur.findFournisseurLike", query = "SELECT f FROM Fournisseur f WHERE f.numFournisseur LIKE :numFournisseur OR f.nom LIKE :nom OR f.prenom LIKE :prenom OR f.adresse LIKE :adresse OR f.ville LIKE :ville OR f.telephone LIKE :telephone")
+})
 @Entity
 public class Fournisseur {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String numFournisseur;
     private String nom;
+    private String prenom;
     private String adresse;
     private String ville;
+    private String telephone;
+    
     @OneToMany
     @JoinColumn(name = "id_fournisseur")
     private List<Livraison> livraisons;
@@ -75,15 +80,29 @@ public class Fournisseur {
         this.societeDistributions = societeDistributions;
     }
 
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
     @Override
     public String toString() {
-        return "Fournisseur{" +
-                "numFournisseur='" + numFournisseur + '\'' +
-                ", nom='" + nom + '\'' +
-                ", adresse='" + adresse + '\'' +
-                ", ville='" + ville + '\'' +
-                ", livraisons=" + livraisons +
-                ", societeDistributions=" + societeDistributions +
-                '}';
+        return "Fournisseur{" + "numFournisseur=" + numFournisseur + ", nom=" + nom + ", prenom=" + prenom + ", adresse=" + adresse + ", ville=" + ville + ", telephone=" + telephone + ", livraisons=" + livraisons + ", societeDistributions=" + societeDistributions + '}';
     }
+
+    
+
+   
+    
 }

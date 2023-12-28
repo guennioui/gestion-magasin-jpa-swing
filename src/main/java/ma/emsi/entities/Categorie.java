@@ -4,11 +4,14 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
-@NamedQueries(
+@NamedQueries({
         @NamedQuery(
                 name = "Categorie.findAll", query = "SELECT c from Categorie c"
+        ),
+        @NamedQuery(
+                name = "Categorie.findCategorieLike", query = "SELECT c from Categorie c where c.nomCategorie LIKE :nomCategorie"
         )
-)
+})
 @Entity
 public class Categorie {
     @Id

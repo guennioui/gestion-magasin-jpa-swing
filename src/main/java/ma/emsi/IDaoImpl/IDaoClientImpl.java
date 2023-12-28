@@ -25,7 +25,15 @@ public class IDaoClientImpl implements IDaoClient {
     }
 
     @Override
-    public void modifyClient(Client client, Client newClient,EntityManager entityManager) {
+    public void modifyClient(Client client, EntityManager entityManager) throws ClientNotExistException{
+         Optional<Client> optionalClient = Optional.ofNullable(entityManager.find(Client.class, client.getId()));
+        if (optionalClient.isEmpty()) {
+            throw new ClientNotExistException("le client que vous rechercher"+client.getId()+"n'existe pas");
+        }else{
+            entityManager.getTransaction().begin();
+            entityManager.merge(client);
+            entityManager.getTransaction().commit();
+        }            
     }
 
     @Override
@@ -33,8 +41,9 @@ public class IDaoClientImpl implements IDaoClient {
         Optional<Client> optionalClient = Optional.ofNullable(entityManager.find(Client.class, id));
         if (optionalClient.isEmpty()) {
             throw new ClientNotExistException("le client que vous rechercher"+id+"n'existe pas");
+        }else{
+            return optionalClient.get();
         }
-        return optionalClient.get();
     }
 
     @Override

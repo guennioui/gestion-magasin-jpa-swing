@@ -27,7 +27,7 @@ public class Main {
         String puName = "myPersistenceUnit";
         Map<String, String> props = new HashMap<>();
         props.put("hibernate.show_sql", "true");
-        props.put("hibernate.hbm2ddl.auto", "create");
+        props.put("hibernate.hbm2ddl.auto", "update");
 
         EntityManagerFactory entityManagerFactory = new HibernatePersistenceProvider()
                 .createContainerEntityManagerFactory(new OurCustomPersistenceUnit(puName), props);
@@ -120,7 +120,7 @@ public class Main {
             iDaoFournisseur.addNewFournisseur(fournisseur2, entityManager);
 
             System.out.println("\nfind Fournisseur by id: \n");
-            System.out.println(iDaoFournisseur.findFournisseurById(fournisseur, entityManager));
+            System.out.println(iDaoFournisseur.findFournisseurById(fournisseur.getNumFournisseur(), entityManager));
             System.out.println("\nlist of all fournisseurs: \n");
             iDaoFournisseur.findAllFournisseurs(entityManager).forEach(System.out::println);
             //iDaoFournisseur.removeFournisseur(fournisseur, entityManager);

@@ -56,8 +56,7 @@ public class ClientService {
         }else{
              JOptionPane.showMessageDialog(null, "Verifier vos entrer", "erreur", JOptionPane.ERROR_MESSAGE);
         }
-    }    
-        
+    }        
     public void allClient(JTable jTable, EntityManager entityManager){          
         List<Client> clients = iDaoClientImpl.findAllClients(entityManager);
         DefaultTableModel model = (DefaultTableModel) jTable.getModel();         

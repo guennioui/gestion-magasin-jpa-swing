@@ -26,10 +26,10 @@ public class IDaoFournisseurImpl implements IDaoFournisseur {
     }
 
     @Override
-    public Fournisseur findFournisseurById(Fournisseur fournisseur, EntityManager entityManager) throws FournisseurNotExistException {
-        Optional<Fournisseur> optionalFournisseur = Optional.ofNullable(entityManager.find(Fournisseur.class, fournisseur.getNumFournisseur()));
+    public Fournisseur findFournisseurById(String id, EntityManager entityManager) throws FournisseurNotExistException {
+        Optional<Fournisseur> optionalFournisseur = Optional.ofNullable(entityManager.find(Fournisseur.class, id));
         if (optionalFournisseur.isEmpty()) {
-            throw new FournisseurNotExistException("le fournisseur que vous rechercher "+fournisseur.getNumFournisseur()+"n'existe pas");
+            throw new FournisseurNotExistException("le fournisseur que vous rechercher "+id+" n'existe pas");
         }
         return optionalFournisseur.get();
     }

@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface IDaoFournisseur {
     void addNewFournisseur(Fournisseur fournisseur, EntityManager entityManager);
-    Fournisseur findFournisseurById(Fournisseur fournisseur, EntityManager entityManager)throws FournisseurNotExistException;
+    Fournisseur findFournisseurById(String id, EntityManager entityManager)throws FournisseurNotExistException;
     void modifyFournisseur(Fournisseur fournisseur, Fournisseur newFournisseur, EntityManager entityManager);
     void removeFournisseur(Fournisseur fournisseur, EntityManager entityManager) throws FournisseurNotExistException;
     List<Fournisseur> findAllFournisseurs(EntityManager entityManager);
