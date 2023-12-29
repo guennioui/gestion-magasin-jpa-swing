@@ -7,6 +7,7 @@ package ma.emsi.services;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -85,5 +86,11 @@ public class CategorieService {
         TypedQuery<Categorie> categorieLike = entityManager.createNamedQuery("Categorie.findCategorieLike", Categorie.class);
         categorieLike.setParameter("nomCategorie", "%"+str+"%");      
         return categorieLike.getResultList();
+    }
+    public void fillJComboBox(JComboBox jComboBox, EntityManager entityManager){
+        List<Categorie> catepories = iDaoCategorie.listAllCategories(entityManager);
+        for(Categorie categorie : catepories){
+            jComboBox.addItem(categorie.getNomCategorie());
+        }        
     }
 }
