@@ -41,8 +41,15 @@ public class IDaoCategorieImpl implements IDaoCategorie {
     }
 
     @Override
-    public void modifyCategorie(EntityManager entityManager, Categorie categorie, Categorie newCategorie) {
-
+    public void modifyCategorie(EntityManager entityManager, Categorie categorie)throws CategorieNotExistException {        
+        Optional<Categorie> optionalCategorie = Optional.ofNullable(entityManager.find(Categorie.class, categorie.getNumCategorie()));
+        if(optionalCategorie.isEmpty()){
+            throw new CategorieNotExistException("La categorie que vous rechercher "+categorie.getNumCategorie()+" n'existe pas");
+        }else{
+            entityManager.getTransaction().begin();
+            entityManager.merge(categorie);
+            entityManager.getTransaction().commit();
+        }
     }
 
     @Override
@@ -81,5 +88,18 @@ public class IDaoCategorieImpl implements IDaoCategorie {
             categorie.getArticles().addAll(articles);
             entityManager.getTransaction().commit();
         }
+    }
+
+    @Override
+    public Categorie findCategoriByName(String name, EntityManager entityManager)throws CategorieNotExistException{
+       TypedQuery<Categorie> query = entityManager
+                .createQuery("SELECT c FROM Categorie c WHERE c.nomCategorie = :nomCategorie", Categorie.class);
+                query.setParameter("nomCategorie", name);
+        Optional<Categorie> optionalCategorie = Optional.ofNullable(query.getSingleResult());     
+        if(optionalCategorie.isEmpty()){
+            throw new CategorieNotExistException("La categorie que vous rechercher "+name+" n'existe pas");
+        }else{
+           return optionalCategorie.get(); 
+        }        
     }
 }

@@ -56,7 +56,41 @@ public class ClientService {
         }else{
              JOptionPane.showMessageDialog(null, "Verifier vos entrer", "erreur", JOptionPane.ERROR_MESSAGE);
         }
-    }        
+    } 
+    public void modifyClient(
+            JTextField jTextField1,
+            JTextField jTextField2,
+            JTextField jTextField3,
+            JTextField jTextField4,
+            JTextField jTextField5,
+            JTextField jTextField6,
+            String idClient,
+            EntityManager entityManager)throws ClientNotExistException{
+         if(!jTextField1.getText().equals("") && !jTextField2.getText().equals("") && !jTextField3.getText().equals("") 
+                && !jTextField4.getText().equals("") && !jTextField5.getText().equals("") 
+                && !jTextField6.getText().equals("") && !jTextField6.getText().equals("")
+                && jTextField6.getText().startsWith("0")){
+            Client client = iDaoClientImpl.findClientById(idClient, entityManager);
+            client.setNom(jTextField1.getText());
+            client.setPrenom(jTextField2.getText());
+            client.setAdresse(jTextField3.getText());
+            client.setVille(jTextField4.getText());
+            client.setPays(jTextField5.getText());
+            client.setTelephone(jTextField6.getText());                          
+            iDaoClientImpl.modifyClient(
+                    client,
+                    entityManager);            
+            jTextField1.setText("");
+            jTextField2.setText("");
+            jTextField3.setText("");
+            jTextField4.setText("");
+            jTextField5.setText("");
+            jTextField6.setText("");      
+         }else{
+             JOptionPane.showMessageDialog(null, "Verifier vos entrer", "erreur", JOptionPane.ERROR_MESSAGE);
+         }
+    }
+    
     public void allClient(JTable jTable, EntityManager entityManager){          
         List<Client> clients = iDaoClientImpl.findAllClients(entityManager);
         DefaultTableModel model = (DefaultTableModel) jTable.getModel();         

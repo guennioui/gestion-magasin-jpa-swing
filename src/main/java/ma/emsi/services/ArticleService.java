@@ -6,55 +6,58 @@ package ma.emsi.services;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import ma.emsi.IDao.IDaoArticle;
 import ma.emsi.IDao.IDaoCategorie;
+import ma.emsi.IDaoImpl.IDaoArticleImpl;
 import ma.emsi.IDaoImpl.IDaoCategorieImpl;
-import ma.emsi.IDaoImpl.IDaoClientImpl;
+import ma.emsi.entities.Article;
 import ma.emsi.entities.Categorie;
 import ma.emsi.exceptions.CategorieNotExistException;
-import ma.emsi.exceptions.ClientNotExistException;
 
 /**
  *
  * @author abdoe
  */
-public class CategorieService {
-      IDaoCategorieImpl iDaoCategorie = new IDaoCategorieImpl();
+public class ArticleService {
+    IDaoArticle iDaoArticle = new IDaoArticleImpl();
+    IDaoCategorie iDaoCategorie = new IDaoCategorieImpl();
     
-    public void addCategorie(
-            JTextField jTextField1,       
+    public void addArticle(
+            JTextField jTextField1,
+            JTextField jTextField2,
+            JComboBox jComboBox,
             EntityManager entityManager
-            ){
-        if(!jTextField1.getText().equals("")){
-            Categorie categorie = new Categorie();
-            categorie.setNomCategorie(jTextField1.getText());
-            iDaoCategorie.addNewCategorie(entityManager, categorie);
-            jTextField1.setText("");                                
+            ) throws CategorieNotExistException{
+        if(!jTextField1.getText().equals("") && !jTextField2.getText().equals("") 
+                && jComboBox.getSelectedIndex()!= -1){
+            Article article = new Article();
+            article.setNom(jTextField1.getText());
+            article.setPrixUnitaire(new BigDecimal(jTextField2.getText())); 
+            Categorie categorie = iDaoCategorie.findCategoriByName(jComboBox.getSelectedItem().toString(), entityManager);
+            if(categorie != null){
+                iDaoArticle.addNewArticle(entityManager, article);
+                System.out.println(article);
+                System.out.println(categorie);
+                iDaoCategorie.addArticleToCategorie(categorie, article, entityManager); 
+                
+            }else{
+                System.out.println("erreur:ArticleService:46");
+            }
+            jTextField1.setText("");                    
+            jTextField2.setText("");
+            jComboBox.setSelectedIndex(-1);
         }else{
              JOptionPane.showMessageDialog(null, "Verifier vos entrer", "erreur", JOptionPane.ERROR_MESSAGE);
         }
-    } 
-    
-    public void modifyCategorie(
-            JTextField jTextField1,
-            String idCategorie,
-            EntityManager entityManager)throws CategorieNotExistException{
-        if(!jTextField1.getText().equals("")){
-            Categorie categorie = iDaoCategorie.findCategorieById(entityManager, idCategorie);
-            categorie.setNomCategorie(jTextField1.getText());
-            System.out.println(categorie);
-            iDaoCategorie.modifyCategorie(entityManager, categorie);
-            jTextField1.setText("");
-        }else{
-            JOptionPane.showMessageDialog(null, "Verifier vos entrer", "erreur", JOptionPane.ERROR_MESSAGE); 
-        }                              
-    }
-    
+    }    
+        
     public void allCategories(JTable jTable, EntityManager entityManager){          
         List<Categorie> categories = iDaoCategorie.listAllCategories(entityManager);
         DefaultTableModel model = (DefaultTableModel) jTable.getModel();         

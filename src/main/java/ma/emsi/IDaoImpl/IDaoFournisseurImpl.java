@@ -35,8 +35,15 @@ public class IDaoFournisseurImpl implements IDaoFournisseur {
     }
 
     @Override
-    public void modifyFournisseur(Fournisseur fournisseur, Fournisseur newFournisseur, EntityManager entityManager) {
-
+    public void modifyFournisseur(Fournisseur fournisseur, EntityManager entityManager)throws FournisseurNotExistException{
+        Optional<Fournisseur> optionalFournisseur = Optional.ofNullable(entityManager.find(Fournisseur.class, fournisseur.getNumFournisseur()));
+        if (optionalFournisseur.isEmpty()) {
+            throw new FournisseurNotExistException("le fournisseur que vous rechercher"+fournisseur.getNumFournisseur()+"n'existe pas");
+        }else{
+            entityManager.getTransaction().begin();
+            entityManager.merge(fournisseur);
+            entityManager.getTransaction().commit();
+        }
     }
 
     @Override

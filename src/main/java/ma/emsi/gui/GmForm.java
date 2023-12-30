@@ -26,6 +26,7 @@ import ma.emsi.exceptions.CategorieNotExistException;
 import ma.emsi.exceptions.ClientNotExistException;
 import ma.emsi.exceptions.FournisseurNotExistException;
 import ma.emsi.persistence.OurCustomPersistenceUnit;
+import ma.emsi.services.ArticleService;
 import ma.emsi.services.CategorieService;
 import ma.emsi.services.ClientService;
 import ma.emsi.services.FournisseurService;
@@ -52,6 +53,10 @@ public class GmForm extends javax.swing.JFrame {
     IDaoFournisseurImpl iDaFournisseurImpl = new IDaoFournisseurImpl();
     CategorieService categorieService = new CategorieService();
     IDaoCategorieImpl iDaoCategorieImpl = new IDaoCategorieImpl();
+    ArticleService articleService = new ArticleService();
+    String idClient;
+    String idFournisseur;
+    String idCategorie;
     
     /**
      * Creates new form GmForm
@@ -405,6 +410,11 @@ public class GmForm extends javax.swing.JFrame {
                 "Numero fournisseur", "Nom", "Prenom", "Adresse", "Ville", "Telephone"
             }
         ));
+        jTable3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable3MouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTable3);
 
         jSeparator4.setForeground(new java.awt.Color(0, 0, 0));
@@ -658,6 +668,11 @@ public class GmForm extends javax.swing.JFrame {
         jLabel26.setText("Prix unitaire :");
 
         jButton10.setText("Ajouter ");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         jSeparator5.setForeground(new java.awt.Color(0, 0, 0));
 
@@ -668,6 +683,11 @@ public class GmForm extends javax.swing.JFrame {
         jButton24.setText("Supprimer");
 
         jButton25.setText("Reinitialiser");
+        jButton25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton25ActionPerformed(evt);
+            }
+        });
 
         jButton26.setText("Exporter");
 
@@ -769,6 +789,11 @@ public class GmForm extends javax.swing.JFrame {
                 "Numero ", "Nom"
             }
         ));
+        jTable5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable5MouseClicked(evt);
+            }
+        });
         jScrollPane5.setViewportView(jTable5);
 
         jSeparator6.setForeground(new java.awt.Color(0, 0, 0));
@@ -1246,7 +1271,15 @@ public class GmForm extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
-       
+        if(jTable2.getSelectedRow() != -1){
+           this.idClient = (String) jTable2.getValueAt(jTable2.getSelectedRow(), 0);
+           jTextField1.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(), 1));           
+           jTextField2.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(), 2));
+           jTextField3.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(),3));
+           jTextField4.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(), 4));
+           jTextField5.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(), 5));
+           jTextField6.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(),6));
+        }
     }//GEN-LAST:event_jTable2MouseClicked
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
@@ -1280,15 +1313,22 @@ public class GmForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-       if(jTable2.getSelectedRow() != -1){
-           jTextField1.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(), 0));
-           jTextField1.setEnabled(false);
-           jTextField2.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(), 1));
-           jTextField3.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(),2));
-           jTextField4.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(), 3));
-           jTextField5.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(), 4));
-           jTextField6.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(),5));
-        }
+      try{
+          clientService.modifyClient(
+                jTextField1,
+                jTextField2,
+                jTextField3,
+                jTextField4,
+                jTextField5,
+                jTextField6,
+                idClient,
+                entityManager);
+      }catch(ClientNotExistException ex){
+          ex.printStackTrace();
+      }catch(Exception ex){
+          ex.printStackTrace();
+      }         
+     clientService.refresh(jTable2, entityManager);
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jTextField14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField14ActionPerformed
@@ -1365,13 +1405,21 @@ public class GmForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-        if(jTable3.getSelectedRow() != -1){
-          jTextField9.setText((String) jTable3.getValueAt(jTable3.getSelectedRow(), 1));          
-          jTextField11.setText((String) jTable3.getValueAt(jTable3.getSelectedRow(), 2)); 
-          jTextField10.setText((String) jTable3.getValueAt(jTable3.getSelectedRow(), 3));
-          jTextField15.setText((String) jTable3.getValueAt(jTable3.getSelectedRow(),4));
-          jTextField16.setText((String) jTable3.getValueAt(jTable3.getSelectedRow(), 5));                    
-       }
+        try{
+            fournisseurService.modifyFournisseur(
+                jTextField9,
+                jTextField11,
+                jTextField10,
+                jTextField15,
+                jTextField16,
+                idFournisseur,
+                entityManager
+        ); 
+        }catch(FournisseurNotExistException ex){
+            ex.printStackTrace();
+        }
+       
+        fournisseurService.refresh(jTable3, entityManager);
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jTextField18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField18ActionPerformed
@@ -1431,9 +1479,14 @@ public class GmForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton20ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
-    if(jTable5.getSelectedRow() != -1){
-          jTextField17.setText((String) jTable5.getValueAt(jTable5.getSelectedRow(), 1));                                    
-       }
+        try {
+            categorieService.modifyCategorie(jTextField17, idCategorie, entityManager);
+        } catch (CategorieNotExistException ex) {
+           ex.printStackTrace();           
+        } catch(Exception ex){
+            ex.printStackTrace();
+        }
+        categorieService.refresh(jTable5, entityManager);
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jTextField19KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField19KeyTyped
@@ -1442,6 +1495,41 @@ public class GmForm extends javax.swing.JFrame {
             categorieService.fillJTable(jTable5,filtredCategories);                
         }
     }//GEN-LAST:event_jTextField19KeyTyped
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        try {
+            articleService.addArticle(jTextField12, jTextField13, jComboBox1, entityManager);
+        } catch (CategorieNotExistException ex) {
+            Logger.getLogger(GmForm.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
+        jTextField12.setText("");
+        jTextField13.setText("");
+        jComboBox1.setSelectedIndex(-1);
+    }//GEN-LAST:event_jButton25ActionPerformed
+
+    private void jTable3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable3MouseClicked
+        if(jTable3.getSelectedRow() != -1){
+          idFournisseur = (String) jTable3.getValueAt(jTable3.getSelectedRow(), 0);
+          jTextField9.setText((String) jTable3.getValueAt(jTable3.getSelectedRow(), 1));          
+          jTextField11.setText((String) jTable3.getValueAt(jTable3.getSelectedRow(), 2)); 
+          jTextField10.setText((String) jTable3.getValueAt(jTable3.getSelectedRow(), 3));
+          jTextField15.setText((String) jTable3.getValueAt(jTable3.getSelectedRow(),4));
+          jTextField16.setText((String) jTable3.getValueAt(jTable3.getSelectedRow(), 5));                    
+       }
+    }//GEN-LAST:event_jTable3MouseClicked
+
+    private void jTable5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable5MouseClicked
+        if(jTable5.getSelectedRow() != -1){
+          idCategorie = (String) jTable5.getValueAt(jTable5.getSelectedRow(), 0);
+          jTextField17.setText((String) jTable5.getValueAt(jTable5.getSelectedRow(), 1));                  
+       }
+    }//GEN-LAST:event_jTable5MouseClicked
 
     /**
      * @param args the command line arguments

@@ -51,7 +51,34 @@ public class FournisseurService {
         }else{
             JOptionPane.showMessageDialog(null, "Verifier vos entrer", "erreur", JOptionPane.ERROR_MESSAGE);
         }        
-    }  
+    } 
+    public void modifyFournisseur(
+            JTextField jTextField1,
+            JTextField jTextField2,
+            JTextField jTextField3,
+            JTextField jTextField4,
+            JTextField jTextField5,
+            String idFournisseur,
+            EntityManager entityManager)throws FournisseurNotExistException{
+        if(!jTextField1.getText().equals("") && !jTextField2.getText().equals("") 
+                && !jTextField3.getText().equals("") && !jTextField4.getText().equals("") 
+                && !jTextField5.getText().equals("") && jTextField5.getText().startsWith("0")){
+            Fournisseur fournisseur = iDaoFournisseurImpl.findFournisseurById(idFournisseur, entityManager);
+            fournisseur.setNom(jTextField1.getText());
+            fournisseur.setPrenom(jTextField2.getText());
+            fournisseur.setAdresse(jTextField3.getText());
+            fournisseur.setVille(jTextField4.getText());
+            fournisseur.setTelephone(jTextField5.getText());
+            jTextField1.setText("");
+            jTextField2.setText("");
+            jTextField3.setText("");
+            jTextField4.setText("");
+            jTextField5.setText("");
+            iDaoFournisseurImpl.modifyFournisseur(fournisseur, entityManager);
+        }else{
+            JOptionPane.showMessageDialog(null, "Verifier vos entrer", "erreur", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     public void allFournisseur(JTable jTable, EntityManager entityManager){          
         List<Fournisseur> fournisseurs = iDaoFournisseurImpl.findAllFournisseurs(entityManager);
         DefaultTableModel model = (DefaultTableModel) jTable.getModel();         

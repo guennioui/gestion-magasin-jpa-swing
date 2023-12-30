@@ -17,6 +17,7 @@ public class Categorie {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String numCategorie;
+    @Column(unique = true)
     private String nomCategorie;
     @OneToMany
     @JoinColumn(name = "categorie_id")

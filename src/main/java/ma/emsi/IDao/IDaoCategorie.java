@@ -14,10 +14,11 @@ import java.util.List;
 public interface IDaoCategorie {
     void addNewCategorie(EntityManager entityManager, Categorie categorie);
     void deleteCategorie(EntityManager entityManager, Categorie categorie) throws CategorieNotExistException;
-    void modifyCategorie(EntityManager entityManager, Categorie categorie, Categorie newCategorie);
+    void modifyCategorie(EntityManager entityManager, Categorie categorie) throws CategorieNotExistException;
     Categorie findCategorieById(EntityManager entityManager, String id) throws CategorieNotExistException;
+    Categorie findCategoriByName(String name, EntityManager entityManager)throws CategorieNotExistException;
     List<Categorie> listAllCategories(EntityManager entityManager);
     void addArticleToCategorie(Categorie categorie, Article article, EntityManager entityManager) throws CategorieNotExistException;
     void addArticlesToCategorie(Categorie categorie, List<Article> articles, EntityManager entityManager) throws CategorieNotExistException;
-
+    
 }
