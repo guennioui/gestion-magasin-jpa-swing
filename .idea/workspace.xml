@@ -4,7 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e4e56750-9a56-4f74-8796-4af7cefdb149" name="Changes" comment="fixing bug" />
+    <list default="true" id="e4e56750-9a56-4f74-8796-4af7cefdb149" name="Changes" comment="fixing bug">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/IDao/IDaoArticle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDao/IDaoArticle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/IDao/IDaoDepot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDao/IDaoDepot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/IDao/IDaoSocieteDistribution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDao/IDaoSocieteDistribution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoArticleImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoArticleImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoDepotImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoDepotImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoSocieteDistributionImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoSocieteDistributionImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Article.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Article.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Categorie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Categorie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Depot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Depot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Fournisseur.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Fournisseur.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/SocieteDistribution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/SocieteDistribution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Stock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Stock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/gui/GmForm.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/gui/GmForm.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/gui/GmForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/gui/GmForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/services/ArticleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/services/ArticleService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -185,6 +204,7 @@
       <workItem from="1703535088034" duration="293000" />
       <workItem from="1703634053978" duration="208000" />
       <workItem from="1703806806073" duration="165000" />
+      <workItem from="1704035026417" duration="663000" />
     </task>
     <task id="LOCAL-00001" summary="implementing dao">
       <option name="closed" value="true" />

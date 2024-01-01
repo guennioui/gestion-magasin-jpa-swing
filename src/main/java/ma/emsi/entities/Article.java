@@ -5,10 +5,15 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-@NamedQueries(
-        @NamedQuery(
-                name = "Artcile.findAll", query = "SELECT a from Article a"
-        )
+@NamedQueries({
+    @NamedQuery(
+                name = "Artcile.findArticleLike", query = "SELECT a from Article a WHERE a.code LIKE :code OR a.nom LIKE :nom OR a.categorie LIKE :categorie OR a.prixUnitaire = :prixUnitaire"
+        ),
+    @NamedQuery(
+                name = "Artcile.findAll", query = "SELECT a FROM Article a"
+    )
+}
+        
 )
 @Entity
 public class Article {
@@ -26,6 +31,8 @@ public class Article {
     @OneToMany
     @JoinColumn(name = "id_article")
     private List<LigneLivraison> ligneLivraisons;
+    @ManyToOne
+    private Categorie categorie;
 
     public Article() {
     }
@@ -78,14 +85,19 @@ public class Article {
         this.ligneLivraisons = ligneLivraisons;
     }
 
+    public Categorie getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(Categorie categorie) {
+        this.categorie = categorie;
+    }
+
     @Override
     public String toString() {
-        return "Article{" +
-                "code='" + code + '\'' +
-                ", nom='" + nom + '\'' +
-                ", prixUnitaire=" + prixUnitaire +
-                ", ligneCommandes=" + ligneCommandes +
-                '}';
+        return "Article{" + "code=" + code + ", nom=" + nom + ", prixUnitaire=" + prixUnitaire + ", ligneCommandes=" + ligneCommandes + ", stocks=" + stocks + ", ligneLivraisons=" + ligneLivraisons + '}';
     }
+
+    
 }
 

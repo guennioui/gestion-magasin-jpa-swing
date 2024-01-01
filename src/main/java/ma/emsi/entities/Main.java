@@ -7,6 +7,7 @@ import ma.emsi.IDaoImpl.*;
 import ma.emsi.persistence.OurCustomPersistenceUnit;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +28,7 @@ public class Main {
         String puName = "myPersistenceUnit";
         Map<String, String> props = new HashMap<>();
         props.put("hibernate.show_sql", "true");
-        props.put("hibernate.hbm2ddl.auto", "update");
+        props.put("hibernate.hbm2ddl.auto", "create");
 
         EntityManagerFactory entityManagerFactory = new HibernatePersistenceProvider()
                 .createContainerEntityManagerFactory(new OurCustomPersistenceUnit(puName), props);
@@ -132,10 +133,10 @@ public class Main {
             categorie.setNomCategorie("electronics");
 
             Categorie categorie1 = new Categorie();
-            categorie1.setNomCategorie("electronics");
+            categorie1.setNomCategorie("esthetique");
 
             Categorie categorie2 = new Categorie();
-            categorie2.setNomCategorie("electronics");
+            categorie2.setNomCategorie("electrique");
 
             iDaoCategorie.addNewCategorie(entityManager, categorie);
             iDaoCategorie.addNewCategorie(entityManager, categorie1);
@@ -169,10 +170,10 @@ public class Main {
             System.out.println("\nfind Article by id: \n");
             System.out.println(iDaoArticle.findArticleById(entityManager, article1.getCode()));
             System.out.println("\nlist of all articles: \n");
-            iDaoArticle.findAllArticles(entityManager).forEach(System.out::println);
+            iDaoArticle.findAllArticles(entityManager).forEach(a -> System.out.println(a));
             //iDaoArticle.removeArticle(entityManager, article1);
             System.out.println("\nlist of all articles: \n");
-            iDaoArticle.findAllArticles(entityManager).forEach(System.out::println);
+            iDaoArticle.findAllArticles(entityManager).forEach(a -> System.out.println(a));
 
             /* Test crud societeDistribution =>  valide*/
             SocieteDistribution societeDistribution = new SocieteDistribution();
@@ -283,7 +284,7 @@ public class Main {
             iDaoLivraison.addArticleToLivraison(article1, livraison1, 12, entityManager);
 
             /* Test ajouter a un article a un depot => valide*/
-            iDaoArticle.addArticleToDepot(article1, depot1, 60, LocalDateTime.now(), entityManager);
+            iDaoArticle.addArticleToDepot(article1, depot1, 60, LocalDate.now(), entityManager);
 
             System.out.println("\n\n nullable Test ");
             System.out.println(article1.getLigneCommandes());

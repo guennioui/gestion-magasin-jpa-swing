@@ -3,6 +3,7 @@ package ma.emsi.entities;
 import jakarta.persistence.*;
 
 @NamedQuery(name = "SocieteDistribution.findAll", query = "SELECT S FROM SocieteDistribution S")
+@NamedQuery(name = "SocieteDistribution.findSocieteDistributionLike", query = "SELECT s FROM SocieteDistribution s WHERE s.id LIKE :id OR s.nom LIKE :nom OR s.telephone LIKE :telephone OR s.ville LIKE :ville OR s.adresse LIKE :adresse")
 @Entity
 public class SocieteDistribution {
     @Id
@@ -12,7 +13,9 @@ public class SocieteDistribution {
     private String telephone;
     private String ville;
     private String adresse;
-
+    @ManyToOne
+    private Fournisseur fournisseur;
+    
     public SocieteDistribution() {
     }
 
@@ -56,14 +59,18 @@ public class SocieteDistribution {
         this.adresse = adresse;
     }
 
+    public Fournisseur getFournisseur() {
+        return fournisseur;
+    }
+
+    public void setFournisseur(Fournisseur fournisseur) {
+        this.fournisseur = fournisseur;
+    }
+
     @Override
     public String toString() {
-        return "SocieteDistribution{" +
-                "id='" + id + '\'' +
-                ", nom='" + nom + '\'' +
-                ", telephone='" + telephone + '\'' +
-                ", ville='" + ville + '\'' +
-                ", adresse='" + adresse + '\'' +
-                '}';
+        return "SocieteDistribution{" + "id=" + id + ", nom=" + nom + ", telephone=" + telephone + ", ville=" + ville + ", adresse=" + adresse + ", fournisseur=" + fournisseur + '}';
     }
+
+       
 }

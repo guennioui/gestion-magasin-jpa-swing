@@ -19,8 +19,7 @@ public class Categorie {
     private String numCategorie;
     @Column(unique = true)
     private String nomCategorie;
-    @OneToMany
-    @JoinColumn(name = "categorie_id")
+    @OneToMany(mappedBy = "categorie")    
     private List<Article> articles;
 
     public Categorie() {

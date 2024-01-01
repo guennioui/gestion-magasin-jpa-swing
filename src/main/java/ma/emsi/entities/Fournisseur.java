@@ -25,8 +25,7 @@ public class Fournisseur {
     @OneToMany
     @JoinColumn(name = "id_fournisseur")
     private List<Livraison> livraisons;
-    @OneToMany
-    @JoinColumn(name = "id_fournisseur")
+    @OneToMany(mappedBy = "fournisseur")    
     private List<SocieteDistribution> societeDistributions;
 
     public Fournisseur() {

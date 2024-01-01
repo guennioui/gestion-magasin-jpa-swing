@@ -2,6 +2,7 @@ package ma.emsi.IDaoImpl;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import java.time.LocalDate;
 import ma.emsi.IDao.IDaoArticle;
 import ma.emsi.entities.Article;
 import ma.emsi.entities.Depot;
@@ -53,25 +54,23 @@ public class IDaoArticleImpl implements IDaoArticle {
     @Override
     public List<Article> findAllArticles(EntityManager entityManager) {
         TypedQuery<Article> query = entityManager.createNamedQuery("Artcile.findAll", Article.class);
-        return new ArrayList<Article>(query.getResultList());
+        return query.getResultList();
     }
 
     @Override
-    public void addArticleToDepot(Article article, Depot depot, int quantity, LocalDateTime dateDepot, EntityManager entityManager) throws ArticleNotExistException, DepotNotFoundException {
+    public void addArticleToDepot(Article article, Depot depot, int quantity, LocalDate dateDepot, EntityManager entityManager) 
+            throws  DepotNotFoundException{
         boolean articleStock = false;
         boolean depotStock = false;
-        Optional<Article> optionalArticle = Optional.ofNullable(entityManager.find(Article.class, article.getCode()));
         Optional<Depot> optionalDepot = Optional.ofNullable(entityManager.find(Depot.class, depot.getNumeroDepot()));
-        if(optionalArticle.isEmpty()){
-            throw new ArticleNotExistException("L'article que demande "+article.getCode()+" est introuvable");
-        }else if (optionalDepot.isEmpty()){
+        if (optionalDepot.isEmpty()){
             throw new DepotNotFoundException("Le depot que vous recherchez "+depot.getNumeroDepot()+" est introuvable");
         }else{
             PkOfStock pkOfStock = new PkOfStock(article.getCode(), depot.getNumeroDepot());
             Stock stock = new Stock();
             stock.setStockId(pkOfStock);
             stock.setDateDepot(dateDepot);
-            stock.setQuantite(quantity);
+            stock.setQuantite(quantity);            
             entityManager.persist(stock);
             if(article.getStocks() == null){
                 articleStock = true;

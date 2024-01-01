@@ -22,7 +22,6 @@ public class IDaoSocieteDistributionImpl implements IDaoSocieteDistribution {
 
     @Override
     public void removeSocieteDistribution(SocieteDistribution societeDistribution, EntityManager entityManager) throws SocieteDistributionNotExistException {
-
         Optional<SocieteDistribution> optionalSocieteDistribution = Optional.ofNullable(
                 entityManager.find(SocieteDistribution.class, societeDistribution.getId()));
         if(optionalSocieteDistribution.isEmpty()){
@@ -32,11 +31,6 @@ public class IDaoSocieteDistributionImpl implements IDaoSocieteDistribution {
             entityManager.remove(societeDistribution);
             entityManager.getTransaction().commit();
         }
-    }
-
-    @Override
-    public void modifySocieteDistribution(SocieteDistribution societeDistribution, SocieteDistribution newSocieteDistribution, EntityManager entityManager) {
-
     }
 
     @Override
@@ -68,10 +62,12 @@ public class IDaoSocieteDistributionImpl implements IDaoSocieteDistribution {
         if (fournisseur.getSocieteDistributions() == null){
             entityManager.getTransaction().begin();
             fournisseur.setSocieteDistributions(new ArrayList<>(List.of(societeDistribution)));
+            societeDistribution.setFournisseur(fournisseur);
             entityManager.getTransaction().commit();
         }else{
             entityManager.getTransaction().begin();
             fournisseur.getSocieteDistributions().add(societeDistribution);
+            societeDistribution.setFournisseur(fournisseur);
             entityManager.getTransaction().commit();
         }
     }
@@ -91,6 +87,19 @@ public class IDaoSocieteDistributionImpl implements IDaoSocieteDistribution {
             fournisseur.getSocieteDistributions().addAll(societeDistributions);
             entityManager.getTransaction().commit();
         }
+    }
+
+    @Override
+    public void modifySocieteDistribution(SocieteDistribution societeDistribution, EntityManager entityManager) throws SocieteDistributionNotExistException {
+        Optional<SocieteDistribution> optionalSocieteDistribution = Optional.ofNullable(
+                entityManager.find(SocieteDistribution.class, societeDistribution.getId()));
+        if(optionalSocieteDistribution.isEmpty()){
+           throw new SocieteDistributionNotExistException("La Societer que vous voulez modifier "+societeDistribution.getId()+" est introuvable");
+        }else{
+            entityManager.getTransaction().begin();
+            entityManager.merge(societeDistribution);
+            entityManager.getTransaction().commit();
+        } 
     }
 
 }

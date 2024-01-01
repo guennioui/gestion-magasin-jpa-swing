@@ -14,7 +14,7 @@ import java.util.List;
 public interface IDaoSocieteDistribution {
     void addNewSocieteDistribution(SocieteDistribution societeDistribution, EntityManager entityManager);
     void removeSocieteDistribution(SocieteDistribution societeDistribution, EntityManager entityManager) throws SocieteDistributionNotExistException;
-    void modifySocieteDistribution(SocieteDistribution societeDistribution, SocieteDistribution newSocieteDistribution, EntityManager entityManager);
+    void modifySocieteDistribution(SocieteDistribution societeDistribution, EntityManager entityManager)throws SocieteDistributionNotExistException;
     SocieteDistribution findSocieteById(String id, EntityManager entityManager) throws SocieteDistributionNotExistException;
     List<SocieteDistribution> FindAllSocieteDistribution(EntityManager entityManager);
     void addFournisseurToSocieteDistribution(SocieteDistribution societeDistribution, Fournisseur fournisseur, EntityManager entityManager) throws SocieteDistributionNotExistException, FournisseurNotExistException;
