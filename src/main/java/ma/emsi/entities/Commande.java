@@ -3,6 +3,7 @@ package ma.emsi.entities;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class Commande {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String numero;
-    private LocalDateTime dateCommande;
+    private LocalDate dateCommande;
     private BigDecimal montant;
     @OneToOne(mappedBy = "commande")
     private Facture facture;
@@ -34,11 +35,11 @@ public class Commande {
         this.numero = numero;
     }
 
-    public LocalDateTime getDateCommende() {
+    public LocalDate getDateCommende() {
         return dateCommande;
     }
 
-    public void setDateCommende(LocalDateTime dateCommande) {
+    public void setDateCommende(LocalDate dateCommande) {
         this.dateCommande = dateCommande;
     }
 

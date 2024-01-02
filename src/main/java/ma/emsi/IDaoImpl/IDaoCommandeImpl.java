@@ -144,9 +144,11 @@ public class IDaoCommandeImpl implements IDaoCommande {
                 ligneCommandes.add(ligneCommande);
                 entityManager.persist(ligneCommande);
                 if(articles.get(i).getLigneCommandes() == null ){
+                    entityManager.getTransaction().begin();
                     articles.get(i).setLigneCommandes(new ArrayList<>(List.of(ligneCommande)));
-                }else{
                     entityManager.getTransaction().commit();
+                }else{
+                    entityManager.getTransaction().begin();
                     articles.get(i).getLigneCommandes().add(ligneCommande);
                     entityManager.getTransaction().commit();
                 }

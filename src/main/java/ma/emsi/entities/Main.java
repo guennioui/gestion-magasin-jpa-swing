@@ -77,15 +77,15 @@ public class Main {
 
             /* Test crud Commande => valide */
             Commande commande = new Commande();
-            commande.setDateCommende(LocalDateTime.now());
+            commande.setDateCommende(LocalDate.now());
             commande.setMontant(new BigDecimal("120.54"));
 
             Commande commande1 = new Commande();
-            commande1.setDateCommende(LocalDateTime.now());
+            commande1.setDateCommende(LocalDate.now());
             commande1.setMontant(new BigDecimal("120.54"));
 
             Commande commande2 = new Commande();
-            commande2.setDateCommende(LocalDateTime.now());
+            commande2.setDateCommende(LocalDate.now());
             commande2.setMontant(new BigDecimal("120.54"));
 
             iDaoCommande.addNewCommande(entityManager, commande);

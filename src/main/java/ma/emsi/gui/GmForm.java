@@ -6,6 +6,7 @@ package ma.emsi.gui;
 
 import jakarta.persistence.*;
 import java.awt.CardLayout;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,7 @@ import ma.emsi.IDaoImpl.IDaoSocieteDistributionImpl;
 import ma.emsi.dataExport.FournisseurExport;
 import ma.emsi.entities.Article;
 import ma.emsi.entities.SocieteDistribution;
+import ma.emsi.exceptions.ArticleNotExistException;
 import ma.emsi.exceptions.CategorieNotExistException;
 import ma.emsi.exceptions.ClientNotExistException;
 import ma.emsi.exceptions.DepotNotFoundException;
@@ -50,17 +52,18 @@ import org.hibernate.jpa.HibernatePersistenceProvider;
  * @author sakin
  */
 public class GmForm extends javax.swing.JFrame {
+
     String puName = "myPersistenceUnit";
-    Map<String, String> props = new HashMap<>();           
+    Map<String, String> props = new HashMap<>();
     EntityManagerFactory entityManagerFactory = new HibernatePersistenceProvider()
-                .createContainerEntityManagerFactory(new OurCustomPersistenceUnit(puName), props);
+            .createContainerEntityManagerFactory(new OurCustomPersistenceUnit(puName), props);
     EntityManager entityManager = entityManagerFactory.createEntityManager();
-    
+
     List<Client> filtredClients;
     List<Fournisseur> filtredFournisseurs;
     List<Categorie> filtredCategories;
-    CardLayout cardLayout;    
-    ClientService clientService = new ClientService();    
+    CardLayout cardLayout;
+    ClientService clientService = new ClientService();
     IDaoClientImpl iDaoClientImpl = new IDaoClientImpl();
     FournisseurService fournisseurService = new FournisseurService();
     IDaoFournisseurImpl iDaFournisseurImpl = new IDaoFournisseurImpl();
@@ -76,22 +79,23 @@ public class GmForm extends javax.swing.JFrame {
     String idFournisseur;
     String idCategorie;
     String idDepot;
-    String idSociete;    
+    String idSociete;
+    DefaultTableModel tableModel;
+    Map<String, Integer> commandeDetails = new HashMap<>();
+
     /**
      * Creates new form GmForm
      */
-    public GmForm() {        
-        initComponents();        
+    public GmForm() {
+        initComponents();
         PclHOME.setVisible(true);
         PclCLIENT.setVisible(false);
         PclCOMMANDE.setVisible(false);
         PclFOURNISSEUR.setVisible(false);
         PclLIVRAISON.setVisible(false);
-        PclARTICLE.setVisible(false);        
-    
+        PclARTICLE.setVisible(false);
+
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -115,23 +119,6 @@ public class GmForm extends javax.swing.JFrame {
         jButton27 = new javax.swing.JButton();
         jButton32 = new javax.swing.JButton();
         PanelCardLayout = new javax.swing.JPanel();
-        PclCOMMANDE = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel10 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
-        jButton8 = new javax.swing.JButton();
-        jSeparator2 = new javax.swing.JSeparator();
-        jLabel13 = new javax.swing.JLabel();
-        jScrollPane8 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        jLabel43 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
-        jLabel44 = new javax.swing.JLabel();
-        jButton37 = new javax.swing.JButton();
-        jTextField8 = new javax.swing.JTextField();
         PclFOURNISSEUR = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
@@ -252,6 +239,25 @@ public class GmForm extends javax.swing.JFrame {
         jButton36 = new javax.swing.JButton();
         jScrollPane7 = new javax.swing.JScrollPane();
         jTable7 = new javax.swing.JTable();
+        PclCOMMANDE = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel10 = new javax.swing.JLabel();
+        jTextField7 = new javax.swing.JTextField();
+        jButton8 = new javax.swing.JButton();
+        jSeparator2 = new javax.swing.JSeparator();
+        jLabel13 = new javax.swing.JLabel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
+        jComboBox4 = new javax.swing.JComboBox<>();
+        jLabel43 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jSpinner1 = new javax.swing.JSpinner();
+        jLabel44 = new javax.swing.JLabel();
+        jButton37 = new javax.swing.JButton();
+        jTextField8 = new javax.swing.JTextField();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        jTable8 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -402,156 +408,6 @@ public class GmForm extends javax.swing.JFrame {
         jSplitPane1.setLeftComponent(jPanel1);
 
         PanelCardLayout.setLayout(new java.awt.CardLayout());
-
-        PclCOMMANDE.setBackground(new java.awt.Color(255, 255, 255));
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Article", "Quantite"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(jTable1);
-
-        jLabel10.setText("Date de la commande :");
-
-        jTextField7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField7ActionPerformed(evt);
-            }
-        });
-
-        jButton8.setText("Ajouter commande");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-
-        jSeparator2.setBackground(new java.awt.Color(0, 0, 0));
-        jSeparator2.setForeground(new java.awt.Color(0, 0, 0));
-
-        jLabel13.setFont(new java.awt.Font("Serif", 0, 24)); // NOI18N
-        jLabel13.setText("Espace commandes ");
-
-        jScrollPane8.setViewportView(jList1);
-
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel43.setText("Client :");
-
-        jLabel11.setText("Article :");
-
-        jLabel44.setText("Quantite");
-
-        jButton37.setText("Ajouter Article");
-        jButton37.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton37ActionPerformed(evt);
-            }
-        });
-
-        jTextField8.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField8KeyTyped(evt);
-            }
-        });
-
-        javax.swing.GroupLayout PclCOMMANDELayout = new javax.swing.GroupLayout(PclCOMMANDE);
-        PclCOMMANDE.setLayout(PclCOMMANDELayout);
-        PclCOMMANDELayout.setHorizontalGroup(
-            PclCOMMANDELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PclCOMMANDELayout.createSequentialGroup()
-                .addGroup(PclCOMMANDELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PclCOMMANDELayout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 644, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(PclCOMMANDELayout.createSequentialGroup()
-                        .addGap(322, 322, 322)
-                        .addComponent(jButton37, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(393, Short.MAX_VALUE))
-            .addGroup(PclCOMMANDELayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(PclCOMMANDELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PclCOMMANDELayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(309, 309, 309))
-                    .addGroup(PclCOMMANDELayout.createSequentialGroup()
-                        .addGroup(PclCOMMANDELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(PclCOMMANDELayout.createSequentialGroup()
-                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(104, 104, 104)
-                                .addComponent(jLabel43)
-                                .addGroup(PclCOMMANDELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(PclCOMMANDELayout.createSequentialGroup()
-                                        .addGap(29, 29, 29)
-                                        .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(PclCOMMANDELayout.createSequentialGroup()
-                                        .addGap(70, 70, 70)
-                                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(PclCOMMANDELayout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addGap(18, 18, 18)
-                                .addGroup(PclCOMMANDELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField8, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                                .addGap(29, 29, 29)
-                                .addComponent(jLabel44)
-                                .addGap(33, 33, 33)
-                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(PclCOMMANDELayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
-        );
-        PclCOMMANDELayout.setVerticalGroup(
-            PclCOMMANDELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PclCOMMANDELayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16)
-                .addGroup(PclCOMMANDELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel43)
-                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
-                .addGroup(PclCOMMANDELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PclCOMMANDELayout.createSequentialGroup()
-                        .addGroup(PclCOMMANDELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(PclCOMMANDELayout.createSequentialGroup()
-                                .addGroup(PclCOMMANDELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel44))
-                                .addGap(54, 54, 54)
-                                .addGroup(PclCOMMANDELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jButton8)
-                                    .addComponent(jButton37)))
-                            .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel11))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(97, Short.MAX_VALUE))
-        );
-
-        PanelCardLayout.add(PclCOMMANDE, "card3");
 
         PclFOURNISSEUR.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1549,6 +1405,173 @@ public class GmForm extends javax.swing.JFrame {
 
         PanelCardLayout.add(jPanel4, "card9");
 
+        PclCOMMANDE.setBackground(new java.awt.Color(255, 255, 255));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Article", "Quantite"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                jTable1ComponentAdded(evt);
+            }
+        });
+        jTable1.addVetoableChangeListener(new java.beans.VetoableChangeListener() {
+            public void vetoableChange(java.beans.PropertyChangeEvent evt)throws java.beans.PropertyVetoException {
+                jTable1VetoableChange(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        jLabel10.setText("Date de la commande :");
+
+        jTextField7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField7ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setText("Ajouter commande");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jSeparator2.setBackground(new java.awt.Color(0, 0, 0));
+        jSeparator2.setForeground(new java.awt.Color(0, 0, 0));
+
+        jLabel13.setFont(new java.awt.Font("Serif", 0, 24)); // NOI18N
+        jLabel13.setText("Espace commandes ");
+
+        jScrollPane8.setViewportView(jList1);
+
+        jLabel43.setText("Client :");
+
+        jLabel11.setText("Article :");
+
+        jLabel44.setText("Quantite");
+
+        jButton37.setText("Ajouter Article");
+        jButton37.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton37ActionPerformed(evt);
+            }
+        });
+
+        jTextField8.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField8KeyTyped(evt);
+            }
+        });
+
+        jTable8.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane9.setViewportView(jTable8);
+
+        javax.swing.GroupLayout PclCOMMANDELayout = new javax.swing.GroupLayout(PclCOMMANDE);
+        PclCOMMANDE.setLayout(PclCOMMANDELayout);
+        PclCOMMANDELayout.setHorizontalGroup(
+            PclCOMMANDELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PclCOMMANDELayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(309, 309, 309))
+            .addGroup(PclCOMMANDELayout.createSequentialGroup()
+                .addGroup(PclCOMMANDELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PclCOMMANDELayout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PclCOMMANDELayout.createSequentialGroup()
+                        .addGap(90, 90, 90)
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 644, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PclCOMMANDELayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(PclCOMMANDELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PclCOMMANDELayout.createSequentialGroup()
+                                .addGap(316, 316, 316)
+                                .addComponent(jButton37, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PclCOMMANDELayout.createSequentialGroup()
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(104, 104, 104)
+                                .addComponent(jLabel43)
+                                .addGap(29, 29, 29)
+                                .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PclCOMMANDELayout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addGap(18, 18, 18)
+                                .addGroup(PclCOMMANDELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTextField8)
+                                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(29, 29, 29)
+                                .addComponent(jLabel44)
+                                .addGap(33, 33, 33)
+                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 783, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(344, Short.MAX_VALUE))
+        );
+        PclCOMMANDELayout.setVerticalGroup(
+            PclCOMMANDELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PclCOMMANDELayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PclCOMMANDELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel43)
+                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
+                .addGroup(PclCOMMANDELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PclCOMMANDELayout.createSequentialGroup()
+                        .addGroup(PclCOMMANDELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PclCOMMANDELayout.createSequentialGroup()
+                                .addGroup(PclCOMMANDELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel44))
+                                .addGap(54, 54, 54)
+                                .addComponent(jButton37))
+                            .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel11))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(PclCOMMANDELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton8))
+                .addGap(27, 27, 27)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(30, Short.MAX_VALUE))
+        );
+
+        PanelCardLayout.add(PclCOMMANDE, "card3");
+
         jSplitPane1.setRightComponent(PanelCardLayout);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1606,7 +1629,7 @@ public class GmForm extends javax.swing.JFrame {
         PclCOMMANDE.setVisible(false);
         PclFOURNISSEUR.setVisible(false);
         PclLIVRAISON.setVisible(false);
-        PclARTICLE.setVisible(false);                    
+        PclARTICLE.setVisible(false);
         clientService.allClient(jTable2, entityManager);
         clientService.refresh(jTable2, entityManager);
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -1619,7 +1642,9 @@ public class GmForm extends javax.swing.JFrame {
         PclLIVRAISON.setVisible(false);
         PclARTICLE.setVisible(false);
         PclCLIENT.setVisible(false);
-        commandeService.fillJList(jList1, entityManager);                       
+        commandeService.fillJList(jList1, entityManager);
+        commandeService.fillComboBox(jComboBox4, entityManager);
+        this.tableModel = (DefaultTableModel) jTable1.getModel();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -1627,8 +1652,8 @@ public class GmForm extends javax.swing.JFrame {
         PclHOME.setVisible(false);
         PclLIVRAISON.setVisible(false);
         PclARTICLE.setVisible(false);
-        PclCLIENT.setVisible(false);    
-        PclCOMMANDE.setVisible(false);                
+        PclCLIENT.setVisible(false);
+        PclCOMMANDE.setVisible(false);
         fournisseurService.allFournisseur(jTable3, entityManager);
         fournisseurService.refresh(jTable3, entityManager);
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -1642,25 +1667,25 @@ public class GmForm extends javax.swing.JFrame {
         PclLIVRAISON.setVisible(false);
         PclCLIENT.setVisible(false);
         PclCOMMANDE.setVisible(false);
-        categorieService.fillJComboBox(jComboBox1, entityManager); 
+        categorieService.fillJComboBox(jComboBox1, entityManager);
         articleService.fillDepotComboBox(jComboBox2, entityManager);
-        
+
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-       // cardLayout.show(PanelCardLayout, "PclLIVRAISON");
+        // cardLayout.show(PanelCardLayout, "PclLIVRAISON");
         PclLIVRAISON.setVisible(true);
         PclHOME.setVisible(false);
         PclFOURNISSEUR.setVisible(false);
         PclARTICLE.setVisible(false);
-        PclCLIENT.setVisible(false); 
+        PclCLIENT.setVisible(false);
         PclCOMMANDE.setVisible(false);
         categorieService.allCategories(jTable5, entityManager);
         categorieService.refresh(jTable5, entityManager);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-             
+
         clientService.addClient(
                 jTextField1,
                 jTextField2,
@@ -1668,16 +1693,24 @@ public class GmForm extends javax.swing.JFrame {
                 jTextField4,
                 jTextField5,
                 jTextField6,
-                entityManager); 
+                entityManager);
         clientService.refresh(jTable2, entityManager);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
+        try {
+            commandeService.addCommande(commandeDetails, jTextField7, jComboBox4, entityManager);
+        } catch (ArticleNotExistException ex) {
+            ex.printStackTrace();
+        } catch (ClientNotExistException ex) {
+            ex.printStackTrace();
+        } catch(Exception ex){
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void PclCLIENTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PclCLIENTMouseClicked
-     
+
     }//GEN-LAST:event_PclCLIENTMouseClicked
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -1685,14 +1718,14 @@ public class GmForm extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
-        if(jTable2.getSelectedRow() != -1){
-           this.idClient = (String) jTable2.getValueAt(jTable2.getSelectedRow(), 0);
-           jTextField1.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(), 1));           
-           jTextField2.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(), 2));
-           jTextField3.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(),3));
-           jTextField4.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(), 4));
-           jTextField5.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(), 5));
-           jTextField6.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(),6));
+        if (jTable2.getSelectedRow() != -1) {
+            this.idClient = (String) jTable2.getValueAt(jTable2.getSelectedRow(), 0);
+            jTextField1.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(), 1));
+            jTextField2.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(), 2));
+            jTextField3.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(), 3));
+            jTextField4.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(), 4));
+            jTextField5.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(), 5));
+            jTextField6.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(), 6));
         }
     }//GEN-LAST:event_jTable2MouseClicked
 
@@ -1710,15 +1743,15 @@ public class GmForm extends javax.swing.JFrame {
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         String id;
-        if(jTable2.getSelectedRow() != -1){
+        if (jTable2.getSelectedRow() != -1) {
             id = (String) jTable2.getValueAt(jTable2.getSelectedRow(), 0);
-            if(JOptionPane.showConfirmDialog(null, "vous voulez vraiment supprimer le client: "
-                    +id+", la suppression du client implique la suppression de toutes ces commandes")
-                    ==JOptionPane.YES_OPTION){               
+            if (JOptionPane.showConfirmDialog(null, "vous voulez vraiment supprimer le client: "
+                    + id + ", la suppression du client implique la suppression de toutes ces commandes")
+                    == JOptionPane.YES_OPTION) {
                 try {
                     clientService.removeClient(id, entityManager);
                     clientService.refresh(jTable2, entityManager);
-                    JOptionPane.showMessageDialog(null,"Le client a été supprimer avec succes!");                        
+                    JOptionPane.showMessageDialog(null, "Le client a été supprimer avec succes!");
                 } catch (ClientNotExistException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "erreur", JOptionPane.ERROR_MESSAGE);
                 }
@@ -1727,48 +1760,48 @@ public class GmForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-      try{
-          clientService.modifyClient(
-                jTextField1,
-                jTextField2,
-                jTextField3,
-                jTextField4,
-                jTextField5,
-                jTextField6,
-                idClient,
-                entityManager);
-      }catch(ClientNotExistException ex){
-          ex.printStackTrace();
-      }catch(Exception ex){
-          ex.printStackTrace();
-      }         
-     clientService.refresh(jTable2, entityManager);
+        try {
+            clientService.modifyClient(
+                    jTextField1,
+                    jTextField2,
+                    jTextField3,
+                    jTextField4,
+                    jTextField5,
+                    jTextField6,
+                    idClient,
+                    entityManager);
+        } catch (ClientNotExistException ex) {
+            ex.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        clientService.refresh(jTable2, entityManager);
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jTextField14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField14ActionPerformed
-            
+
     }//GEN-LAST:event_jTextField14ActionPerformed
 
     private void jTextField14PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jTextField14PropertyChange
-       
+
     }//GEN-LAST:event_jTextField14PropertyChange
 
     private void jTextField14InputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jTextField14InputMethodTextChanged
-      
+
     }//GEN-LAST:event_jTextField14InputMethodTextChanged
 
     private void jTextField14KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField14KeyTyped
-        if(!jTextField14.getText().equals("")){
+        if (!jTextField14.getText().equals("")) {
             filtredClients = clientService.fetchClientLike(jTextField14.getText(), entityManager);
-            clientService.fillJTable(jTable2,filtredClients);                
-        }         
+            clientService.fillJTable(jTable2, filtredClients);
+        }
     }//GEN-LAST:event_jTextField14KeyTyped
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        try{
-           ExcelFile.exportClients(filtredClients, "C:\\Users\\abdoe\\Desktop\\java\\gestion-magasin\\src\\main\\java\\ma\\emsi\\exportedData\\filtredClients.xlsx");
-           JOptionPane.showMessageDialog(null,"L'exportation des données est bien passer");
-        }catch(Exception exception){
+        try {
+            ExcelFile.exportClients(filtredClients, "C:\\Users\\abdoe\\Desktop\\java\\gestion-magasin\\src\\main\\java\\ma\\emsi\\exportedData\\filtredClients.xlsx");
+            JOptionPane.showMessageDialog(null, "L'exportation des données est bien passer");
+        } catch (Exception exception) {
             JOptionPane.showMessageDialog(
                     null,
                     "une erreur est survenue lors de l'exportation des données",
@@ -1791,15 +1824,15 @@ public class GmForm extends javax.swing.JFrame {
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
         String id;
-        if(jTable3.getSelectedRow() != -1){
+        if (jTable3.getSelectedRow() != -1) {
             id = (String) jTable3.getValueAt(jTable3.getSelectedRow(), 0);
-            if(JOptionPane.showConfirmDialog(null, "vous voulez vraiment supprimer le fournisseur: "
-                    +id+", la suppression du fournisseur implique la suppression de toutes ces livraison!")
-                    ==JOptionPane.YES_OPTION){               
+            if (JOptionPane.showConfirmDialog(null, "vous voulez vraiment supprimer le fournisseur: "
+                    + id + ", la suppression du fournisseur implique la suppression de toutes ces livraison!")
+                    == JOptionPane.YES_OPTION) {
                 try {
                     fournisseurService.removeFournisseur(id, entityManager);
                     fournisseurService.refresh(jTable3, entityManager);
-                    JOptionPane.showMessageDialog(null,"Le fournisseur a été supprimer avec succes!");                        
+                    JOptionPane.showMessageDialog(null, "Le fournisseur a été supprimer avec succes!");
                 } catch (FournisseurNotExistException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "erreur", JOptionPane.ERROR_MESSAGE);
                 }
@@ -1819,20 +1852,20 @@ public class GmForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-        try{
+        try {
             fournisseurService.modifyFournisseur(
-                jTextField9,
-                jTextField11,
-                jTextField10,
-                jTextField15,
-                jTextField16,
-                idFournisseur,
-                entityManager
-        ); 
-        }catch(FournisseurNotExistException ex){
+                    jTextField9,
+                    jTextField11,
+                    jTextField10,
+                    jTextField15,
+                    jTextField16,
+                    idFournisseur,
+                    entityManager
+            );
+        } catch (FournisseurNotExistException ex) {
             ex.printStackTrace();
         }
-       
+
         fournisseurService.refresh(jTable3, entityManager);
     }//GEN-LAST:event_jButton15ActionPerformed
 
@@ -1841,17 +1874,17 @@ public class GmForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField18ActionPerformed
 
     private void jTextField18KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField18KeyTyped
-        if(!jTextField18.getText().equals("")){
+        if (!jTextField18.getText().equals("")) {
             filtredFournisseurs = fournisseurService.fetchFournisseurLike(jTextField18.getText(), entityManager);
-            fournisseurService.fillJTable(jTable3,filtredFournisseurs);                
+            fournisseurService.fillJTable(jTable3, filtredFournisseurs);
         }
     }//GEN-LAST:event_jTextField18KeyTyped
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
-         try{
-           FournisseurExport.exportFournisseurs(filtredFournisseurs, "C:\\Users\\abdoe\\Desktop\\java\\gestion-magasin\\src\\main\\java\\ma\\emsi\\exportedData\\filtredFournisseurs.xlsx");
-           JOptionPane.showMessageDialog(null,"L'exportation des données est bien passer");
-        }catch(Exception exception){
+        try {
+            FournisseurExport.exportFournisseurs(filtredFournisseurs, "C:\\Users\\abdoe\\Desktop\\java\\gestion-magasin\\src\\main\\java\\ma\\emsi\\exportedData\\filtredFournisseurs.xlsx");
+            JOptionPane.showMessageDialog(null, "L'exportation des données est bien passer");
+        } catch (Exception exception) {
             JOptionPane.showMessageDialog(
                     null,
                     "une erreur est survenue lors de l'exportation des données",
@@ -1863,7 +1896,7 @@ public class GmForm extends javax.swing.JFrame {
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
         categorieService.addCategorie(
                 jTextField17,
-                entityManager);                
+                entityManager);
         categorieService.refresh(jTable5, entityManager);
     }//GEN-LAST:event_jButton19ActionPerformed
 
@@ -1876,15 +1909,15 @@ public class GmForm extends javax.swing.JFrame {
 
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
         String id;
-        if(jTable5.getSelectedRow() != -1){
+        if (jTable5.getSelectedRow() != -1) {
             id = (String) jTable5.getValueAt(jTable5.getSelectedRow(), 0);
-            if(JOptionPane.showConfirmDialog(null, "vous voulez vraiment supprimer la categorie: "
-                    +id+", la suppression du categorie implique la suppression de toutes ces articles")
-                    ==JOptionPane.YES_OPTION){               
+            if (JOptionPane.showConfirmDialog(null, "vous voulez vraiment supprimer la categorie: "
+                    + id + ", la suppression du categorie implique la suppression de toutes ces articles")
+                    == JOptionPane.YES_OPTION) {
                 try {
                     categorieService.removeCategorie(id, entityManager);
                     categorieService.refresh(jTable5, entityManager);
-                    JOptionPane.showMessageDialog(null,"Le categorie a été supprimer avec succes!");                        
+                    JOptionPane.showMessageDialog(null, "Le categorie a été supprimer avec succes!");
                 } catch (CategorieNotExistException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "erreur", JOptionPane.ERROR_MESSAGE);
                 }
@@ -1896,36 +1929,36 @@ public class GmForm extends javax.swing.JFrame {
         try {
             categorieService.modifyCategorie(jTextField17, idCategorie, entityManager);
         } catch (CategorieNotExistException ex) {
-           ex.printStackTrace();           
-        } catch(Exception ex){
+            ex.printStackTrace();
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         categorieService.refresh(jTable5, entityManager);
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jTextField19KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField19KeyTyped
-        if(!jTextField19.getText().equals("")){
+        if (!jTextField19.getText().equals("")) {
             filtredCategories = categorieService.fetchCategorieLike(jTextField19.getText(), entityManager);
-            categorieService.fillJTable(jTable5,filtredCategories);                
+            categorieService.fillJTable(jTable5, filtredCategories);
         }
     }//GEN-LAST:event_jTextField19KeyTyped
 
     private void jTable3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable3MouseClicked
-        if(jTable3.getSelectedRow() != -1){
-          idFournisseur = (String) jTable3.getValueAt(jTable3.getSelectedRow(), 0);
-          jTextField9.setText((String) jTable3.getValueAt(jTable3.getSelectedRow(), 1));          
-          jTextField11.setText((String) jTable3.getValueAt(jTable3.getSelectedRow(), 2)); 
-          jTextField10.setText((String) jTable3.getValueAt(jTable3.getSelectedRow(), 3));
-          jTextField15.setText((String) jTable3.getValueAt(jTable3.getSelectedRow(),4));
-          jTextField16.setText((String) jTable3.getValueAt(jTable3.getSelectedRow(), 5));                    
-       }
+        if (jTable3.getSelectedRow() != -1) {
+            idFournisseur = (String) jTable3.getValueAt(jTable3.getSelectedRow(), 0);
+            jTextField9.setText((String) jTable3.getValueAt(jTable3.getSelectedRow(), 1));
+            jTextField11.setText((String) jTable3.getValueAt(jTable3.getSelectedRow(), 2));
+            jTextField10.setText((String) jTable3.getValueAt(jTable3.getSelectedRow(), 3));
+            jTextField15.setText((String) jTable3.getValueAt(jTable3.getSelectedRow(), 4));
+            jTextField16.setText((String) jTable3.getValueAt(jTable3.getSelectedRow(), 5));
+        }
     }//GEN-LAST:event_jTable3MouseClicked
 
     private void jTable5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable5MouseClicked
-        if(jTable5.getSelectedRow() != -1){
-          idCategorie = (String) jTable5.getValueAt(jTable5.getSelectedRow(), 0);
-          jTextField17.setText((String) jTable5.getValueAt(jTable5.getSelectedRow(), 1));                  
-       }
+        if (jTable5.getSelectedRow() != -1) {
+            idCategorie = (String) jTable5.getValueAt(jTable5.getSelectedRow(), 0);
+            jTextField17.setText((String) jTable5.getValueAt(jTable5.getSelectedRow(), 1));
+        }
     }//GEN-LAST:event_jTable5MouseClicked
 
     private void jButton26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26ActionPerformed
@@ -1949,11 +1982,11 @@ public class GmForm extends javax.swing.JFrame {
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         try {
             articleService.addArticle(jTextField12, jTextField13, jTextField20, jComboBox1, jComboBox2, jTextField21, entityManager);
-        } catch (CategorieNotExistException ex) {            
+        } catch (CategorieNotExistException ex) {
             ex.printStackTrace();
-        } catch (DepotNotFoundException ex){
+        } catch (DepotNotFoundException ex) {
             ex.printStackTrace();
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_jButton10ActionPerformed
@@ -1972,24 +2005,23 @@ public class GmForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton28ActionPerformed
 
     private void jButton29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton29ActionPerformed
-      try{    
-        depotService.modifyDepot(jTextField22, jTextField23, jTextField24, jTextField25, idDepot, entityManager);                                             
-      }catch(DepotNotFoundException ex){
-          ex.printStackTrace();
-      }
-      catch(Exception ex){
-          ex.printStackTrace();
-      }         
-     depotService.refresh(jTable6, entityManager);
+        try {
+            depotService.modifyDepot(jTextField22, jTextField23, jTextField24, jTextField25, idDepot, entityManager);
+        } catch (DepotNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        depotService.refresh(jTable6, entityManager);
     }//GEN-LAST:event_jButton29ActionPerformed
 
     private void jTable6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable6MouseClicked
-        if(jTable6.getSelectedRow() != -1){
-           this.idDepot = (String) jTable6.getValueAt(jTable6.getSelectedRow(), 0);
-           jTextField22.setText((String) jTable6.getValueAt(jTable6.getSelectedRow(), 1));           
-           jTextField23.setText((String) jTable6.getValueAt(jTable6.getSelectedRow(), 2));
-           jTextField24.setText((String) jTable6.getValueAt(jTable6.getSelectedRow(),3)); 
-           jTextField25.setText((String) jTable6.getValueAt(jTable6.getSelectedRow(),4));
+        if (jTable6.getSelectedRow() != -1) {
+            this.idDepot = (String) jTable6.getValueAt(jTable6.getSelectedRow(), 0);
+            jTextField22.setText((String) jTable6.getValueAt(jTable6.getSelectedRow(), 1));
+            jTextField23.setText((String) jTable6.getValueAt(jTable6.getSelectedRow(), 2));
+            jTextField24.setText((String) jTable6.getValueAt(jTable6.getSelectedRow(), 3));
+            jTextField25.setText((String) jTable6.getValueAt(jTable6.getSelectedRow(), 4));
         }
     }//GEN-LAST:event_jTable6MouseClicked
 
@@ -2005,7 +2037,7 @@ public class GmForm extends javax.swing.JFrame {
     private void jButton31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton31ActionPerformed
         jTextField22.setText("");
         jTextField23.setText("");
-        jTextField24.setText("");    
+        jTextField24.setText("");
         jTextField25.setText("");
         jTextField26.setText("");
         depotService.clearJTable(jTable6);
@@ -2017,7 +2049,7 @@ public class GmForm extends javax.swing.JFrame {
         PclHOME.setVisible(false);
         PclFOURNISSEUR.setVisible(false);
         PclARTICLE.setVisible(false);
-        PclCLIENT.setVisible(false); 
+        PclCLIENT.setVisible(false);
         PclCOMMANDE.setVisible(false);
         jPanel3.setVisible(true);
         depotService.allDepot(jTable6, entityManager);
@@ -2038,10 +2070,10 @@ public class GmForm extends javax.swing.JFrame {
         PclHOME.setVisible(false);
         PclFOURNISSEUR.setVisible(false);
         PclARTICLE.setVisible(false);
-        PclCLIENT.setVisible(false); 
+        PclCLIENT.setVisible(false);
         PclCOMMANDE.setVisible(false);
         jPanel3.setVisible(false);
-        jPanel4.setVisible(true);        
+        jPanel4.setVisible(true);
         societeDistributionService.allSocieteDistribution(jTable7, entityManager);
         societeDistributionService.refresh(jTable7, entityManager);
         societeDistributionService.fillJComboBox(jComboBox3, entityManager);
@@ -2058,17 +2090,17 @@ public class GmForm extends javax.swing.JFrame {
                     jTextField28,
                     jTextField29,
                     jTextField30,
-                    jComboBox3, 
+                    jComboBox3,
                     entityManager);
         } catch (FournisseurNotExistException ex) {
             ex.printStackTrace();
         } catch (SocieteDistributionNotExistException ex) {
             ex.printStackTrace();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         societeDistributionService.refresh(jTable7, entityManager);
-        
+
     }//GEN-LAST:event_jButton33ActionPerformed
 
     private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
@@ -2078,99 +2110,97 @@ public class GmForm extends javax.swing.JFrame {
                     jTextField28,
                     jTextField29,
                     jTextField30,
-                    jComboBox3, 
+                    jComboBox3,
                     idSociete,
                     entityManager);
         } catch (FournisseurNotExistException ex) {
             ex.printStackTrace();
         } catch (SocieteDistributionNotExistException ex) {
             ex.printStackTrace();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         societeDistributionService.refresh(jTable7, entityManager);
     }//GEN-LAST:event_jButton34ActionPerformed
 
     private void jTable7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable7MouseClicked
-       if(jTable7.getSelectedRow() != -1){
-           this.idSociete = (String) jTable7.getValueAt(jTable7.getSelectedRow(), 0);
-           jTextField27.setText((String) jTable7.getValueAt(jTable7.getSelectedRow(), 1));           
-           jTextField28.setText((String) jTable7.getValueAt(jTable7.getSelectedRow(), 4));
-           jTextField29.setText((String) jTable7.getValueAt(jTable7.getSelectedRow(),2));
-           jTextField30.setText((String) jTable7.getValueAt(jTable7.getSelectedRow(), 3));
-           jComboBox1.setSelectedItem((String) jTable7.getValueAt(jTable7.getSelectedRow(), 5));           
+        if (jTable7.getSelectedRow() != -1) {
+            this.idSociete = (String) jTable7.getValueAt(jTable7.getSelectedRow(), 0);
+            jTextField27.setText((String) jTable7.getValueAt(jTable7.getSelectedRow(), 1));
+            jTextField28.setText((String) jTable7.getValueAt(jTable7.getSelectedRow(), 4));
+            jTextField29.setText((String) jTable7.getValueAt(jTable7.getSelectedRow(), 2));
+            jTextField30.setText((String) jTable7.getValueAt(jTable7.getSelectedRow(), 3));
+            jComboBox1.setSelectedItem((String) jTable7.getValueAt(jTable7.getSelectedRow(), 5));
         }
     }//GEN-LAST:event_jTable7MouseClicked
 
     private void jButton35ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton35ActionPerformed
         String id;
-        if(jTable7.getSelectedRow() != -1){
+        if (jTable7.getSelectedRow() != -1) {
             id = (String) jTable7.getValueAt(jTable7.getSelectedRow(), 0);
-            if(JOptionPane.showConfirmDialog(null, "vous voulez vraiment supprimer la Societe: "
-                    +id+", la suppression du societe implique la suppression de toutes ces livraison!")
-                    ==JOptionPane.YES_OPTION){               
+            if (JOptionPane.showConfirmDialog(null, "vous voulez vraiment supprimer la Societe: "
+                    + id + ", la suppression du societe implique la suppression de toutes ces livraison!")
+                    == JOptionPane.YES_OPTION) {
                 try {
                     societeDistributionService.removeSocieteDistribution(id, entityManager);
                     societeDistributionService.refresh(jTable7, entityManager);
-                    JOptionPane.showMessageDialog(null,"La societe a été supprimer avec succes!");                        
+                    JOptionPane.showMessageDialog(null, "La societe a été supprimer avec succes!");
                 } catch (SocieteDistributionNotExistException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "erreur", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
-       jTextField27.setText("");
-       jTextField28.setText("");
-       jTextField29.setText("");
-       jTextField30.setText("");
-       jComboBox3.setSelectedIndex(-1);
+        jTextField27.setText("");
+        jTextField28.setText("");
+        jTextField29.setText("");
+        jTextField30.setText("");
+        jComboBox3.setSelectedIndex(-1);
     }//GEN-LAST:event_jButton35ActionPerformed
 
     private void jButton36ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton36ActionPerformed
-       jTextField27.setText("");
-       jTextField28.setText("");
-       jTextField29.setText("");
-       jTextField30.setText("");
-       jComboBox3.setSelectedIndex(-1);
+        jTextField27.setText("");
+        jTextField28.setText("");
+        jTextField29.setText("");
+        jTextField30.setText("");
+        jComboBox3.setSelectedIndex(-1);
     }//GEN-LAST:event_jButton36ActionPerformed
 
     private void jButton37ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton37ActionPerformed
-        boolean test = false;
-        DefaultTableModel model = new DefaultTableModel();
-        if(test == false){
-            model = (DefaultTableModel) jTable1.getModel();
-            test = true;
-        }
-        String str;
-        int qte;         
-        if(jList1.getSelectedIndex()!= -1 && (int)jSpinner1.getValue()>0){            
-            str = jList1.getSelectedValue().toString();
-            qte = (int)jSpinner1.getValue();                       
-        if(model.getRowCount()!= 0){                          
-            for(int row_ = 0; row_ < model.getRowCount(); row_++){
-                if(model.getValueAt(row_, 0).equals(str)){
-                    int quantite = (int) model.getValueAt(row_, 1);
-                    quantite+=qte;
-                    model.setValueAt(quantite, row_, 1);
+        if (jList1.getSelectedIndex() != -1 && (int) jSpinner1.getValue() > 0) {
+            String selectedArticle = jList1.getSelectedValue();
+            int quantity = (int) jSpinner1.getValue();
+            int selectedRow = -1;
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
+                if (tableModel.getValueAt(i, 0).equals(selectedArticle)) {
+                    selectedRow = i;
                     break;
                 }
-                if(!model.getValueAt(row_, 0).equals(str)){
-                    model.addRow(new Object[]{str, qte}); 
-                    break;
-                }                
-            }            
+            }
+            if (selectedRow != -1) {
+                int currentQuantity = (int) tableModel.getValueAt(selectedRow, 1);
+                tableModel.setValueAt(currentQuantity + quantity, selectedRow, 1);
+                this.commandeDetails.put(tableModel.getValueAt(selectedRow, 0).toString(), currentQuantity + quantity);
+            } else {
+                Object[] rowData = {selectedArticle, quantity};
+                this.commandeDetails.put(selectedArticle, quantity);
+                tableModel.addRow(rowData);
+            }
+        } else {
+
         }
-        if(model.getRowCount() == 0){
-            model.addRow(new Object[]{str, qte});
-        }
-            jTable1.setModel(model);
-        }else{
-            JOptionPane.showMessageDialog(null, "verifier vos entrer", "erreur", JOptionPane.ERROR_MESSAGE);
-        }               
     }//GEN-LAST:event_jButton37ActionPerformed
 
     private void jTextField8KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField8KeyTyped
-        
+
     }//GEN-LAST:event_jTextField8KeyTyped
+
+    private void jTable1ComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_jTable1ComponentAdded
+
+    }//GEN-LAST:event_jTable1ComponentAdded
+
+    private void jTable1VetoableChange(java.beans.PropertyChangeEvent evt)throws java.beans.PropertyVetoException {//GEN-FIRST:event_jTable1VetoableChange
+
+    }//GEN-LAST:event_jTable1VetoableChange
 
     /**
      * @param args the command line arguments
@@ -2313,6 +2343,7 @@ public class GmForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -2328,6 +2359,7 @@ public class GmForm extends javax.swing.JFrame {
     private javax.swing.JTable jTable5;
     private javax.swing.JTable jTable6;
     private javax.swing.JTable jTable7;
+    private javax.swing.JTable jTable8;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
