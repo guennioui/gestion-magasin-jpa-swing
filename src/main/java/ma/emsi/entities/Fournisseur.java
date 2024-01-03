@@ -14,13 +14,13 @@ import java.util.List;
 @Entity
 public class Fournisseur {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private String numFournisseur;
     private String nom;
     private String prenom;
     private String adresse;
     private String ville;
     private String telephone;
+    static int nbFournisseur;
     
     @OneToMany
     @JoinColumn(name = "id_fournisseur")
@@ -29,6 +29,7 @@ public class Fournisseur {
     private List<SocieteDistribution> societeDistributions;
 
     public Fournisseur() {
+        ++nbFournisseur;
     }
 
     public String getNumFournisseur() {
@@ -94,7 +95,9 @@ public class Fournisseur {
     public void setPrenom(String prenom) {
         this.prenom = prenom;
     }
-
+    public String generateId(){
+        return "FR-"+this.nom+"-"+this.prenom.substring(0,3)+"-"+nbFournisseur;
+    }
     @Override
     public String toString() {
         return "Fournisseur{" + "numFournisseur=" + numFournisseur + ", nom=" + nom + ", prenom=" + prenom + ", adresse=" + adresse + ", ville=" + ville + ", telephone=" + telephone + ", livraisons=" + livraisons + ", societeDistributions=" + societeDistributions + '}';

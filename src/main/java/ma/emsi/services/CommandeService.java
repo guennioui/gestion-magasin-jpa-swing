@@ -5,6 +5,7 @@
 package ma.emsi.services;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import ma.emsi.entities.Client;
 import ma.emsi.entities.Commande;
 import ma.emsi.exceptions.ArticleNotExistException;
 import ma.emsi.exceptions.ClientNotExistException;
+import ma.emsi.exceptions.CommandeNotExistException;
 
 /**
  *
@@ -61,7 +63,8 @@ public class CommandeService {
             JComboBox jComboBox,
             EntityManager entityManager)
             throws ArticleNotExistException,
-            ClientNotExistException 
+            ClientNotExistException,
+            CommandeNotExistException            
     {
         List<Article> articleObjects = new ArrayList<>();
         int[] qantityOfArticle = new int[articles.size()];
@@ -88,5 +91,6 @@ public class CommandeService {
         System.out.println(qantityOfArticle);
         System.out.println(articles);
         iDaoCommande.addArticlesToCommande(commande, articleObjects, qantityOfArticle, entityManager);
+        iDaoCommande.updateMontantCommande(commande, entityManager);
     }
 }

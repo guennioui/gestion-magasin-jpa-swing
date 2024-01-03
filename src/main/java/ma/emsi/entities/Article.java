@@ -7,7 +7,7 @@ import java.util.List;
 
 @NamedQueries({
     @NamedQuery(
-                name = "Artcile.findArticleLike", query = "SELECT a from Article a WHERE a.code LIKE :code OR a.nom LIKE :nom OR a.categorie LIKE :categorie OR a.prixUnitaire = :prixUnitaire"
+                name = "Artcile.findArticleLike", query = "SELECT a from Article a WHERE a.code LIKE :code OR a.nom LIKE :nom OR a.prixUnitaire = :prixUnitaire"
         ),
     @NamedQuery(
                 name = "Artcile.findAll", query = "SELECT a FROM Article a"
@@ -18,8 +18,8 @@ import java.util.List;
 @Entity
 public class Article {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private String code;
+    @Column(unique = true)
     private String nom;
     private BigDecimal prixUnitaire;
     @OneToMany(cascade = CascadeType.REMOVE)
@@ -33,8 +33,10 @@ public class Article {
     private List<LigneLivraison> ligneLivraisons;
     @ManyToOne
     private Categorie categorie;
+    static int nbArticle;
 
     public Article() {
+        ++nbArticle;
     }
 
     public String getCode() {
@@ -92,7 +94,9 @@ public class Article {
     public void setCategorie(Categorie categorie) {
         this.categorie = categorie;
     }
-
+    public String generateid(){
+        return "ART-"+this.nom+"-"+nbArticle;
+    }
     @Override
     public String toString() {
         return "Article{" + "code=" + code + ", nom=" + nom + ", prixUnitaire=" + prixUnitaire + ", ligneCommandes=" + ligneCommandes + ", stocks=" + stocks + ", ligneLivraisons=" + ligneLivraisons + '}';

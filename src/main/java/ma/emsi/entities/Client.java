@@ -11,7 +11,6 @@ import java.util.List;
 })
 public class Client {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String nom;
     private String prenom;
@@ -22,8 +21,10 @@ public class Client {
     @OneToMany
     @JoinColumn(name = "client_id")
     private List<Commande> commandes;
+    static int nbClient;
 
     public Client() {
+        ++nbClient;
     }
 
     public String getId() {
@@ -90,6 +91,9 @@ public class Client {
         this.commandes = commandes;
     }
 
+    public String generateId(){
+        return "CL-"+this.nom+"-"+this.prenom.substring(0,3)+"-"+nbClient;
+    }
     @Override
     public String toString() {
         return "Client{" +

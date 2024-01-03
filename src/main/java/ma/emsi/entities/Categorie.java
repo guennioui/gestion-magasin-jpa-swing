@@ -15,14 +15,14 @@ import java.util.List;
 @Entity
 public class Categorie {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private String numCategorie;
     @Column(unique = true)
     private String nomCategorie;
     @OneToMany(mappedBy = "categorie")    
     private List<Article> articles;
-
+    static int nbCategorie;
     public Categorie() {
+        ++nbCategorie;
     }
 
     public String getNumCategorie() {
@@ -49,6 +49,9 @@ public class Categorie {
         this.articles = articles;
     }
 
+    public String generateId(){
+        return "CAT-"+this.nomCategorie+"-"+nbCategorie;
+    }
     @Override
     public String toString() {
         return "Categorie{" +

@@ -2,6 +2,7 @@ package ma.emsi.entities;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,14 +14,15 @@ import java.util.List;
 @Entity
 public class Livraison {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private String numeroLivraison;
-    private LocalDateTime dateLivraison;
+    private LocalDate dateLivraison;
     @OneToMany
     @JoinColumn(name = "id_livraison")
     private List<LigneLivraison> ligneLivraisons;
+    static int nbLivraison;
 
     public Livraison() {
+        ++nbLivraison;
     }
 
     public String getNumeroLivraison() {
@@ -39,14 +41,16 @@ public class Livraison {
         this.ligneLivraisons = ligneLivraisons;
     }
 
-    public LocalDateTime getDateLivraison() {
+    public LocalDate getDateLivraison() {
         return dateLivraison;
     }
 
-    public void setDateLivraison(LocalDateTime dateLivraison) {
+    public void setDateLivraison(LocalDate dateLivraison) {
         this.dateLivraison = dateLivraison;
     }
-
+    public String generateId(){
+        return "Liv_"+this.dateLivraison+"_N-"+nbLivraison;
+    }
     @Override
     public String toString() {
         return "Livraison{" +

@@ -7,16 +7,17 @@ import jakarta.persistence.*;
 @Entity
 public class SocieteDistribution {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String nom;
     private String telephone;
     private String ville;
     private String adresse;
+    static int nbSociete;
     @ManyToOne
     private Fournisseur fournisseur;
     
     public SocieteDistribution() {
+        ++nbSociete;
     }
 
     public String getId() {
@@ -66,7 +67,9 @@ public class SocieteDistribution {
     public void setFournisseur(Fournisseur fournisseur) {
         this.fournisseur = fournisseur;
     }
-
+    public String generateId(){
+        return "STE-"+this.nom+"-"+this.nom+"-"+nbSociete;
+    }
     @Override
     public String toString() {
         return "SocieteDistribution{" + "id=" + id + ", nom=" + nom + ", telephone=" + telephone + ", ville=" + ville + ", adresse=" + adresse + ", fournisseur=" + fournisseur + '}';

@@ -15,17 +15,18 @@ import java.util.List;
 @Entity
 public class Depot {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private String numeroDepot;
     private String nomDepot;
     private String ville;
     private String adresse;
-    private String telephone;    
+    private String telephone;
+    static int nbDepot = 0;
     @OneToMany
     @JoinColumn(name = "id_depot")
     private List<Stock> stocks;
 
     public Depot() {
+        ++nbDepot;
     }
 
     public String getNumeroDepot() {
@@ -75,7 +76,9 @@ public class Depot {
     public void setNomDepot(String nomDepot) {
         this.nomDepot = nomDepot;
     }
-
+    public String generateId(){
+        return this.nomDepot+"-"+this.ville+""+nbDepot;
+    }
     @Override
     public String toString() {
         return "Depot{" + "numeroDepot=" + numeroDepot + ", nomDepot=" + nomDepot + ", ville=" + ville + ", adresse=" + adresse + ", telephone=" + telephone + ", stocks=" + stocks + '}';

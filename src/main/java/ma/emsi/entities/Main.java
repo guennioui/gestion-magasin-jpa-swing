@@ -46,6 +46,7 @@ public class Main {
             client.setVille("sale");
             client.setPays("maroc");
             client.setTelephone("0762729054");
+            client.setId(client.generateId());
 
             Client client1 = new Client();
             client1.setNom("guennioui");
@@ -54,6 +55,7 @@ public class Main {
             client1.setVille("sale");
             client1.setPays("maroc");
             client1.setTelephone("0762729055");
+            client1.setId(client1.generateId());
 
             Client client2 = new Client();
             client2.setNom("guennioui");
@@ -62,6 +64,7 @@ public class Main {
             client2.setVille("sale");
             client2.setPays("maroc");
             client2.setTelephone("0762729056");
+            client2.setId(client2.generateId());
 
             iDaoClient.addNewClient(client, entityManager);
             iDaoClient.addNewClient(client1, entityManager);
@@ -103,18 +106,25 @@ public class Main {
             /* Test crud Fournisseur => valide */
             Fournisseur fournisseur = new Fournisseur();
             fournisseur.setNom("GUENNIOUI");
+            fournisseur.setPrenom("ABDELLAH");
             fournisseur.setAdresse("SALE 11100");
             fournisseur.setVille("SALE");
+            fournisseur.setPrenom("ABDELLAH");
+            fournisseur.setNumFournisseur(fournisseur.generateId());
 
             Fournisseur fournisseur1 = new Fournisseur();
             fournisseur1.setNom("GUENNIOUI");
+            fournisseur1.setPrenom("ABDELLAH");
             fournisseur1.setAdresse("SALE 11100");
             fournisseur1.setVille("SALE");
+            fournisseur1.setNumFournisseur(fournisseur1.generateId());
 
             Fournisseur fournisseur2 = new Fournisseur();
             fournisseur2.setNom("GUENNIOUI");
+            fournisseur2.setPrenom("ABDELLAH");
             fournisseur2.setAdresse("SALE 11100");
             fournisseur2.setVille("SALE");
+            fournisseur2.setNumFournisseur(fournisseur2.generateId());
 
             iDaoFournisseur.addNewFournisseur(fournisseur, entityManager);
             iDaoFournisseur.addNewFournisseur(fournisseur1, entityManager);
@@ -131,12 +141,15 @@ public class Main {
             /* Test Crud Categorie => valide*/
             Categorie categorie = new Categorie();
             categorie.setNomCategorie("electronics");
+            categorie.setNumCategorie(categorie.generateId());
 
             Categorie categorie1 = new Categorie();
             categorie1.setNomCategorie("esthetique");
+            categorie1.setNumCategorie(categorie1.generateId());
 
             Categorie categorie2 = new Categorie();
             categorie2.setNomCategorie("electrique");
+            categorie2.setNumCategorie(categorie2.generateId());
 
             iDaoCategorie.addNewCategorie(entityManager, categorie);
             iDaoCategorie.addNewCategorie(entityManager, categorie1);
@@ -154,14 +167,18 @@ public class Main {
             Article article1 = new Article();
             article1.setNom("airpods");
             article1.setPrixUnitaire(new BigDecimal("120.54"));
+            article1.setCode(article1.generateid());
+
 
             Article article2 = new Article();
             article2.setNom("smart watch");
             article2.setPrixUnitaire(new BigDecimal("450.00"));
+            article2.setCode(article2.generateid());
 
             Article article3 = new Article();
             article3.setNom("camera");
             article3.setPrixUnitaire(new BigDecimal("1200.00"));
+            article3.setCode(article3.generateid());
 
             iDaoArticle.addNewArticle(entityManager, article1);
             iDaoArticle.addNewArticle(entityManager, article2);
@@ -181,18 +198,21 @@ public class Main {
             societeDistribution.setAdresse("Mdina 9dima");
             societeDistribution.setVille("Sale");
             societeDistribution.setTelephone("0617281929");
+            societeDistribution.setId(societeDistribution.generateId());
 
             SocieteDistribution societeDistribution1 = new SocieteDistribution();
             societeDistribution1.setNom("Glovo");
             societeDistribution1.setAdresse("Mdina 9dima");
             societeDistribution1.setVille("Sale");
             societeDistribution1.setTelephone("0617281929");
+            societeDistribution1.setId(societeDistribution1.generateId());
 
             SocieteDistribution societeDistribution2 = new SocieteDistribution();
             societeDistribution2.setNom("Glovo");
             societeDistribution2.setAdresse("Mdina 9dima");
             societeDistribution2.setVille("Sale");
             societeDistribution2.setTelephone("0617281929");
+            societeDistribution2.setId(societeDistribution2.generateId());
 
             iDaoSocieteDistribution.addNewSocieteDistribution(societeDistribution, entityManager);
             iDaoSocieteDistribution.addNewSocieteDistribution(societeDistribution1, entityManager);
@@ -210,14 +230,17 @@ public class Main {
             Depot depot = new Depot();
             depot.setVille("SALE");
             depot.setTelephone("0762729034");
+            depot.setNumeroDepot(depot.generateId());
 
             Depot depot1 = new Depot();
             depot1.setVille("SALE");
             depot1.setTelephone("0762729034");
+            depot1.setNumeroDepot(depot1.generateId());
 
             Depot depot2 = new Depot();
             depot2.setVille("SALE");
             depot2.setTelephone("0762729034");
+            depot2.setNumeroDepot(depot2.generateId());
 
             iDaoDepot.addNewDepot(depot, entityManager);
             iDaoDepot.addNewDepot(depot1, entityManager);
@@ -233,13 +256,16 @@ public class Main {
 
             /*Test crud Livraison => valide*/
             Livraison livraison1 = new Livraison();
-            livraison1.setDateLivraison(LocalDateTime.now());
+            livraison1.setDateLivraison(LocalDate.now());
+            livraison1.setNumeroLivraison(livraison1.generateId());
 
             Livraison livraison2 = new Livraison();
-            livraison2.setDateLivraison(LocalDateTime.now().plusHours(1));
+            livraison2.setDateLivraison(LocalDate.now().plusDays(1));
+            livraison2.setNumeroLivraison(livraison2.generateId());
 
             Livraison livraison3 = new Livraison();
-            livraison3.setDateLivraison(LocalDateTime.now().plusHours(2));
+            livraison3.setDateLivraison(LocalDate.now().plusDays(2));
+            livraison3.setNumeroLivraison(livraison3.generateId());
 
             iDaoLivraison.addNewLivraison(livraison1, entityManager);
             iDaoLivraison.addNewLivraison(livraison2, entityManager);

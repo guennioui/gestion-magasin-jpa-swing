@@ -6,19 +6,20 @@ import jakarta.persistence.Id;
 import ma.emsi.primaryKeys.PkOfLigneLivraison;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 public class LigneLivraison implements Serializable {
     @EmbeddedId
     private PkOfLigneLivraison numeroLigneLivraison;
-    private LocalDateTime dateLivraison;
+    private LocalDate dateLivraison;
     private int quantiteLivrer;
 
     public LigneLivraison() {
     }
 
-    public LigneLivraison(PkOfLigneLivraison numeroLigneLivraison, LocalDateTime dateLivraison, int quantiteLivrer) {
+    public LigneLivraison(PkOfLigneLivraison numeroLigneLivraison, LocalDate dateLivraison, int quantiteLivrer) {
         this.numeroLigneLivraison = numeroLigneLivraison;
         this.dateLivraison = dateLivraison;
         this.quantiteLivrer = quantiteLivrer;
@@ -32,11 +33,11 @@ public class LigneLivraison implements Serializable {
         this.numeroLigneLivraison = numeroLigneLivraison;
     }
 
-    public LocalDateTime getDateLivraison() {
+    public LocalDate getDateLivraison() {
         return dateLivraison;
     }
 
-    public void setDateLivraison(LocalDateTime dateLivraison) {
+    public void setDateLivraison(LocalDate dateLivraison) {
         this.dateLivraison = dateLivraison;
     }
 

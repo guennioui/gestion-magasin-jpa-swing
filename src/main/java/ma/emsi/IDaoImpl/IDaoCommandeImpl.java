@@ -2,6 +2,7 @@ package ma.emsi.IDaoImpl;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import java.math.BigDecimal;
 import ma.emsi.IDao.IDaoCommande;
 import ma.emsi.entities.Article;
 import ma.emsi.entities.Client;
@@ -146,12 +147,14 @@ public class IDaoCommandeImpl implements IDaoCommande {
                 if(articles.get(i).getLigneCommandes() == null ){
                     entityManager.getTransaction().begin();
                     articles.get(i).setLigneCommandes(new ArrayList<>(List.of(ligneCommande)));
+                    ligneCommande.setArticle(articles.get(i));
                     entityManager.getTransaction().commit();
                 }else{
                     entityManager.getTransaction().begin();
                     articles.get(i).getLigneCommandes().add(ligneCommande);
+                    ligneCommande.setArticle(articles.get(i));
                     entityManager.getTransaction().commit();
-                }
+                }                
         }
         if(commande.getLigneCommandes() == null){
             entityManager.getTransaction().begin();
@@ -160,6 +163,18 @@ public class IDaoCommandeImpl implements IDaoCommande {
         }else{
             entityManager.getTransaction().begin();
             commande.getLigneCommandes().addAll(ligneCommandes);
+            entityManager.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public void updateMontantCommande(Commande commande, EntityManager entityManager) throws CommandeNotExistException {
+        Optional<Commande> optionalCommande = Optional.ofNullable(entityManager.find(Commande.class, commande.getNumero()));
+        if (optionalCommande.isEmpty()) {
+            throw new CommandeNotExistException("la commande que vous rechercher"+commande.getNumero()+"n'existe pas");
+        }else {
+            entityManager.getTransaction().begin();
+            commande.generateMontant();
             entityManager.getTransaction().commit();
         }
     }

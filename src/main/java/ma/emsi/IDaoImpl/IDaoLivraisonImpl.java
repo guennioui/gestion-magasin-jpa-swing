@@ -10,6 +10,7 @@ import ma.emsi.exceptions.ArticleNotExistException;
 import ma.emsi.exceptions.LivraisonNotFoundException;
 import ma.emsi.primaryKeys.PkOfLigneLivraison;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +71,7 @@ public class IDaoLivraisonImpl implements IDaoLivraison {
             throw new ArticleNotExistException("L'article que demande "+article.getCode()+" est introuvable");
         }else{
             PkOfLigneLivraison pkOfLigneLivraison = new PkOfLigneLivraison(article.getCode(), livraison.getNumeroLivraison());
-            LigneLivraison ligneLivraison = new LigneLivraison(pkOfLigneLivraison, LocalDateTime.now(), quantity);
+            LigneLivraison ligneLivraison = new LigneLivraison(pkOfLigneLivraison, LocalDate.now(), quantity);
             entityManager.persist(ligneLivraison);
 
             if(article.getLigneLivraisons() == null){

@@ -34,6 +34,7 @@ import ma.emsi.entities.SocieteDistribution;
 import ma.emsi.exceptions.ArticleNotExistException;
 import ma.emsi.exceptions.CategorieNotExistException;
 import ma.emsi.exceptions.ClientNotExistException;
+import ma.emsi.exceptions.CommandeNotExistException;
 import ma.emsi.exceptions.DepotNotFoundException;
 import ma.emsi.exceptions.FournisseurNotExistException;
 import ma.emsi.exceptions.SocieteDistributionNotExistException;
@@ -1703,6 +1704,8 @@ public class GmForm extends javax.swing.JFrame {
         } catch (ArticleNotExistException ex) {
             ex.printStackTrace();
         } catch (ClientNotExistException ex) {
+            ex.printStackTrace();
+        } catch(CommandeNotExistException ex){
             ex.printStackTrace();
         } catch(Exception ex){
             ex.printStackTrace();

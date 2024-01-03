@@ -18,8 +18,7 @@ public class Commande {
     private LocalDate dateCommande;
     private BigDecimal montant;
     @OneToOne(mappedBy = "commande")
-    private Facture facture;
-
+    private Facture facture;    
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "id_Commande")
     private List<LigneCommande> ligneCommandes;
@@ -58,7 +57,12 @@ public class Commande {
     public void setLigneCommandes(List<LigneCommande> ligneCommandes) {
         this.ligneCommandes = ligneCommandes;
     }
-
+    public BigDecimal generateMontant(){
+        return this.montant = ligneCommandes
+                        .stream()
+                        .map(LC -> LC.getArticle().getPrixUnitaire().multiply(BigDecimal.valueOf(LC.getQuantite())))               
+                        .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
     @Override
     public String toString() {
         return "Commande{" +
