@@ -15,8 +15,9 @@ import java.util.Optional;
 public class IDaoSocieteDistributionImpl implements IDaoSocieteDistribution {
     @Override
     public void addNewSocieteDistribution(SocieteDistribution societeDistribution, EntityManager entityManager) {
-        entityManager.getTransaction().begin();
-        entityManager.persist(societeDistribution);
+        entityManager.getTransaction().begin();      
+        societeDistribution.setId(societeDistribution.generateId());
+        entityManager.persist(societeDistribution);        
         entityManager.getTransaction().commit();
     }
 

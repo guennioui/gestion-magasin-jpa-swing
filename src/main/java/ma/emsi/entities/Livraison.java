@@ -1,28 +1,29 @@
 package ma.emsi.entities;
 
 import jakarta.persistence.*;
+import java.io.Serializable;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Random;
 
 @NamedQueries({
-        @NamedQuery(
-                name = "Livraison.findAll", query = "SELECT l FROM Livraison l"
-        )
+    @NamedQuery(
+            name = "Livraison.findAll", query = "SELECT l FROM Livraison l"
+    )
 })
 @Entity
 public class Livraison {
+
     @Id
     private String numeroLivraison;
     private LocalDate dateLivraison;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JoinColumn(name = "id_livraison")
     private List<LigneLivraison> ligneLivraisons;
-    static int nbLivraison;
 
     public Livraison() {
-        ++nbLivraison;
     }
 
     public String getNumeroLivraison() {
@@ -48,15 +49,23 @@ public class Livraison {
     public void setDateLivraison(LocalDate dateLivraison) {
         this.dateLivraison = dateLivraison;
     }
-    public String generateId(){
-        return "Liv_"+this.dateLivraison+"_N-"+nbLivraison;
+
+    private Serializable generateUniqueId() {
+        long timestamp = System.currentTimeMillis();
+        int random = new Random().nextInt(100);
+        return timestamp * 100 + random;
     }
+
+    public String generateId() {
+        return "Liv_" + this.dateLivraison + "-" +generateUniqueId();
+    }
+
     @Override
     public String toString() {
-        return "Livraison{" +
-                "numeroLivraison='" + numeroLivraison + '\'' +
-                ", dateLivraison=" + dateLivraison +
-                ", ligneLivraisons=" + ligneLivraisons +
-                '}';
+        return "Livraison{"
+                + "numeroLivraison='" + numeroLivraison + '\''
+                + ", dateLivraison=" + dateLivraison
+                + ", ligneLivraisons=" + ligneLivraisons
+                + '}';
     }
 }

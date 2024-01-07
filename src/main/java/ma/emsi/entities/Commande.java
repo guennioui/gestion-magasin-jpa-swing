@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.hibernate.annotations.Fetch;
 
 @Entity
 @NamedQueries(
@@ -18,11 +19,13 @@ public class Commande {
     private LocalDate dateCommande;
     private BigDecimal montant;
     @OneToOne(mappedBy = "commande")
-    private Facture facture;    
-    @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "id_Commande")
+    private Facture facture;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JoinColumn(name = "id_commande")
     private List<LigneCommande> ligneCommandes;
-
+    @ManyToOne     
+    private Client client;
+    
     public Commande() {
     }
 
@@ -63,6 +66,23 @@ public class Commande {
                         .map(LC -> LC.getArticle().getPrixUnitaire().multiply(BigDecimal.valueOf(LC.getQuantite())))               
                         .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
+
+    public LocalDate getDateCommande() {
+        return dateCommande;
+    }
+
+    public void setDateCommande(LocalDate dateCommande) {
+        this.dateCommande = dateCommande;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+    
     @Override
     public String toString() {
         return "Commande{" +

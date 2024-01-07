@@ -19,8 +19,9 @@ import java.util.Optional;
 public class IDaoLivraisonImpl implements IDaoLivraison {
     @Override
     public void addNewLivraison(Livraison livraison, EntityManager entityManager) {
-        entityManager.getTransaction().begin();
-        entityManager.persist(livraison);
+        entityManager.getTransaction().begin();        
+        livraison.setNumeroLivraison(livraison.generateId());
+        entityManager.persist(livraison);        
         entityManager.getTransaction().commit();
     }
 

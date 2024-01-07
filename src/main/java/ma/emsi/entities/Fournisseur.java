@@ -1,18 +1,21 @@
 package ma.emsi.entities;
 
 import jakarta.persistence.*;
+import java.io.Serializable;
 
 import java.util.List;
+import java.util.Random;
 
 @NamedQueries({
-        @NamedQuery(
-                name = "Fournisseur.findAll", query = "SELECT f FROM Fournisseur f"
-        ),
-        @NamedQuery(
-                name = "Fournisseur.findFournisseurLike", query = "SELECT f FROM Fournisseur f WHERE f.numFournisseur LIKE :numFournisseur OR f.nom LIKE :nom OR f.prenom LIKE :prenom OR f.adresse LIKE :adresse OR f.ville LIKE :ville OR f.telephone LIKE :telephone")
+    @NamedQuery(
+            name = "Fournisseur.findAll", query = "SELECT f FROM Fournisseur f"
+    ),
+    @NamedQuery(
+            name = "Fournisseur.findFournisseurLike", query = "SELECT f FROM Fournisseur f WHERE f.numFournisseur LIKE :numFournisseur OR f.nom LIKE :nom OR f.prenom LIKE :prenom OR f.adresse LIKE :adresse OR f.ville LIKE :ville OR f.telephone LIKE :telephone")
 })
 @Entity
 public class Fournisseur {
+
     @Id
     private String numFournisseur;
     private String nom;
@@ -20,16 +23,13 @@ public class Fournisseur {
     private String adresse;
     private String ville;
     private String telephone;
-    static int nbFournisseur;
-    
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JoinColumn(name = "id_fournisseur")
     private List<Livraison> livraisons;
-    @OneToMany(mappedBy = "fournisseur")    
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "fournisseur")
     private List<SocieteDistribution> societeDistributions;
 
     public Fournisseur() {
-        ++nbFournisseur;
     }
 
     public String getNumFournisseur() {
@@ -95,16 +95,20 @@ public class Fournisseur {
     public void setPrenom(String prenom) {
         this.prenom = prenom;
     }
-    public String generateId(){
-        return "FR-"+this.nom+"-"+this.prenom.substring(0,3)+"-"+nbFournisseur;
+
+    private Serializable generateUniqueId() {
+        long timestamp = System.currentTimeMillis();
+        int random = new Random().nextInt(100);
+        return timestamp * 100 + random;
     }
+
+    public String generateId() {
+        return "FR-" + this.nom + "-" + this.prenom.substring(0, 3) + "-"+generateUniqueId();
+    }
+
     @Override
     public String toString() {
         return "Fournisseur{" + "numFournisseur=" + numFournisseur + ", nom=" + nom + ", prenom=" + prenom + ", adresse=" + adresse + ", ville=" + ville + ", telephone=" + telephone + ", livraisons=" + livraisons + ", societeDistributions=" + societeDistributions + '}';
     }
 
-    
-
-   
-    
 }

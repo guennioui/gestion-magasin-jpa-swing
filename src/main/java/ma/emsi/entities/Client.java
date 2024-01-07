@@ -1,8 +1,10 @@
 package ma.emsi.entities;
 
 import jakarta.persistence.*;
+import java.io.Serializable;
 
 import java.util.List;
+import java.util.Random;
 
 @Entity
 @NamedQueries({
@@ -18,13 +20,10 @@ public class Client {
     private String ville;
     private String pays;
     private String telephone;
-    @OneToMany
-    @JoinColumn(name = "client_id")
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Commande> commandes;
-    static int nbClient;
 
-    public Client() {
-        ++nbClient;
+    public Client() {        
     }
 
     public String getId() {
@@ -91,8 +90,14 @@ public class Client {
         this.commandes = commandes;
     }
 
+    private Serializable generateUniqueId() {     
+        long timestamp = System.currentTimeMillis();
+        int random = new Random().nextInt(100);
+        return timestamp * 100 + random;
+    }    
+    
     public String generateId(){
-        return "CL-"+this.nom+"-"+this.prenom.substring(0,3)+"-"+nbClient;
+        return "CL-"+this.nom+"-"+this.prenom.substring(0,3)+"-"+generateUniqueId();
     }
     @Override
     public String toString() {

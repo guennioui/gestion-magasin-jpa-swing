@@ -23,7 +23,7 @@ public class IDaoCommandeImpl implements IDaoCommande {
 
     @Override
     public void addNewCommande(EntityManager entityManager, Commande commande) {
-            entityManager.getTransaction().begin();
+            entityManager.getTransaction().begin();            
             entityManager.persist(commande);
             entityManager.getTransaction().commit();
     }
@@ -68,10 +68,12 @@ public class IDaoCommandeImpl implements IDaoCommande {
         }if(client.getCommandes() == null){
             entityManager.getTransaction().begin();
             client.setCommandes(List.of(commande));
+            commande.setClient(client);
             entityManager.getTransaction().commit();
         }else{
             entityManager.getTransaction().begin();
             client.getCommandes().add(commande);
+            commande.setClient(client);
             entityManager.getTransaction().commit();
         }
     }

@@ -1,9 +1,11 @@
 package ma.emsi.entities;
 
 import jakarta.persistence.*;
+import java.io.Serializable;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Random;
 
 @NamedQueries({
     @NamedQuery(
@@ -12,8 +14,7 @@ import java.util.List;
     @NamedQuery(
                 name = "Artcile.findAll", query = "SELECT a FROM Article a"
     )
-}
-        
+}        
 )
 @Entity
 public class Article {
@@ -22,21 +23,19 @@ public class Article {
     @Column(unique = true)
     private String nom;
     private BigDecimal prixUnitaire;
-    @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "id_article")
+    @OneToMany(mappedBy = "article", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)    
     private List<LigneCommande> ligneCommandes;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JoinColumn(name = "id_article")
     private List<Stock> stocks;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JoinColumn(name = "id_article")
     private List<LigneLivraison> ligneLivraisons;
     @ManyToOne
     private Categorie categorie;
-    static int nbArticle;
 
-    public Article() {
-        ++nbArticle;
+    public Article() { 
+        this.code = generateid();
     }
 
     public String getCode() {
@@ -94,9 +93,17 @@ public class Article {
     public void setCategorie(Categorie categorie) {
         this.categorie = categorie;
     }
-    public String generateid(){
-        return "ART-"+this.nom+"-"+nbArticle;
+    
+    private Serializable generateUniqueId() {        
+        long timestamp = System.currentTimeMillis();
+        int random = new Random().nextInt(100);
+        return timestamp * 100 + random;
     }
+    
+    public String generateid(){
+        return "ART-"+this.nom+"-"+generateUniqueId();
+    }
+    
     @Override
     public String toString() {
         return "Article{" + "code=" + code + ", nom=" + nom + ", prixUnitaire=" + prixUnitaire + ", ligneCommandes=" + ligneCommandes + ", stocks=" + stocks + ", ligneLivraisons=" + ligneLivraisons + '}';

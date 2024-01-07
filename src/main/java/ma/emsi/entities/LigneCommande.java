@@ -11,7 +11,6 @@ public class LigneCommande implements Serializable{
     @EmbeddedId
     private PkOfLigneCommande numero;
     private int quantite;
-    private BigDecimal montantLigne;
     @ManyToOne
     private Article article;
     
@@ -37,14 +36,6 @@ public class LigneCommande implements Serializable{
 
     public void setQuantite(int quantite) {
         this.quantite = quantite;
-    }
-
-    public BigDecimal getMontantLigne() {
-        return montantLigne;
-    }
-
-    public void setMontantLigne(BigDecimal montantLigne) {
-        this.montantLigne = montantLigne;
     }
 
     public Article getArticle() {

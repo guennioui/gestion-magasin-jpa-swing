@@ -20,8 +20,9 @@ public class IDaoFournisseurImpl implements IDaoFournisseur {
 
     @Override
     public void addNewFournisseur(Fournisseur fournisseur, EntityManager entityManager) {
-        entityManager.getTransaction().begin();
-        entityManager.persist(fournisseur);
+        entityManager.getTransaction().begin();        
+        fournisseur.setNumFournisseur(fournisseur.generateId());
+        entityManager.persist(fournisseur);        
         entityManager.getTransaction().commit();
     }
 

@@ -14,8 +14,9 @@ import java.util.Optional;
 public class IDaoCategorieImpl implements IDaoCategorie {
     @Override
     public void addNewCategorie(EntityManager entityManager, Categorie categorie) {
-        entityManager.getTransaction().begin();
-        entityManager.persist(categorie);
+        entityManager.getTransaction().begin();        
+        categorie.setNumCategorie(categorie.generateId());
+        entityManager.persist(categorie);        
         entityManager.getTransaction().commit();
     }
 

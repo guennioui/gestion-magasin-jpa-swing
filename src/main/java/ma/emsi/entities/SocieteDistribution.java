@@ -1,23 +1,24 @@
 package ma.emsi.entities;
 
 import jakarta.persistence.*;
+import java.io.Serializable;
+import java.util.Random;
 
 @NamedQuery(name = "SocieteDistribution.findAll", query = "SELECT S FROM SocieteDistribution S")
 @NamedQuery(name = "SocieteDistribution.findSocieteDistributionLike", query = "SELECT s FROM SocieteDistribution s WHERE s.id LIKE :id OR s.nom LIKE :nom OR s.telephone LIKE :telephone OR s.ville LIKE :ville OR s.adresse LIKE :adresse")
 @Entity
 public class SocieteDistribution {
+
     @Id
     private String id;
     private String nom;
     private String telephone;
     private String ville;
     private String adresse;
-    static int nbSociete;
     @ManyToOne
     private Fournisseur fournisseur;
-    
+
     public SocieteDistribution() {
-        ++nbSociete;
     }
 
     public String getId() {
@@ -67,13 +68,20 @@ public class SocieteDistribution {
     public void setFournisseur(Fournisseur fournisseur) {
         this.fournisseur = fournisseur;
     }
-    public String generateId(){
-        return "STE-"+this.nom+"-"+this.nom+"-"+nbSociete;
+
+    private Serializable generateUniqueId() {
+        long timestamp = System.currentTimeMillis();
+        int random = new Random().nextInt(10);
+        return timestamp * 10 + random;
     }
+
+    public String generateId() {
+        return "STE-" + this.nom + "-" + this.nom + "-" + generateUniqueId();
+    }
+
     @Override
     public String toString() {
         return "SocieteDistribution{" + "id=" + id + ", nom=" + nom + ", telephone=" + telephone + ", ville=" + ville + ", adresse=" + adresse + ", fournisseur=" + fournisseur + '}';
     }
 
-       
 }

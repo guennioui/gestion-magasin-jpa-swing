@@ -1,28 +1,31 @@
 package ma.emsi.entities;
 
 import jakarta.persistence.*;
+import java.io.Serializable;
 
 import java.util.List;
+import java.util.Random;
 
 @NamedQueries({
-        @NamedQuery(
-                name = "Categorie.findAll", query = "SELECT c from Categorie c"
-        ),
-        @NamedQuery(
-                name = "Categorie.findCategorieLike", query = "SELECT c from Categorie c where c.nomCategorie LIKE :nomCategorie"
-        )
+    @NamedQuery(
+            name = "Categorie.findAll", query = "SELECT c from Categorie c"
+    ),
+    @NamedQuery(
+            name = "Categorie.findCategorieLike", query = "SELECT c from Categorie c where c.nomCategorie LIKE :nomCategorie"
+    )
 })
 @Entity
 public class Categorie {
+
     @Id
     private String numCategorie;
     @Column(unique = true)
     private String nomCategorie;
-    @OneToMany(mappedBy = "categorie")    
+    @OneToMany(mappedBy = "categorie", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Article> articles;
-    static int nbCategorie;
+
     public Categorie() {
-        ++nbCategorie;
+        this.numCategorie = generateId();
     }
 
     public String getNumCategorie() {
@@ -49,15 +52,22 @@ public class Categorie {
         this.articles = articles;
     }
 
-    public String generateId(){
-        return "CAT-"+this.nomCategorie+"-"+nbCategorie;
+    private Serializable generateUniqueId() {
+        long timestamp = System.currentTimeMillis();
+        int random = new Random().nextInt(10);
+        return timestamp * 10 + random;
     }
+
+    public String generateId() {
+        return "CAT-" + this.nomCategorie + "-" + generateUniqueId();
+    }
+
     @Override
     public String toString() {
-        return "Categorie{" +
-                "numCategorie='" + numCategorie + '\'' +
-                ", nomCategorie='" + nomCategorie + '\'' +
-                ", articles=" + articles +
-                '}';
+        return "Categorie{"
+                + "numCategorie='" + numCategorie + '\''
+                + ", nomCategorie='" + nomCategorie + '\''
+                + ", articles=" + articles
+                + '}';
     }
 }

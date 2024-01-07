@@ -13,8 +13,9 @@ import java.util.Optional;
 public class IDaoDepotImpl implements IDaoDepot {
     @Override
     public void addNewDepot(Depot depot, EntityManager entityManager) {
-        entityManager.getTransaction().begin();
-        entityManager.persist(depot);
+        entityManager.getTransaction().begin();        
+        depot.setNumeroDepot(depot.generateId());
+        entityManager.persist(depot);        
         entityManager.getTransaction().commit();
     }
 

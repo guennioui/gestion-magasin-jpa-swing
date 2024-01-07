@@ -19,43 +19,44 @@ public class IDaoClientImpl implements IDaoClient {
 
     @Override
     public void addNewClient(Client client, EntityManager entityManager) {
-            entityManager.getTransaction().begin();
-            entityManager.persist(client);
-            entityManager.getTransaction().commit();
+        entityManager.getTransaction().begin();        
+        client.setId(client.generateId());
+        entityManager.persist(client);        
+        entityManager.getTransaction().commit();
     }
 
     @Override
-    public void modifyClient(Client client, EntityManager entityManager) throws ClientNotExistException{
+    public void modifyClient(Client client, EntityManager entityManager) throws ClientNotExistException {
         Optional<Client> optionalClient = Optional.ofNullable(entityManager.find(Client.class, client.getId()));
         if (optionalClient.isEmpty()) {
-            throw new ClientNotExistException("le client que vous rechercher"+client.getId()+"n'existe pas");
-        }else{
+            throw new ClientNotExistException("le client que vous rechercher" + client.getId() + "n'existe pas");
+        } else {
             entityManager.getTransaction().begin();
             entityManager.merge(client);
             entityManager.getTransaction().commit();
-        }            
+        }
     }
 
     @Override
-    public Client findClientById(String id,EntityManager entityManager) throws ClientNotExistException{
+    public Client findClientById(String id, EntityManager entityManager) throws ClientNotExistException {
         Optional<Client> optionalClient = Optional.ofNullable(entityManager.find(Client.class, id));
         if (optionalClient.isEmpty()) {
-            throw new ClientNotExistException("le client que vous rechercher"+id+"n'existe pas");
-        }else{
+            throw new ClientNotExistException("le client que vous rechercher" + id + "n'existe pas");
+        } else {
             return optionalClient.get();
         }
     }
 
     @Override
-    public void removeClient(Client client, EntityManager entityManager) throws ClientNotExistException{
-            Optional<Client> optionalClient = Optional.ofNullable(entityManager.find(Client.class, client.getId()));
-            if (optionalClient.isEmpty()) {
-                throw new ClientNotExistException("le client que vous rechercher"+client.getId()+"n'existe pas");
-            }else {
-                entityManager.getTransaction().begin();
-                entityManager.remove(client);
-                entityManager.getTransaction().commit();
-            }
+    public void removeClient(Client client, EntityManager entityManager) throws ClientNotExistException {
+        Optional<Client> optionalClient = Optional.ofNullable(entityManager.find(Client.class, client.getId()));
+        if (optionalClient.isEmpty()) {
+            throw new ClientNotExistException("le client que vous rechercher" + client.getId() + "n'existe pas");
+        } else {
+            entityManager.getTransaction().begin();
+            entityManager.remove(client);
+            entityManager.getTransaction().commit();
+        }
     }
 
     @Override

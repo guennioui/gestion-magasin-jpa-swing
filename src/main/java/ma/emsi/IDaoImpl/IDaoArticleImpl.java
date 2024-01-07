@@ -20,7 +20,8 @@ public class IDaoArticleImpl implements IDaoArticle {
     @Override
     public void addNewArticle(EntityManager entityManager, Article article) {
         entityManager.getTransaction().begin();
-        entityManager.persist(article);
+        article.setCode(article.generateid());
+        entityManager.persist(article);        
         entityManager.getTransaction().commit();
     }
 
