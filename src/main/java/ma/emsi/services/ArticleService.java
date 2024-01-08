@@ -78,6 +78,7 @@ public class ArticleService {
             Categorie categorie = iDaoCategorie.findCategoriByName(jComboBox1.getSelectedItem().toString(), entityManager);
             Depot depot = idDaoDepot.findDepotById(jComboBox2.getSelectedItem().toString(), entityManager);
             Fournisseur fournisseur = iDaoFournisseur.findFournisseurById(jComboBox4.getSelectedItem().toString(), entityManager);
+            System.out.println(fournisseur);
             SocieteDistribution societeDistribution = iDaoSocieteDistribution.findSocieteById(jComboBox3.getSelectedItem().toString(), entityManager);
             IDaoLivraison iDaoLivraison = new IDaoLivraisonImpl();
 
@@ -123,7 +124,7 @@ public class ArticleService {
         DefaultTableModel model = (DefaultTableModel) jTable.getModel();
         String sql = "SELECT article.code, article.nom, categorie.nomCategorie, article.prixUnitaire, stock.quantite, depot.nomDepot, stock.dateDepot, fournisseur.nom, societeDistribution.nom\n"
                 + "from article inner join categorie\n"
-                + "on article.categorie_numCategorie = categorie.numCategorie\n"
+                + "on article.idCategorie = categorie.numCategorie\n"
                 + "inner join stock\n"
                 + "on stock.id_article = article.code\n"
                 + "inner join depot\n"
@@ -135,7 +136,8 @@ public class ArticleService {
                 + "inner join Fournisseur\n"
                 + "on fournisseur.numFournisseur = livraison.id_fournisseur\n"
                 + "inner join SocieteDistribution\n"
-                + "on fournisseur.numFournisseur = SocieteDistribution.fournisseur_numFournisseur";
+                + "on fournisseur.numFournisseur = SocieteDistribution.id_fournisseur";
+        
         Query quey = entityManager.createNativeQuery(sql);
         List<Object[]> articles = quey.getResultList();
         for (Object[] article : articles) {

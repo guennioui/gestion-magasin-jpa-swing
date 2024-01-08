@@ -37,7 +37,7 @@ public class Main {
         EntityManagerFactory entityManagerFactory = new HibernatePersistenceProvider()
                 .createContainerEntityManagerFactory(new OurCustomPersistenceUnit(puName), props);
 
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        
+        EntityManager entityManager = entityManagerFactory.createEntityManager();                                
+            
     }
 }

@@ -11,7 +11,7 @@ public class LigneCommande implements Serializable{
     @EmbeddedId
     private PkOfLigneCommande numero;
     private int quantite;
-    @ManyToOne
+    @ManyToOne    
     private Article article;
     
     public LigneCommande() {

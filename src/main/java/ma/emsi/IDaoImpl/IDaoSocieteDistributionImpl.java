@@ -60,7 +60,7 @@ public class IDaoSocieteDistributionImpl implements IDaoSocieteDistribution {
         }else if (optionalFournisseur.isEmpty()) {
             throw new FournisseurNotExistException("le fournisseur que vous rechercher "+fournisseur.getNumFournisseur()+"n'existe pas");
         }
-        if (fournisseur.getSocieteDistributions() == null){
+        if (fournisseur.getSocieteDistributions() == null && societeDistribution.getFournisseur() == null){
             entityManager.getTransaction().begin();
             fournisseur.setSocieteDistributions(new ArrayList<>(List.of(societeDistribution)));
             societeDistribution.setFournisseur(fournisseur);

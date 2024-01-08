@@ -23,15 +23,16 @@ public class Article {
     @Column(unique = true)
     private String nom;
     private BigDecimal prixUnitaire;
-    @OneToMany(mappedBy = "article", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)    
+    @OneToMany(mappedBy = "article")     
     private List<LigneCommande> ligneCommandes;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany
     @JoinColumn(name = "id_article")
     private List<Stock> stocks;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany
     @JoinColumn(name = "id_article")
     private List<LigneLivraison> ligneLivraisons;
     @ManyToOne
+    @JoinColumn(name = "idCategorie")
     private Categorie categorie;
 
     public Article() { 

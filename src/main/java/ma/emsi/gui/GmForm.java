@@ -679,7 +679,7 @@ public class GmForm extends javax.swing.JFrame {
         ));
         jScrollPane4.setViewportView(jTable4);
 
-        PclARTICLE.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, 1090, 305));
+        PclARTICLE.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 1090, 305));
 
         jLabel24.setFont(new java.awt.Font("Serif", 1, 24)); // NOI18N
         jLabel24.setText("Espace articles");
@@ -699,7 +699,7 @@ public class GmForm extends javax.swing.JFrame {
         });
         PclARTICLE.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 70, 201, -1));
         PclARTICLE.add(jTextField12, new org.netbeans.lib.awtextra.AbsoluteConstraints(146, 68, 146, -1));
-        PclARTICLE.add(jTextField13, new org.netbeans.lib.awtextra.AbsoluteConstraints(146, 97, 148, -1));
+        PclARTICLE.add(jTextField13, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, 148, -1));
 
         jSeparator5.setForeground(new java.awt.Color(0, 0, 0));
         PclARTICLE.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 60, 517, 16));

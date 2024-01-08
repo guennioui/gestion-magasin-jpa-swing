@@ -15,12 +15,11 @@ import java.util.Random;
 })
 @Entity
 public class Livraison {
-
     @Id
     private String numeroLivraison;
     private LocalDate dateLivraison;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JoinColumn(name = "id_livraison")
+    @OneToMany
+    @JoinColumn(name = "id_livraison")    
     private List<LigneLivraison> ligneLivraisons;
 
     public Livraison() {

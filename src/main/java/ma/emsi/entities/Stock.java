@@ -2,6 +2,8 @@ package ma.emsi.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import java.time.LocalDate;
 import ma.emsi.primaryKeys.PkOfStock;
 
@@ -9,10 +11,10 @@ import java.time.LocalDateTime;
 
 @Entity
 public class Stock {
+
     @Id
     private PkOfStock stockId;
     private LocalDate dateDepot;
-
     private int quantite;
 
     public Stock() {
@@ -44,10 +46,10 @@ public class Stock {
 
     @Override
     public String toString() {
-        return "Stock{" +
-                "stockId='" + stockId + '\'' +
-                ", dateDepot=" + dateDepot +
-                ", quantite=" + quantite +
-                '}';
+        return "Stock{"
+                + "stockId='" + stockId + '\''
+                + ", dateDepot=" + dateDepot
+                + ", quantite=" + quantite
+                + '}';
     }
 }

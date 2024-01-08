@@ -21,7 +21,7 @@ public class Categorie {
     private String numCategorie;
     @Column(unique = true)
     private String nomCategorie;
-    @OneToMany(mappedBy = "categorie", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "categorie")
     private List<Article> articles;
 
     public Categorie() {

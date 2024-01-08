@@ -16,6 +16,7 @@ public class SocieteDistribution {
     private String ville;
     private String adresse;
     @ManyToOne
+    @JoinColumn(name = "id_fournisseur")
     private Fournisseur fournisseur;
 
     public SocieteDistribution() {

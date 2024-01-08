@@ -78,7 +78,7 @@ public class IDaoLivraisonImpl implements IDaoLivraison {
             if(article.getLigneLivraisons() == null){
                 articleLigneLivraison = true;
                 entityManager.getTransaction().begin();
-                article.setLigneLivraisons(new ArrayList<>(List.of(ligneLivraison)));
+                article.setLigneLivraisons(new ArrayList<>(List.of(ligneLivraison)));                
                 entityManager.getTransaction().commit();
             }
             if(livraison.getLigneLivraisons() == null){

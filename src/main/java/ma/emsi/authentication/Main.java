@@ -27,7 +27,7 @@ public class Main {
             admin.setFirstName("abdellah");
             admin.setLastName("guennioui");
             admin.setPassword("pass123");
-            //adminService.addAdmin(admin, entityManager);
+            adminService.addAdmin(admin, entityManager);
             adminService.authenticate(admin.getEmail(), "pass123", entityManager);
 
         }catch (Exception exception){

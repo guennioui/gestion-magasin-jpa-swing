@@ -18,12 +18,11 @@ public class Commande {
     private String numero;
     private LocalDate dateCommande;
     private BigDecimal montant;
-    @OneToOne(mappedBy = "commande")
-    private Facture facture;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JoinColumn(name = "id_commande")
+    @OneToMany
+    @JoinColumn(name = "id_commande")    
     private List<LigneCommande> ligneCommandes;
-    @ManyToOne     
+    @ManyToOne
+    @JoinColumn(name="id_client")
     private Client client;
     
     public Commande() {

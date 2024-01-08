@@ -703,7 +703,7 @@
                   </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="20" y="300" width="1090" height="305"/>
+                      <AbsoluteConstraints x="10" y="290" width="1090" height="305"/>
                     </Constraint>
                   </Constraints>
 
@@ -806,7 +806,7 @@
                 <Component class="javax.swing.JTextField" name="jTextField13">
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="146" y="97" width="148" height="-1"/>
+                      <AbsoluteConstraints x="150" y="100" width="148" height="-1"/>
                     </Constraint>
                   </Constraints>
                 </Component>

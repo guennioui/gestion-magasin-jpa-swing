@@ -16,15 +16,14 @@ import java.util.Random;
 })
 @Entity
 public class Depot {
-
     @Id
     private String numeroDepot;
     private String nomDepot;
     private String ville;
     private String adresse;
     private String telephone;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "id_depot")
+    @OneToMany
+    @JoinColumn(name = "id_depot")    
     private List<Stock> stocks;
 
     public Depot() {        

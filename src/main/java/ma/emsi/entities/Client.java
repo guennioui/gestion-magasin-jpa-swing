@@ -20,7 +20,7 @@ public class Client {
     private String ville;
     private String pays;
     private String telephone;
-    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "client")
     private List<Commande> commandes;
 
     public Client() {        

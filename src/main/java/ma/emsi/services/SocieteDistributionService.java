@@ -48,9 +48,7 @@ public class SocieteDistributionService {
             Fournisseur fournisseur = iDaoFournisseur.findFournisseurById(
                     jComboBox1.getSelectedItem().toString(),
                     entityManager);
-            System.out.println(fournisseur);
-            if (fournisseur != null) {
-                System.out.println(societeDistribution);
+            if (fournisseur != null) {                
                 iDaoSocieteDistribution.addNewSocieteDistribution(societeDistribution, entityManager);
                 iDaoSocieteDistribution.addFournisseurToSocieteDistribution(societeDistribution, fournisseur, entityManager);                
             } else {
@@ -114,7 +112,8 @@ public class SocieteDistributionService {
                 societeDistribution.getNom(),
                 societeDistribution.getTelephone(),
                 societeDistribution.getVille(),
-                societeDistribution.getAdresse()                
+                societeDistribution.getAdresse(),
+                societeDistribution.getFournisseur().getNom()
             };
             model.addRow(rowData);
         }

@@ -23,10 +23,10 @@ public class Fournisseur {
     private String adresse;
     private String ville;
     private String telephone;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JoinColumn(name = "id_fournisseur")
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_fournisseur")    
     private List<Livraison> livraisons;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "fournisseur")
+    @OneToMany(mappedBy = "fournisseur")
     private List<SocieteDistribution> societeDistributions;
 
     public Fournisseur() {
@@ -108,7 +108,7 @@ public class Fournisseur {
 
     @Override
     public String toString() {
-        return "Fournisseur{" + "numFournisseur=" + numFournisseur + ", nom=" + nom + ", prenom=" + prenom + ", adresse=" + adresse + ", ville=" + ville + ", telephone=" + telephone + ", livraisons=" + livraisons + ", societeDistributions=" + societeDistributions + '}';
+        return "Fournisseur{" + "numFournisseur=" + numFournisseur + ", nom=" + nom + ", prenom=" + prenom + ", adresse=" + adresse + ", ville=" + ville + ", telephone=" + telephone + ", livraisons=" + livraisons + ", societeDistributions=" + '}';
     }
 
 }

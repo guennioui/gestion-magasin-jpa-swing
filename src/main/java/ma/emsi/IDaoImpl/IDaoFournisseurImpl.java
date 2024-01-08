@@ -77,6 +77,7 @@ public class IDaoFournisseurImpl implements IDaoFournisseur {
         if(fournisseur.getLivraisons() == null){
             entityManager.getTransaction().begin();
             fournisseur.setLivraisons(new ArrayList<>(List.of(livraison)));
+            
             entityManager.getTransaction().commit();
         }else{
             entityManager.getTransaction().begin();
