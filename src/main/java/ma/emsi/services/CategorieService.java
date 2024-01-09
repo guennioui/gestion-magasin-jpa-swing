@@ -30,7 +30,7 @@ public class CategorieService {
             JTextField jTextField1,       
             EntityManager entityManager
             ){
-        if(!jTextField1.getText().equals("")){
+        if(!jTextField1.getText().matches("^[A-Za-z]+$")){
             Categorie categorie = new Categorie();
             categorie.setNomCategorie(jTextField1.getText());
             iDaoCategorie.addNewCategorie(entityManager, categorie);
@@ -44,7 +44,7 @@ public class CategorieService {
             JTextField jTextField1,
             String idCategorie,
             EntityManager entityManager)throws CategorieNotExistException{
-        if(!jTextField1.getText().equals("")){
+        if(!jTextField1.getText().matches("^[A-Za-z]+$")){
             Categorie categorie = iDaoCategorie.findCategorieById(entityManager, idCategorie);
             categorie.setNomCategorie(jTextField1.getText());
             System.out.println(categorie);

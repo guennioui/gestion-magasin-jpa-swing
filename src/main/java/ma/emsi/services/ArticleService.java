@@ -4,12 +4,14 @@
  */
 package ma.emsi.services;
 
+import com.toedter.calendar.JDateChooser;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -62,7 +64,7 @@ public class ArticleService {
             JComboBox jComboBox2,
             JComboBox jComboBox3,
             JComboBox jComboBox4,
-            JTextField jTextField4,
+            JDateChooser jDateChooser,
             EntityManager entityManager
     ) throws CategorieNotExistException,
             DepotNotFoundException,
@@ -70,8 +72,8 @@ public class ArticleService {
             SocieteDistributionNotExistException,
             ArticleNotExistException,
             LivraisonNotFoundException {
-        if (!jTextField1.getText().equals("") && !jTextField2.getText().equals("")
-                && (int) jSpinner.getValue() != 0 && !jTextField4.getText().equals("")
+        if (!jTextField1.getText().equals("") && jTextField2.getText().matches("^[0-9]+(?:\\\\.[0-9]{1,2})?$")
+                && (int) jSpinner.getValue() != 0 && jDateChooser.getDate() != null
                 && jComboBox1.getSelectedIndex() != -1 && jComboBox2.getSelectedIndex() != -1
                 && jComboBox3.getSelectedIndex() != -1 && jComboBox4.getSelectedIndex() != -1) {
             Article article = new Article();
@@ -98,11 +100,16 @@ public class ArticleService {
                 article.setNom(jTextField1.getText());
                 article.setPrixUnitaire(new BigDecimal(jTextField2.getText()));
                 article.setCategorie(categorie);
+                LocalDate selecteDate = jDateChooser
+                        .getDate()
+                        .toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate();
                 iDaoArticle.addNewArticle(entityManager, article);
                 iDaoCategorie.addArticleToCategorie(categorie, article, entityManager);
-                iDaoArticle.addArticleToDepot(article, depot, (int) jSpinner.getValue(), LocalDate.parse(jTextField4.getText()), entityManager);
+                iDaoArticle.addArticleToDepot(article, depot, (int) jSpinner.getValue(), selecteDate, entityManager);
                 Livraison livraison = new Livraison();
-                livraison.setDateLivraison(LocalDate.parse(jTextField4.getText()));
+                livraison.setDateLivraison(selecteDate);
                 iDaoLivraison.addNewLivraison(livraison, entityManager);
                 iDaoLivraison.addArticleToLivraison(article, livraison, (int) jSpinner.getValue(), entityManager);
                 iDaoFournisseur.addLivraisonToFournisseur(livraison, fournisseur, entityManager);
@@ -110,7 +117,7 @@ public class ArticleService {
             jTextField1.setText("");
             jTextField2.setText("");
             jSpinner.setValue(0);
-            jTextField4.setText("");
+            jDateChooser.setDate(null);
             jComboBox1.setSelectedIndex(-1);
             jComboBox2.setSelectedIndex(-1);
             jComboBox3.setSelectedIndex(-1);
@@ -137,7 +144,7 @@ public class ArticleService {
                 + "on fournisseur.numFournisseur = livraison.id_fournisseur\n"
                 + "inner join SocieteDistribution\n"
                 + "on fournisseur.numFournisseur = SocieteDistribution.id_fournisseur";
-        
+
         Query quey = entityManager.createNativeQuery(sql);
         List<Object[]> articles = quey.getResultList();
         for (Object[] article : articles) {
@@ -151,7 +158,7 @@ public class ArticleService {
                 article[6],
                 article[7],
                 article[8]
-                };
+            };
             model.addRow(row);
         }
         jTable.setModel(model);

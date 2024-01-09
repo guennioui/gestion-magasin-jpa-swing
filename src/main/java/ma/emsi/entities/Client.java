@@ -9,12 +9,13 @@ import java.util.Random;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Client.findAll", query = "SELECT c FROM Client c"),
-    @NamedQuery(name = "Client.findClientLike", query = "SELECT c FROM Client c WHERE c.id LIKE :id OR c.nom LIKE :nom OR c.prenom LIKE :prenom OR c.adresse LIKE :adresse OR c.ville LIKE :ville OR c.pays LIKE :pays OR c.telephone LIKE :telephone")
+    @NamedQuery(name = "Client.findClientLike", query = "SELECT c FROM Client c WHERE c.id LIKE :id OR c.nom LIKE :nom OR c.prenom LIKE :prenom OR c.adresse LIKE :adresse OR c.ville LIKE :ville OR c.pays LIKE :pays OR c.telephone LIKE :telephone"),
+    @NamedQuery(name = "Client.findClientByVille", query = "SELECT c FROM Client c WHERE c.ville = :ville")
 })
 public class Client {
     @Id
-    private String id;
-    private String nom;
+    private String nom;    private String id;
+
     private String prenom;
     private String adresse;
     private String ville;

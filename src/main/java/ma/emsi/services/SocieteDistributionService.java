@@ -38,8 +38,8 @@ public class SocieteDistributionService {
             EntityManager entityManager)
             throws FournisseurNotExistException,
             SocieteDistributionNotExistException {
-        if (!jTextField1.getText().equals("") && !jTextField2.getText().equals("") && !jTextField3.getText().equals("")
-                && !jTextField4.getText().equals("") && jComboBox1.getSelectedIndex() != -1) {
+        if (jTextField1.getText().matches("^[A-Za-z]+$") && jTextField2.getText().matches("^0\\d{9}$")
+                && jTextField3.getText().matches("^[A-Za-z]+$") && jTextField4.getText().matches("^[a-zA-Z0-9]+$")) {
             SocieteDistribution societeDistribution = new SocieteDistribution();
             societeDistribution.setNom(jTextField1.getText());
             societeDistribution.setTelephone(jTextField2.getText());
@@ -48,12 +48,12 @@ public class SocieteDistributionService {
             Fournisseur fournisseur = iDaoFournisseur.findFournisseurById(
                     jComboBox1.getSelectedItem().toString(),
                     entityManager);
-            if (fournisseur != null) {                
+            if (fournisseur != null) {
                 iDaoSocieteDistribution.addNewSocieteDistribution(societeDistribution, entityManager);
-                iDaoSocieteDistribution.addFournisseurToSocieteDistribution(societeDistribution, fournisseur, entityManager);                
+                iDaoSocieteDistribution.addFournisseurToSocieteDistribution(societeDistribution, fournisseur, entityManager);
             } else {
                 JOptionPane.showMessageDialog(null,
-                        "Une erreur est survenue lors de l'operation","erreur", JOptionPane.ERROR_MESSAGE);
+                        "Une erreur est survenue lors de l'operation", "erreur", JOptionPane.ERROR_MESSAGE);
             }
             jTextField1.setText("");
             jTextField2.setText("");
@@ -75,8 +75,8 @@ public class SocieteDistributionService {
             EntityManager entityManager)
             throws FournisseurNotExistException,
             SocieteDistributionNotExistException {
-        if (!jTextField1.getText().equals("") && !jTextField2.getText().equals("") && !jTextField3.getText().equals("")
-                && !jTextField4.getText().equals("") && jComboBox1.getSelectedIndex() != -1) {
+        if (jTextField1.getText().matches("^[A-Za-z]+$") && jTextField2.getText().matches("^0\\d{9}$")
+                && jTextField3.getText().matches("^[A-Za-z]+$") && jTextField4.getText().matches("^[a-zA-Z0-9]+$")) {
             SocieteDistribution societeDistribution = iDaoSocieteDistribution.findSocieteById(idSociete, entityManager);
             if (societeDistribution != null) {
                 societeDistribution.setNom(jTextField1.getText());
@@ -86,12 +86,12 @@ public class SocieteDistributionService {
                 Fournisseur fournisseur = iDaoFournisseur.findFournisseurById(
                         jComboBox1.getSelectedItem().toString(),
                         entityManager);
-                if(fournisseur != null){
+                if (fournisseur != null) {
                     iDaoSocieteDistribution.modifySocieteDistribution(societeDistribution, entityManager);
                     iDaoSocieteDistribution.addFournisseurToSocieteDistribution(societeDistribution, fournisseur, entityManager);
-                }else {
+                } else {
                     JOptionPane.showMessageDialog(null, "Une erreur est survenue lors de l'operation", "erreur", JOptionPane.ERROR_MESSAGE);
-            }
+                }
             }
             jTextField1.setText("");
             jTextField2.setText("");
@@ -123,7 +123,7 @@ public class SocieteDistributionService {
     public void removeSocieteDistribution(String id, EntityManager entityManager) throws SocieteDistributionNotExistException {
         iDaoSocieteDistribution.removeSocieteDistribution(
                 iDaoSocieteDistribution.findSocieteById(id, entityManager),
-                entityManager);               
+                entityManager);
     }
 
     public void clearJTable(JTable jTable) {
@@ -139,7 +139,7 @@ public class SocieteDistributionService {
     public void fillJTable(JTable jTable, List<SocieteDistribution> societeDistributions) {
         clearJTable(jTable);
         DefaultTableModel model = (DefaultTableModel) jTable.getModel();
-         for (SocieteDistribution societeDistribution : societeDistributions) {
+        for (SocieteDistribution societeDistribution : societeDistributions) {
             Object[] rowData = {
                 societeDistribution.getId(),
                 societeDistribution.getNom(),
@@ -158,14 +158,14 @@ public class SocieteDistributionService {
         societeDistributionLike.setParameter("nom", "%" + str + "%");
         societeDistributionLike.setParameter("ville", "%" + str + "%");
         societeDistributionLike.setParameter("adresse", "%" + str + "%");
-        societeDistributionLike.setParameter("telephone", "%" + str + "%");        
+        societeDistributionLike.setParameter("telephone", "%" + str + "%");
         return societeDistributionLike.getResultList();
     }
-    
-    public void fillJComboBox(JComboBox jComboBox, EntityManager entityManager){
+
+    public void fillJComboBox(JComboBox jComboBox, EntityManager entityManager) {
         List<Fournisseur> fournisseurs = iDaoFournisseur.findAllFournisseurs(entityManager);
-        for(Fournisseur fournisseur : fournisseurs){
+        for (Fournisseur fournisseur : fournisseurs) {
             jComboBox.addItem(fournisseur.getNumFournisseur());
-        }  
+        }
     }
 }

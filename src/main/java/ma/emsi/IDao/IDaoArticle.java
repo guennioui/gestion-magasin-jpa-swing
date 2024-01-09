@@ -20,4 +20,5 @@ public interface IDaoArticle {
             throws DepotNotFoundException;            
     void addArticlesToDepot(List<Article> articles, Depot depot, EntityManager entityManager) throws
             DepotNotFoundException;
+    List<Object[]> ArticlesDetails(EntityManager entityManager);
 }

@@ -1,6 +1,7 @@
 package ma.emsi.IDaoImpl;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import java.time.LocalDate;
 import ma.emsi.IDao.IDaoArticle;
@@ -102,5 +103,27 @@ public class IDaoArticleImpl implements IDaoArticle {
     @Override
     public void addArticlesToDepot(List<Article> articles, Depot depot, EntityManager entityManager) throws DepotNotFoundException {
 
+    }
+
+    @Override
+    public List<Object[]> ArticlesDetails(EntityManager entityManager) {
+       String sql = "SELECT article.code, article.nom, categorie.nomCategorie, article.prixUnitaire, stock.quantite, depot.nomDepot, stock.dateDepot, fournisseur.nom, societeDistribution.nom\n"
+                + "from article inner join categorie\n"
+                + "on article.idCategorie = categorie.numCategorie\n"
+                + "inner join stock\n"
+                + "on stock.id_article = article.code\n"
+                + "inner join depot\n"
+                + "on stock.id_depot = depot.numeroDepot\n"
+                + "inner join lignelivraison\n"
+                + "on article.code = lignelivraison.id_article\n"
+                + "inner join livraison\n"
+                + "on lignelivraison.id_Livraison = livraison.numeroLivraison\n"
+                + "inner join Fournisseur\n"
+                + "on fournisseur.numFournisseur = livraison.id_fournisseur\n"
+                + "inner join SocieteDistribution\n"
+                + "on fournisseur.numFournisseur = SocieteDistribution.id_fournisseur";
+
+        Query quey = entityManager.createNativeQuery(sql);
+        return quey.getResultList();
     }
 }

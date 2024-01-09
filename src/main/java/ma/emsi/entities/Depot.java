@@ -12,6 +12,9 @@ import java.util.Random;
     ),
     @NamedQuery(
             name = "Depot.findDepotLike", query = "SELECT d FROM Depot d WHERE d.numeroDepot LIKE :numeroDepot OR d.nomDepot LIKE :nomDepot OR d.ville LIKE :ville OR d.adresse LIKE :adresse OR d.telephone LIKE :telephone"
+    ),
+    @NamedQuery(
+            name = "Depot.findVilleLike", query = "SELECT d FROM Depot d WHERE d.ville = :ville"
     )
 })
 @Entity

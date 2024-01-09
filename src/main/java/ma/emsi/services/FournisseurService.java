@@ -26,16 +26,19 @@ import ma.emsi.exceptions.FournisseurNotExistException;
  * @author abdoe
  */
 public class FournisseurService {
+
     IDaoFournisseurImpl iDaoFournisseurImpl = new IDaoFournisseurImpl();
+
     public void addFournisseur(
             JTextField jTextField1,
             JTextField jTextField2,
             JTextField jTextField3,
             JTextField jTextField4,
             JTextField jTextField5,
-            EntityManager entityManager){
-        if(!jTextField1.getText().equals("") && !jTextField2.getText().equals("") && !jTextField3.getText().equals("") 
-                && !jTextField4.getText().equals("") && !jTextField5.getText().equals("") && jTextField5.getText().startsWith("0")){
+            EntityManager entityManager) {
+        if (jTextField1.getText().matches("^[A-Za-z]+$") && jTextField2.getText().matches("^[A-Za-z]+$")
+                && jTextField3.getText().matches("^[a-zA-Z0-9]+$") && jTextField4.getText().matches("^[A-Za-z]+$")
+                && !jTextField5.getText().matches("^0\\d{9}$")) {
             Fournisseur fournisseur = new Fournisseur();
             fournisseur.setNom(jTextField1.getText());
             fournisseur.setPrenom(jTextField2.getText());
@@ -46,12 +49,13 @@ public class FournisseurService {
             jTextField2.setText("");
             jTextField3.setText("");
             jTextField4.setText("");
-            jTextField5.setText("");                        
+            jTextField5.setText("");
             iDaoFournisseurImpl.addNewFournisseur(fournisseur, entityManager);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Verifier vos entrer", "erreur", JOptionPane.ERROR_MESSAGE);
-        }        
-    } 
+        }
+    }
+
     public void modifyFournisseur(
             JTextField jTextField1,
             JTextField jTextField2,
@@ -59,10 +63,10 @@ public class FournisseurService {
             JTextField jTextField4,
             JTextField jTextField5,
             String idFournisseur,
-            EntityManager entityManager)throws FournisseurNotExistException{
-        if(!jTextField1.getText().equals("") && !jTextField2.getText().equals("") 
-                && !jTextField3.getText().equals("") && !jTextField4.getText().equals("") 
-                && !jTextField5.getText().equals("") && jTextField5.getText().startsWith("0")){
+            EntityManager entityManager) throws FournisseurNotExistException {
+        if (jTextField1.getText().matches("^[A-Za-z]+$") && jTextField2.getText().matches("^[A-Za-z]+$")
+                && jTextField3.getText().matches("^[a-zA-Z0-9]+$") && jTextField4.getText().matches("^[A-Za-z]+$")
+                && !jTextField5.getText().matches("^0\\d{9}$")) {
             Fournisseur fournisseur = iDaoFournisseurImpl.findFournisseurById(idFournisseur, entityManager);
             fournisseur.setNom(jTextField1.getText());
             fournisseur.setPrenom(jTextField2.getText());
@@ -75,65 +79,84 @@ public class FournisseurService {
             jTextField4.setText("");
             jTextField5.setText("");
             iDaoFournisseurImpl.modifyFournisseur(fournisseur, entityManager);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Verifier vos entrer", "erreur", JOptionPane.ERROR_MESSAGE);
         }
     }
-    public void allFournisseur(JTable jTable, EntityManager entityManager){          
+
+    public void allFournisseur(JTable jTable, EntityManager entityManager) {
         List<Fournisseur> fournisseurs = iDaoFournisseurImpl.findAllFournisseurs(entityManager);
-        DefaultTableModel model = (DefaultTableModel) jTable.getModel();         
-        for(Fournisseur fournisseur : fournisseurs){
+        DefaultTableModel model = (DefaultTableModel) jTable.getModel();
+        for (Fournisseur fournisseur : fournisseurs) {
             Object[] rowData = {
                 fournisseur.getNumFournisseur(),
                 fournisseur.getNom(),
                 fournisseur.getPrenom(),
                 fournisseur.getAdresse(),
-                fournisseur.getVille(),                
+                fournisseur.getVille(),
                 fournisseur.getTelephone()
             };
             model.addRow(rowData);
         }
         jTable.setModel(model);
     }
-        public void removeFournisseur(String id, EntityManager entityManager)throws FournisseurNotExistException{
+
+    public void removeFournisseur(String id, EntityManager entityManager) throws FournisseurNotExistException {
         iDaoFournisseurImpl.removeFournisseur(
-                iDaoFournisseurImpl.findFournisseurById(id, entityManager)
-                , entityManager);
+                iDaoFournisseurImpl.findFournisseurById(id, entityManager),
+                entityManager);
     }
-    public void clearJTable(JTable jTable){
-    DefaultTableModel model = (DefaultTableModel) jTable.getModel();
-    model.setRowCount(0);
-    }  
-    public void refresh(JTable jTable, EntityManager entityManager){
-    clearJTable(jTable);
-    allFournisseur(jTable, entityManager);
-    }  
-    
-    public void fillJTable(JTable jTable, List<Fournisseur> fournisseurs){                
-    clearJTable(jTable);
-    DefaultTableModel model = (DefaultTableModel) jTable.getModel();        
-    for(Fournisseur fournisseur : fournisseurs){
-        Object[] rowData = {
-            fournisseur.getNumFournisseur(),
-            fournisseur.getNom(),
-            fournisseur.getPrenom(),
-            fournisseur.getAdresse(),
-            fournisseur.getVille(),                
-            fournisseur.getTelephone()
-        };
-        model.addRow(rowData);
+
+    public void clearJTable(JTable jTable) {
+        DefaultTableModel model = (DefaultTableModel) jTable.getModel();
+        model.setRowCount(0);
     }
-    jTable.setModel(model);
+
+    public void refresh(JTable jTable, EntityManager entityManager) {
+        clearJTable(jTable);
+        allFournisseur(jTable, entityManager);
     }
-    
-    public List<Fournisseur> fetchFournisseurLike(String str, EntityManager entityManager){
-    TypedQuery<Fournisseur> fournisseurLike = entityManager.createNamedQuery("Fournisseur.findFournisseurLike", Fournisseur.class);
-    fournisseurLike.setParameter("numFournisseur", "%"+str+"%");
-    fournisseurLike.setParameter("nom", "%"+str+"%");
-    fournisseurLike.setParameter("prenom", "%"+str+"%");
-    fournisseurLike.setParameter("adresse", "%"+str+"%");
-    fournisseurLike.setParameter("ville", "%"+str+"%");    
-    fournisseurLike.setParameter("telephone", "%"+str+"%");
-    return fournisseurLike.getResultList();
+
+    public void fillJTable(JTable jTable, List<Fournisseur> fournisseurs) {
+        clearJTable(jTable);
+        DefaultTableModel model = (DefaultTableModel) jTable.getModel();
+        for (Fournisseur fournisseur : fournisseurs) {
+            Object[] rowData = {
+                fournisseur.getNumFournisseur(),
+                fournisseur.getNom(),
+                fournisseur.getPrenom(),
+                fournisseur.getAdresse(),
+                fournisseur.getVille(),
+                fournisseur.getTelephone()
+            };
+            model.addRow(rowData);
+        }
+        jTable.setModel(model);
+    }
+
+    public List<Fournisseur> fetchFournisseurLike(String str, EntityManager entityManager) {
+        TypedQuery<Fournisseur> fournisseurLike = entityManager.createNamedQuery("Fournisseur.findFournisseurLike", Fournisseur.class);
+        fournisseurLike.setParameter("numFournisseur", "%" + str + "%");
+        fournisseurLike.setParameter("nom", "%" + str + "%");
+        fournisseurLike.setParameter("prenom", "%" + str + "%");
+        fournisseurLike.setParameter("adresse", "%" + str + "%");
+        fournisseurLike.setParameter("ville", "%" + str + "%");
+        fournisseurLike.setParameter("telephone", "%" + str + "%");
+        return fournisseurLike.getResultList();
+    }
+
+    public void fillJComboBox(JComboBox jComboBox, EntityManager entityManager) {
+        jComboBox.removeAllItems();
+        TypedQuery<Fournisseur> query = entityManager.createNamedQuery("Fournisseur.findAll", Fournisseur.class);
+        List<Fournisseur> result = query.getResultList();
+        for (Fournisseur fournisseur : result) {
+            jComboBox.addItem(fournisseur.getVille());
+        }
+    }
+
+    public List<Fournisseur> fetchFournisseurByVille(String str, EntityManager entityManager) {
+        TypedQuery<Fournisseur> query = entityManager.createNamedQuery("Fournisseur.findVilleLike", Fournisseur.class);
+        query.setParameter("ville", str);
+        return query.getResultList().stream().distinct().toList();
     }
 }

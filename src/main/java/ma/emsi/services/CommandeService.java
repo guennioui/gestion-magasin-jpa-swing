@@ -4,10 +4,12 @@
  */
 package ma.emsi.services;
 
+import com.toedter.calendar.JDateChooser;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -64,7 +66,7 @@ public class CommandeService {
     
     public void addCommande(
             Map<String, Integer> articles,
-            JTextField jTextField,
+            JDateChooser jDateChooser,
             JComboBox jComboBox,
             EntityManager entityManager)
             throws ArticleNotExistException,
@@ -74,7 +76,12 @@ public class CommandeService {
         int[] qantityOfArticle = new int[articles.size()];
         int i = 0;
         Commande commande = new Commande();
-        commande.setDateCommende(LocalDate.parse(jTextField.getText()));
+        LocalDate selecteDate = jDateChooser
+                .getDate()
+                .toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+        commande.setDateCommende(selecteDate);
         iDaoCommande.addNewCommande(entityManager, commande);
         Client client = iDaoClient.findClientById(jComboBox.getSelectedItem().toString(), entityManager);
         if (client != null) {
@@ -92,10 +99,10 @@ public class CommandeService {
                 System.out.println("erreur");
             }
         }
-        System.out.println(qantityOfArticle);
-        System.out.println(articles);
         iDaoCommande.addArticlesToCommande(commande, articleObjects, qantityOfArticle, entityManager);
         iDaoCommande.updateMontantCommande(commande, entityManager);
+        jDateChooser.setDate(null);
+        jComboBox.setSelectedIndex(-1);        
     }
     
     public void clearJTable(JTable jTable) {

@@ -11,7 +11,10 @@ import java.util.Random;
             name = "Fournisseur.findAll", query = "SELECT f FROM Fournisseur f"
     ),
     @NamedQuery(
-            name = "Fournisseur.findFournisseurLike", query = "SELECT f FROM Fournisseur f WHERE f.numFournisseur LIKE :numFournisseur OR f.nom LIKE :nom OR f.prenom LIKE :prenom OR f.adresse LIKE :adresse OR f.ville LIKE :ville OR f.telephone LIKE :telephone")
+            name = "Fournisseur.findFournisseurLike", query = "SELECT f FROM Fournisseur f WHERE f.numFournisseur LIKE :numFournisseur OR f.nom LIKE :nom OR f.prenom LIKE :prenom OR f.adresse LIKE :adresse OR f.ville LIKE :ville OR f.telephone LIKE :telephone"),
+    @NamedQuery(
+            name = "Fournisseur.findVilleLike", query = "SELECT f FROM Fournisseur f WHERE f.ville = :ville"
+    )
 })
 @Entity
 public class Fournisseur {
