@@ -92,7 +92,8 @@ public class GmFormVF extends javax.swing.JFrame {
     public GmFormVF() {
         initComponents();
         
-        jLabel1.setIcon(new ImageIcon("C:\\Users\\sakin\\Desktop\\menu (1) (1).png"));
+        jLabel1.setIcon(new ImageIcon("C:\\Users\\sakin\\Desktop\\java-app-presentation\\gestion-magasin-jpa-swing\\src\\main\\java\\icones\\menu (1) (1).png"));
+        
         jLabel2.setIcon(new ImageIcon("C:\\Users\\sakin\\Desktop\\profile.png"));
         jLabel4.setIcon(new ImageIcon("C:\\Users\\sakin\\Desktop\\magasin (2).png"));
         jLabel7.setIcon(new ImageIcon("C:\\Users\\sakin\\Desktop\\pgacc.png"));
