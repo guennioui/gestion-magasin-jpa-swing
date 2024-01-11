@@ -7,6 +7,7 @@ package ma.emsi.services;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -24,41 +25,51 @@ import ma.emsi.exceptions.ClientNotExistException;
  * @author abdoe
  */
 public class CategorieService {
-      IDaoCategorieImpl iDaoCategorie = new IDaoCategorieImpl();
-    
+
+    IDaoCategorieImpl iDaoCategorie = new IDaoCategorieImpl();
+
     public void addCategorie(
-            JTextField jTextField1,       
+            JTextField jTextField1,
             EntityManager entityManager
-            ){
-        if(!jTextField1.getText().matches("^[A-Za-z]+$")){
+    ) {
+        if (jTextField1.getText().matches("^[A-Za-z]+$")) {
             Categorie categorie = new Categorie();
             categorie.setNomCategorie(jTextField1.getText());
+
             iDaoCategorie.addNewCategorie(entityManager, categorie);
-            jTextField1.setText("");                                
-        }else{
-             JOptionPane.showMessageDialog(null, "Verifier vos entrer", "erreur", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "La categorie <<" + categorie.getNomCategorie() + ">> a été bien ajouter!", "success", JOptionPane.INFORMATION_MESSAGE);
+
+            jTextField1.setText("");
+        } else {
+            JOptionPane.showMessageDialog(null, "Toutes les champs sont obligatoires!", "erreur", JOptionPane.ERROR_MESSAGE);
+
         }
-    } 
-    
+    }
+
     public void modifyCategorie(
             JTextField jTextField1,
+            JButton jButton,
             String idCategorie,
-            EntityManager entityManager)throws CategorieNotExistException{
-        if(!jTextField1.getText().matches("^[A-Za-z]+$")){
+            EntityManager entityManager) throws CategorieNotExistException {
+        jButton.setEnabled(false);
+         if (jTextField1.getText().matches("^[A-Za-z]+$")) {
             Categorie categorie = iDaoCategorie.findCategorieById(entityManager, idCategorie);
             categorie.setNomCategorie(jTextField1.getText());
-            System.out.println(categorie);
+            
             iDaoCategorie.modifyCategorie(entityManager, categorie);
+            JOptionPane.showMessageDialog(null, "La categorie <<" + categorie.getNomCategorie() + ">> a été bien modifier!", "success", JOptionPane.INFORMATION_MESSAGE);
+            
             jTextField1.setText("");
-        }else{
-            JOptionPane.showMessageDialog(null, "Verifier vos entrer", "erreur", JOptionPane.ERROR_MESSAGE); 
-        }                              
+            jButton.setEnabled(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Verifier vos entrer", "erreur", JOptionPane.ERROR_MESSAGE);
+        }
     }
-    
-    public void allCategories(JTable jTable, EntityManager entityManager){          
+
+    public void allCategories(JTable jTable, EntityManager entityManager) {
         List<Categorie> categories = iDaoCategorie.listAllCategories(entityManager);
-        DefaultTableModel model = (DefaultTableModel) jTable.getModel();         
-        for(Categorie categorie : categories){
+        DefaultTableModel model = (DefaultTableModel) jTable.getModel();
+        for (Categorie categorie : categories) {
             Object[] rowData = {
                 categorie.getNumCategorie(),
                 categorie.getNomCategorie()
@@ -67,20 +78,21 @@ public class CategorieService {
         }
         jTable.setModel(model);
     }
-    
-    public void clearJTable(JTable jTable){
-    DefaultTableModel model = (DefaultTableModel) jTable.getModel();
-    model.setRowCount(0);
-    }  
-    public void refresh(JTable jTable, EntityManager entityManager){
-    clearJTable(jTable);
-    allCategories(jTable, entityManager);
-    }   
-    
-    public void fillJTable(JTable jTable, List<Categorie> categories){                
+
+    public void clearJTable(JTable jTable) {
+        DefaultTableModel model = (DefaultTableModel) jTable.getModel();
+        model.setRowCount(0);
+    }
+
+    public void refresh(JTable jTable, EntityManager entityManager) {
         clearJTable(jTable);
-        DefaultTableModel model = (DefaultTableModel) jTable.getModel();        
-        for(Categorie categorie : categories){
+        allCategories(jTable, entityManager);
+    }
+
+    public void fillJTable(JTable jTable, List<Categorie> categories) {
+        clearJTable(jTable);
+        DefaultTableModel model = (DefaultTableModel) jTable.getModel();
+        for (Categorie categorie : categories) {
             Object[] rowData = {
                 categorie.getNumCategorie(),
                 categorie.getNomCategorie()
@@ -89,23 +101,24 @@ public class CategorieService {
         }
         jTable.setModel(model);
     }
-    
-    public void removeCategorie(String id, EntityManager entityManager)throws CategorieNotExistException{
+
+    public void removeCategorie(String id, EntityManager entityManager) throws CategorieNotExistException {
         iDaoCategorie.deleteCategorie(
                 entityManager,
                 iDaoCategorie.findCategorieById(entityManager, id)
-        );               
-    }     
-    
-    public List<Categorie> fetchCategorieLike(String str, EntityManager entityManager){
+        );
+    }
+
+    public List<Categorie> fetchCategorieLike(String str, EntityManager entityManager) {
         TypedQuery<Categorie> categorieLike = entityManager.createNamedQuery("Categorie.findCategorieLike", Categorie.class);
-        categorieLike.setParameter("nomCategorie", "%"+str+"%");      
+        categorieLike.setParameter("nomCategorie", "%" + str + "%");
         return categorieLike.getResultList();
     }
-    public void fillJComboBox(JComboBox jComboBox, EntityManager entityManager){
+
+    public void fillJComboBox(JComboBox jComboBox, EntityManager entityManager) {
         List<Categorie> catepories = iDaoCategorie.listAllCategories(entityManager);
-        for(Categorie categorie : catepories){
+        for (Categorie categorie : catepories) {
             jComboBox.addItem(categorie.getNomCategorie());
-        }        
+        }
     }
 }

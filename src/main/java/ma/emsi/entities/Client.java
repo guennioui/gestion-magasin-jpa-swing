@@ -14,8 +14,8 @@ import java.util.Random;
 })
 public class Client {
     @Id
-    private String nom;    private String id;
-
+    private String id;
+    private String nom;    
     private String prenom;
     private String adresse;
     private String ville;

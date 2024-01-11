@@ -8,6 +8,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -38,21 +39,24 @@ public class FournisseurService {
             EntityManager entityManager) {
         if (jTextField1.getText().matches("^[A-Za-z]+$") && jTextField2.getText().matches("^[A-Za-z]+$")
                 && jTextField3.getText().matches("^[a-zA-Z0-9]+$") && jTextField4.getText().matches("^[A-Za-z]+$")
-                && !jTextField5.getText().matches("^0\\d{9}$")) {
+                && jTextField5.getText().matches("^0\\d{9}$")) {
             Fournisseur fournisseur = new Fournisseur();
             fournisseur.setNom(jTextField1.getText());
             fournisseur.setPrenom(jTextField2.getText());
             fournisseur.setAdresse(jTextField3.getText());
             fournisseur.setVille(jTextField4.getText());
             fournisseur.setTelephone(jTextField5.getText());
+
+            iDaoFournisseurImpl.addNewFournisseur(fournisseur, entityManager);
+            JOptionPane.showMessageDialog(null, "Le fournissseur <<" + fournisseur.getNom() + ">> a été bien ajouter!", "success", JOptionPane.INFORMATION_MESSAGE);
+
             jTextField1.setText("");
             jTextField2.setText("");
             jTextField3.setText("");
             jTextField4.setText("");
             jTextField5.setText("");
-            iDaoFournisseurImpl.addNewFournisseur(fournisseur, entityManager);
         } else {
-            JOptionPane.showMessageDialog(null, "Verifier vos entrer", "erreur", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Toutes les champs sont obligatoires!", "erreur", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -62,25 +66,31 @@ public class FournisseurService {
             JTextField jTextField3,
             JTextField jTextField4,
             JTextField jTextField5,
+            JButton jButton,
             String idFournisseur,
             EntityManager entityManager) throws FournisseurNotExistException {
+        jButton.setEnabled(false);
         if (jTextField1.getText().matches("^[A-Za-z]+$") && jTextField2.getText().matches("^[A-Za-z]+$")
                 && jTextField3.getText().matches("^[a-zA-Z0-9]+$") && jTextField4.getText().matches("^[A-Za-z]+$")
-                && !jTextField5.getText().matches("^0\\d{9}$")) {
+                && jTextField5.getText().matches("^0\\d{9}$")) {
             Fournisseur fournisseur = iDaoFournisseurImpl.findFournisseurById(idFournisseur, entityManager);
             fournisseur.setNom(jTextField1.getText());
             fournisseur.setPrenom(jTextField2.getText());
             fournisseur.setAdresse(jTextField3.getText());
             fournisseur.setVille(jTextField4.getText());
             fournisseur.setTelephone(jTextField5.getText());
+
+            iDaoFournisseurImpl.modifyFournisseur(fournisseur, entityManager);
+            JOptionPane.showMessageDialog(null, "Le fournisseur <<" + fournisseur.getNom() + ">> a été bien modifier!", "success", JOptionPane.INFORMATION_MESSAGE);
+
             jTextField1.setText("");
             jTextField2.setText("");
             jTextField3.setText("");
             jTextField4.setText("");
             jTextField5.setText("");
-            iDaoFournisseurImpl.modifyFournisseur(fournisseur, entityManager);
+            jButton.setEnabled(true);
         } else {
-            JOptionPane.showMessageDialog(null, "Verifier vos entrer", "erreur", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Toutes les champs sont obligatoires!", "erreur", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -148,15 +158,20 @@ public class FournisseurService {
     public void fillJComboBox(JComboBox jComboBox, EntityManager entityManager) {
         jComboBox.removeAllItems();
         TypedQuery<Fournisseur> query = entityManager.createNamedQuery("Fournisseur.findAll", Fournisseur.class);
-        List<Fournisseur> result = query.getResultList();
-        for (Fournisseur fournisseur : result) {
-            jComboBox.addItem(fournisseur.getVille());
+        List<String> result = query
+                .getResultList()
+                .stream()
+                .map(F -> F.getVille())
+                .distinct()
+                .toList();       
+        for (String fournisseur : result) {
+            jComboBox.addItem(fournisseur);
         }
     }
 
     public List<Fournisseur> fetchFournisseurByVille(String str, EntityManager entityManager) {
         TypedQuery<Fournisseur> query = entityManager.createNamedQuery("Fournisseur.findVilleLike", Fournisseur.class);
         query.setParameter("ville", str);
-        return query.getResultList().stream().distinct().toList();
+        return query.getResultList();
     }
 }

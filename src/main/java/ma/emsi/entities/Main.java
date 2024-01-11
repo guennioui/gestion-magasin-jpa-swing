@@ -30,7 +30,7 @@ public class Main {
 
         String puName = "myPersistenceUnit";
         Map<String, String> props = new HashMap<>();
-        props.put("hibernate.hbm2ddl.auto", "create");
+        props.put("hibernate.hbm2ddl.auto", "update");
         props.put("hibernate.show_sql", "true");
         props.put("hibernate.format_sql", "true");
 

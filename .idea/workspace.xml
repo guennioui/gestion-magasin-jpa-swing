@@ -6,16 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="e4e56750-9a56-4f74-8796-4af7cefdb149" name="Changes" comment="fixing bug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoLivraisonImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/IDaoImpl/IDaoLivraisonImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Article.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Article.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Categorie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Categorie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Depot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Depot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Fournisseur.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Fournisseur.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/LigneLivraison.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/LigneLivraison.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Livraison.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Livraison.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/SocieteDistribution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ma/emsi/entities/SocieteDistribution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/reports/BestSellers.jasper" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/reports/BestSellers.jrxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/reports/QuantityByEachProduct.jasper" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ma/emsi/reports/QuantityByEachProduct.jrxml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -186,6 +180,8 @@
       <workItem from="1703806806073" duration="165000" />
       <workItem from="1704035026417" duration="663000" />
       <workItem from="1704223874236" duration="5387000" />
+      <workItem from="1704796826037" duration="397000" />
+      <workItem from="1704798565761" duration="636000" />
     </task>
     <task id="LOCAL-00001" summary="implementing dao">
       <option name="closed" value="true" />

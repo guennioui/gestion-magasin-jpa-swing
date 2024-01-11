@@ -7,6 +7,7 @@ package ma.emsi.services;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -41,13 +42,16 @@ public class DepotService {
             depot.setAdresse(jTextField2.getText());
             depot.setVille(jTextField3.getText());
             depot.setTelephone(jTextField4.getText());
+
             iDaoDepot.addNewDepot(depot, entityManager);
+            JOptionPane.showMessageDialog(null, "Le depot <<" + depot.getNomDepot() + ">> a été bien ajouter!", "success", JOptionPane.INFORMATION_MESSAGE);
+
             jTextField1.setText("");
             jTextField2.setText("");
             jTextField3.setText("");
             jTextField4.setText("");
         } else {
-            JOptionPane.showMessageDialog(null, "Verifier vos entrer", "erreur", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Toutes les champs sont obligatoires!", "erreur", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -56,22 +60,28 @@ public class DepotService {
             JTextField jTextField2,
             JTextField jTextField3,
             JTextField jTextField4,
+            JButton jButton,
             String idDepot,
             EntityManager entityManager) throws DepotNotFoundException {
-        if (!jTextField1.getText().equals("") && !jTextField2.getText().equals("")
-                && !jTextField3.getText().equals("") && !jTextField4.getText().equals("")) {
+        jButton.setEnabled(false);
+        if (jTextField1.getText().matches("^[A-Za-z]+$") && jTextField2.getText().matches("^[a-zA-Z0-9]+$")
+                && jTextField3.getText().matches("^[A-Za-z]+$") && jTextField4.getText().matches("^0\\d{9}$")) {
             Depot depot = iDaoDepot.findDepotById(idDepot, entityManager);
             depot.setNomDepot(jTextField1.getText());
             depot.setAdresse(jTextField2.getText());
             depot.setVille(jTextField3.getText());
             depot.setTelephone(jTextField4.getText());
+
             iDaoDepot.modifyDepot(depot, entityManager);
+            JOptionPane.showMessageDialog(null, "Le depot <<" + depot.getNomDepot() + ">> a été bien modifier!", "success", JOptionPane.INFORMATION_MESSAGE);
+
             jTextField1.setText("");
             jTextField2.setText("");
             jTextField3.setText("");
             jTextField4.setText("");
+            jButton.setEnabled(true);
         } else {
-            JOptionPane.showMessageDialog(null, "Verifier vos entrer", "erreur", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Toutes les champs sont obligatoires!", "erreur", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -136,9 +146,14 @@ public class DepotService {
     public void fillJComboBox(JComboBox jComboBox, EntityManager entityManager) {
         jComboBox.removeAllItems();
         TypedQuery<Depot> query = entityManager.createNamedQuery("Depot.findAll", Depot.class);
-        List<Depot> result = query.getResultList();
-        for (Depot depot : result) {
-            jComboBox.addItem(depot.getVille());
+        List<String> result = query
+                .getResultList()
+                .stream()
+                .map(d -> d.getVille())
+                .distinct()
+                .toList();       
+        for (String depot : result) {
+            jComboBox.addItem(depot);
         }
     }
 

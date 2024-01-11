@@ -4,8 +4,20 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Random;
 
-@NamedQuery(name = "SocieteDistribution.findAll", query = "SELECT S FROM SocieteDistribution S")
-@NamedQuery(name = "SocieteDistribution.findSocieteDistributionLike", query = "SELECT s FROM SocieteDistribution s WHERE s.id LIKE :id OR s.nom LIKE :nom OR s.telephone LIKE :telephone OR s.ville LIKE :ville OR s.adresse LIKE :adresse")
+@NamedQueries({
+    @NamedQuery(
+            name = "SocieteDistribution.findAll", query = "SELECT S FROM SocieteDistribution S"
+    ),
+    @NamedQuery(
+            name = "SocieteDistribution.findSocieteDistributionLike", query = "SELECT s FROM SocieteDistribution s WHERE s.id LIKE :id OR s.nom LIKE :nom OR s.telephone LIKE :telephone OR s.ville LIKE :ville OR s.adresse LIKE :adresse"
+    ),
+    @NamedQuery(
+            name = "SocieteDistribution.findVilleLike", query = "SELECT s FROM SocieteDistribution s WHERE s.ville = :ville"
+    )
+})
+
+
+
 @Entity
 public class SocieteDistribution {
 

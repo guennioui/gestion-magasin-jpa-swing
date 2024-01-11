@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6647c115-5560-41d1-8d43-2250066e0935">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f71667da-79f1-436b-bc1d-6c7d0180fbb1">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT article.nom, stock.quantite FROM article inner join stock on article.code = stock.id_article]]>
+		<![CDATA[SELECT nom, quantite
+FROM Article inner join stock
+on article.code = stock.id_article;]]>
 	</queryString>
 	<field name="nom" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -19,24 +21,32 @@
 		<band height="79" splitType="Stretch"/>
 	</title>
 	<summary>
-		<band height="391" splitType="Stretch">
-			<pie3DChart>
+		<band height="348" splitType="Stretch">
+			<barChart>
 				<chart>
-					<reportElement x="25" y="71" width="438" height="256" uuid="35f0102c-e319-4872-9fce-954753e74190"/>
+					<reportElement x="30" y="38" width="484" height="257" uuid="036ca146-368a-4caf-ba97-e5d080b9b506"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
-				<pieDataset>
-					<keyExpression><![CDATA[$F{nom}]]></keyExpression>
-					<valueExpression><![CDATA[$F{quantite}]]></valueExpression>
-					<labelExpression><![CDATA[$F{quantite}+""]]></labelExpression>
-				</pieDataset>
-				<pie3DPlot>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{nom}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{nom}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{quantite}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
 					<plot/>
 					<itemLabel/>
-				</pie3DPlot>
-			</pie3DChart>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
 		</band>
 	</summary>
 </jasperReport>

@@ -7,6 +7,7 @@ package ma.emsi.services;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
@@ -38,26 +39,27 @@ public class ClientService {
     ) {
        if (jTextField1.getText().matches("^[A-Za-z]+$") && jTextField2.getText().matches("^[A-Za-z]+$") 
                 && jTextField3.getText().matches("^[a-zA-Z0-9]+$") && jTextField4.getText().matches("^[A-Za-z]+$")
-                && !jTextField5.getText().matches("^[A-Za-z]+$") && jTextField6.getText().matches("^0\\d{9}$")                 
+                && jTextField5.getText().matches("^[A-Za-z]+$") && jTextField6.getText().matches("^0\\d{9}$")                 
                 ) {
             Client client = new Client();
-
             client.setNom(jTextField1.getText());
             client.setPrenom(jTextField2.getText());
             client.setAdresse(jTextField3.getText());
             client.setVille(jTextField4.getText());
             client.setPays(jTextField5.getText());
             client.setTelephone(jTextField6.getText());
-
+            
+            iDaoClientImpl.addNewClient(client, entityManager);
+            JOptionPane.showMessageDialog(null, "Le client <<"+client.getNom()+">> a été bien ajouter!", "success", JOptionPane.INFORMATION_MESSAGE);
+            
             jTextField1.setText("");
             jTextField2.setText("");
             jTextField3.setText("");
             jTextField4.setText("");
             jTextField5.setText("");
             jTextField6.setText("");
-            iDaoClientImpl.addNewClient(client, entityManager);
         } else {
-            JOptionPane.showMessageDialog(null, "Verifier vos entrer", "erreur", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Toutes les champs sont obligatoires!", "erreur", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -68,11 +70,13 @@ public class ClientService {
             JTextField jTextField4,
             JTextField jTextField5,
             JTextField jTextField6,
+            JButton jButton,
             String idClient,
             EntityManager entityManager) throws ClientNotExistException {
+        jButton.setEnabled(false);
         if (jTextField1.getText().matches("^[A-Za-z]+$") && jTextField2.getText().matches("^[A-Za-z]+$") 
-                && jTextField3.getText().matches("^[A-Za-z]+$") && jTextField4.getText().matches("^[A-Za-z]+$")
-                && !jTextField5.getText().matches("^[A-Za-z]+$") && jTextField6.getText().matches("^0\\d{9}$")                 
+                && jTextField3.getText().matches("^[a-zA-Z0-9]+$") && jTextField4.getText().matches("^[A-Za-z]+$")
+                && jTextField5.getText().matches("^[A-Za-z]+$") && jTextField6.getText().matches("^0\\d{9}$")                 
                 ) {
             Client client = iDaoClientImpl.findClientById(idClient, entityManager);
             client.setNom(jTextField1.getText());
@@ -81,17 +85,19 @@ public class ClientService {
             client.setVille(jTextField4.getText());
             client.setPays(jTextField5.getText());
             client.setTelephone(jTextField6.getText());
-            iDaoClientImpl.modifyClient(
-                    client,
-                    entityManager);
+            
+            iDaoClientImpl.modifyClient(client, entityManager);
+            JOptionPane.showMessageDialog(null, "Le client <<"+client.getNom()+">> a été bien modifier!", "success", JOptionPane.INFORMATION_MESSAGE);        
+                    
             jTextField1.setText("");
             jTextField2.setText("");
             jTextField3.setText("");
             jTextField4.setText("");
             jTextField5.setText("");
             jTextField6.setText("");
+            jButton.setEnabled(true);
         } else {
-            JOptionPane.showMessageDialog(null, "Verifier vos entrer", "erreur", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Toutes les champs sont obligatoires!", "erreur", JOptionPane.ERROR_MESSAGE);            
         }
     }
 
@@ -162,9 +168,14 @@ public class ClientService {
     public void fillJComboBox(JComboBox jComboBox, EntityManager entityManager) {
         jComboBox.removeAllItems();
         TypedQuery<Client> query = entityManager.createNamedQuery("Client.findAll", Client.class);
-        List<Client> result = query.getResultList();
-        for (Client client : result) {
-            jComboBox.addItem(client.getVille());
+        List<String> result = query
+                .getResultList()
+                .stream()
+                .map(c -> c.getVille())
+                .distinct()
+                .toList();       
+        for (String client : result) {
+            jComboBox.addItem(client);
         }
     }
 
